@@ -1,0 +1,139 @@
+﻿body {
+    background-color: #f8f8f8;
+    position: relative;
+}
+* {
+    margin: 0px;
+    padding: 0px;
+}
+input, textarea {
+    outline: none;
+    border: 1px solid #908e8e;
+    padding: 2px 2px;
+    border-radius: 10px;
+}
+/*页眉*/
+#header {
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 1px 1px 2px 1px #b6b5b5;
+    margin-bottom: 10px;
+}
+.line {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, #ed5e58, #6bd5c7, #ffa24a, #ab8ead, #e07773, #6bd5c7, #ffa24a, #ab8ead);
+}
+.nav {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+.li-add {
+    border-bottom: 3px solid red;
+    color: red;
+}
+ul li {
+    list-style: none;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    height: 46px;
+}
+ul li:hover {
+    border-bottom: 3px solid red;
+    color: red;
+}
+.logo {
+    width: 130px;
+}
+.logo img{
+    width: 100%;
+}
+.nav-ul, .nav-sele {
+    width: 500px;
+    line-height: 50px;
+}
+.login {
+    width: 100px;
+    line-height: 50px;
+}
+.nav-sele span {
+    padding: 5px;
+    cursor: pointer;
+}
+.txtSele {
+    height: 20px;
+    width: 200px;
+}
+.btn {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background-image: url('../../Images/搜索.png');
+    border: none;
+    position: relative;
+    right: 28px;
+    top: 5px;
+    outline: none;
+    cursor: pointer;
+}
+.sele-span {
+    float: right;
+}
+/*页脚*/
+#footer {
+    position: absolute;
+    bottom: 0px;
+}
+#footer-top {
+    width: 100%;
+    background: #5a5a5a;
+    border-bottom: black solid;
+}
+.cont {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+.footer-div {
+    text-align: left;
+    margin: 10px;
+    text-align: left;
+}
+.div-span {
+    color: #fda44a;
+    font-size: 15px;
+}
+.footer-div a {
+    margin: 5px;
+    text-decoration: none;
+    color: white;
+}
+#footer-bottom {
+    background: #505050;
+    border-top: solid #757575;
+    padding: 20px;
+}
+.bottom {
+    width: 80%;
+    margin: 0 auto;
+}
+.bottom a {
+    margin: 5px;
+    text-decoration: none;
+    color: white;
+}
+.bottom span {
+    color: white;
+}
+.footer-di span {
+    padding-top: 10px;
+    color: #6b7a8d;
+    margin: 5px;
+}

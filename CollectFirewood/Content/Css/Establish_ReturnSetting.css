@@ -1,0 +1,92 @@
+﻿/*回报设置*/
+.ReturnSetting_Content__ReturnSetting {
+    width: 100%;
+    display: flex;
+}
+.ReturnSetting_Content__Setting {
+    flex-grow: 3;
+    margin-right: 10px;
+    background: white;
+    border: 1px solid #e5e3e3;
+}
+.ReturnSetting_Content__Title {
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    border-bottom: dashed 1px #e5e3e3;
+    padding-left: 10px;
+    margin-bottom: 40px;
+}
+.ReturnSetting_Content__Detailed {
+    padding: 20px;
+}
+.Content__Detailed__Table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.Content__Detailed__Table td {
+    border: 1px solid #e5e3e3;
+    text-align: center;
+    padding: 10px;
+}
+.ReturnSetting_Content__ReturnOptions__Title{
+    color: red;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 18px;
+}
+.ReturnSetting_Content__ReturnOptions{
+    margin-top: 40px;
+}
+.ReturnSetting_Content__ReturnOptions p{
+    margin-top: 20px;
+}
+.ReturnSetting_Content__ReturnOptions span {
+    display: inline-block;
+    text-align: right;
+    width: 100px;
+    vertical-align: top;
+    padding-top: 3px;
+}
+#ReturnOptions__tea{
+    vertical-align: top;
+}
+.ReturnSetting_Content__ReturnOptions .span_explain {
+    width: 600px;
+    color: #c6bbbb;
+    text-align: left;
+}
+.Save {
+    background: #f46e6e;
+    color: white;
+    margin-top: 20px;
+    margin-left: 50px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.ReturnSetting_Content__Reminder {
+    flex-grow: 1;
+    border: 1px solid #e5e3e3;
+    height: 350px;
+}
+.Reminder__div {
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: dashed 1px;
+    padding-left: 20px;
+}
+.Reminder_span{
+    font-size: 15px;
+}
+.Reminder_span__content{
+    font-size: 12px;
+    color: #c6bbbb;
+}
+.ReturnSetting_Content__Reminder p {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+

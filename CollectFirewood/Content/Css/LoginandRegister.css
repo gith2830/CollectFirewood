@@ -1,0 +1,92 @@
+*{
+    padding: 0;
+    margin: 0 auto;
+}
+
+.grid{
+    display: flex;
+}
+.grid-cell-1{
+    flex-grow: 1;
+}
+.grid-cell-2{
+    flex-grow: 2;
+}
+.grid-cell-3{
+    flex-grow: 3;
+}
+.grid-cell-4{
+    flex-grow: 4;
+}
+.grid-cell-5{
+    flex-grow: 5;
+}
+.grid-cell-6{
+    flex-grow: 6;
+}
+#header{
+    display: inline-block;
+    width: 100%;
+}
+.header img{
+    margin-left: 100px;
+    overflow: hidden;
+}
+.record{
+    margin-top: 30px;
+}
+.record a{
+    color: red;
+    font-size: 13px;
+}
+.record span{
+    font-size: 13px;
+}
+a{
+    text-decoration: none;
+}
+.xian{
+    border: 0.5px solid rgb(177, 177, 177);
+}
+#footer{
+    margin-top: 50px;
+}
+.logo2 img{
+    margin-top: 20px;
+    float: right;
+}
+.bigbox{
+    width: 480px;
+    height: 400px;
+    border: 10px solid orange;
+    border-radius: 4px;
+    margin-top: 50px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.bigbox .span{
+    font-size: 22px;
+    display: inline-block;
+    margin: 15px;
+}
+.bigbox table tr td{
+    width: 280px;
+    height: 40px;
+    line-height: 40px;  
+}
+ .bigbox table tr td:nth-child(1){
+    width:75px;
+}
+ .textbox{
+    height: 25px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid orange;
+}
+ .btnRegister,.btnLogin{
+    width: 80px;
+    height: 35px;
+    background-color: orange;
+    border: none;
+}
+

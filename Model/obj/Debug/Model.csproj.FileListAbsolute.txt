@@ -1,0 +1,11 @@
+D:\Project\C#\ASP.NET\CollectFirewood\Model\bin\Debug\Model.dll
+D:\Project\C#\ASP.NET\CollectFirewood\Model\bin\Debug\Model.pdb
+D:\Project\C#\ASP.NET\CollectFirewood\Model\obj\Debug\Model.csprojAssemblyReference.cache
+D:\Project\C#\ASP.NET\CollectFirewood\Model\obj\Debug\Model.dll
+D:\Project\C#\ASP.NET\CollectFirewood\Model\obj\Debug\Model.pdb
+C:\Users\lsl\Desktop\CollectFirewood\Model\bin\Debug\Model.dll
+C:\Users\lsl\Desktop\CollectFirewood\Model\bin\Debug\Model.pdb
+C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.csprojAssemblyReference.cache
+C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.dll
+C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.pdb

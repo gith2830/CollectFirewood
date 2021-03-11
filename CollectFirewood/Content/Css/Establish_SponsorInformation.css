@@ -1,0 +1,59 @@
+﻿/*发起人信息*/
+.SponsorInformation_Content__Sponsor {
+    width: 100%;
+    display: flex;
+}
+.Content__Sponsor__left {
+    flex-grow: 4;
+    margin-right: 10px;
+    background: white;
+    border: 1px solid #e5e3e3;
+}
+.Sponsor__left__Title {
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    border-bottom: dashed 1px #e5e3e3;
+    padding-left: 10px;
+    margin-bottom: 40px;
+}
+.Content__Sponsor__Information{
+    margin: 30px;
+}
+.Content__Sponsor__Information p{
+    margin-top: 20px;
+}
+.Content__Sponsor__Information input{
+    width: 400px;
+    height: 20px;
+}
+.Sponsor_supplement {
+    font-size: 20px;
+    margin-top: 30px;
+}
+.Content__Sponsor__Reminder {
+    flex-grow: 2;
+    border: 1px solid #e5e3e3;
+    width: 50px;
+    height: 120px;
+}
+.Content__Sponsor__Reminder p{
+    padding-left: 20px;
+    margin-top: 10px;
+}
+.Sponsor_span {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+.Content__Sponsor__btn{
+    margin: 50px 100px;
+    text-align: center;
+}
+.Sponsor_btn{
+    color: white;
+    background: #e04343;
+    padding: 15px;
+    font-size: 15px;
+    margin-left: 20px;
+}

@@ -1,0 +1,136 @@
+/**-----按钮-----/*/
+/* 类型 */
+.button{
+    padding: 5px 20px;
+    text-align: center;
+    background-color: #666;
+    color:#fff;
+    font-size: 18px;
+    border: 0;
+    border-radius: 10px;
+}
+
+/* 大小 */
+.btn_huge{
+    padding: 10px 30px;
+    font-size: 18px;
+}
+.btn_big {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+/* 颜色 */
+.btn_danger {
+    background-color: rgb(200, 25, 25);
+    color: #fff;
+}.btn_danger:hover {
+    background-color: rgb(220, 45, 45);
+}
+.btn_success {
+    background-color: rgb(26, 208, 129);
+    color: #fff;
+}
+.btn_success:hover {
+    background-color: rgb(46, 228, 149);
+}
+.btn_append {
+    background-color: rgb(0, 130, 255);
+    color: #fff;
+}
+.btn_append:hover {
+    background-color: rgb(20, 150, 255);
+}
+.btn_default {
+    background-color: #ccc;
+    color: #666;
+}
+
+/*-----消息框-----*/
+.message{
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 10;
+    position: absolute;
+    left: 50%;
+    transform:translateX(-50%);
+    top: -50px;
+}
+.message__icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #666;
+    font-size: 14px;
+    font-weight:bold;
+    background-color:#ccc;
+    border: 1px solid #666;
+}
+/*颜色*/
+.msg_danger {
+    background-color: rgb(282, 57, 54);
+    color: #fff;
+}
+.msg_warning {
+    background-color: #fd7102;
+    color: #fff;
+}
+.msg_success {
+    background-color: rgb(26, 208, 129);
+    color: #fff;
+}
+
+/*-----对话框-----*/
+.dialog-box{
+    position: absolute;
+    left:50%;
+    top: 50%;
+    transform:translate(-50%,-50%);
+    background-color:#fff;
+    padding: 10px;
+    min-width: 200px;
+    max-width: 90%;
+    display: none;
+    border-radius:15px;
+}
+.dialog-box__title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    font-size: 22px;
+    line-height: 22px;
+}
+.dialog-baffle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: .8;
+}
+.dialog-close_btn {
+    display: inline-block;
+    vertical-align: middle;
+    width: 26px;
+    height: 26px;
+    line-height: 22px;
+    font-size: 32px;
+    border: 1px solid #fff;
+    text-align: center;
+    overflow:hidden;
+    margin-top: -2px;
+}
+.dialog-close_btn:hover{
+    background-color: #eee;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.dialog-box__content{
+    overflow:hidden;
+}

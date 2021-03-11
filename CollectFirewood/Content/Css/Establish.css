@@ -1,0 +1,69 @@
+﻿/*发起项目*/
+.launch {
+    margin: 0 auto;
+    background: white;
+    width: 1000px;
+    height: 420px;
+    margin-top: 40px;
+    border: 1px solid #e5e3e3;
+}
+.launch_span {
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        border: 1px dashed #e5e3e3;
+}
+.launch_span span {
+        font-size: 25px;
+}
+.launch_content{
+    display: flex;
+}
+.content_left {
+    flex-grow: 4;
+    padding-top: 30px;
+}
+.content_left img {
+    width: 80%;
+    height: 80%;
+    margin-left: 20px;
+}
+.content_right {
+    flex-grow: 6;
+    text-align: left;
+    padding-top: 30px;
+}
+.right_span_red{
+    color: red;
+}
+.right__p1 {
+    font-size: 25px;
+}
+.right__p2{
+    font-size: 30px;
+}
+.right__p3 {
+    font-size: 20px;
+}
+.right__p4 {
+    font-size: 15px;
+    margin-top: 20px;
+}
+.right__p4 label {
+    color: #938f8f;
+}
+.right__p4 a{
+    text-decoration: none;
+    margin-right: 10px;
+    color: red;
+}
+.right_p5_input{
+    color: white;
+    font-size: 26px;
+    border: none;
+    background-color: red;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 25px;
+    cursor: pointer;
+}
