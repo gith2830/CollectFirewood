@@ -17,7 +17,7 @@
             </div>
             <div class="record grid-cell-1">
                 <span>没有账号</span>
-                <a href="UserRegister.aspx">点击登录</a>
+                <a href="UserRegister.aspx">点击注册</a>
             </div>
         </div>
         <div class="xian"></div>

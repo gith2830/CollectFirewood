@@ -30,7 +30,11 @@ namespace CollectFirewood.Member
                     UserManager userManager = new UserManager();
                     if (userManager.Login(username, password))
                     {
-                        Response.Redirect("index.aspx");
+                        Response.Redirect("index.aspx");                       
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('请确认是否输入正确的用户名或密码！！');</script>");
                     }
                 }
                 else
