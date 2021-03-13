@@ -17,6 +17,35 @@ namespace BLL
             //传入父类初始化接口
             base.Dal = dal;
         }
+
+        public override bool Add(User model)
+        {
+            model.Pwd = Common.MD5Helper.GetMD5String(model.Pwd);
+            if (dal.Add(model) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override bool Delete(int id)
+        {
+            var commentmanager = new BLL.CommentManager();
+            commentmanager.DeleteAllByUserId(id);
+            var supportProjectManager = new BLL.SupportProjectManager();
+            supportProjectManager.DeleteAllByUserId(id);
+            if (dal.Delete(id)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// 登录方法
         /// </summary>
@@ -32,7 +61,7 @@ namespace BLL
             {
                 return false;
             }
-            if (username == user.UserName && password == user.Pwd)
+            if (username == user.UserName && Common.MD5Helper.GetMD5String(password) == user.Pwd)
             {
                 return true;
             }
@@ -47,6 +76,7 @@ namespace BLL
         public int Register(User user)
         {
             UserManager userManager = new UserManager();
+            user.Pwd = Common.MD5Helper.GetMD5String(user.Pwd);
             if (userManager.Add(user))
             {
                 return 1;

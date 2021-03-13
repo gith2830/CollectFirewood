@@ -31,6 +31,13 @@ namespace DAL
             return DbHelper.ExecuteNotQuery(sql, p);
         }
 
+        public int DeleteAllByUserId(int userId)
+        {
+            string sql = "delete from Comments where userId = @userId";
+            SqlParameter p = new SqlParameter("@userId", userId);
+            return DbHelper.ExecuteNotQuery(sql, p);
+        }
+
         public Comment GetModel(int id)
         {
             string sql = "select * from Comments where Id=@id";

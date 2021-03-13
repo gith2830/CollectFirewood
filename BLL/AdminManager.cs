@@ -13,6 +13,20 @@ namespace BLL
         {
             base.Dal = dal;
         }
+
+        public override bool Add(Model.Admin model)
+        {
+            model.Pwd = Common.MD5Helper.GetMD5String(model.Pwd);
+            if (dal.Add(model)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 登录
         /// </summary>
@@ -26,7 +40,7 @@ namespace BLL
             admin = dal.GetModel(adminName);
             if (admin != null)
             {
-                if(admin.Pwd == adminPwd)
+                if(admin.Pwd == Common.MD5Helper.GetMD5String(adminPwd))
                 {
                     msg = "ok:登录成功";
                     return true;

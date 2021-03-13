@@ -321,3 +321,5 @@ C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.cs
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.csproj.CopyComplete
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.dll
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.pdb
+C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\bin\Common.dll
+C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\bin\Common.pdb

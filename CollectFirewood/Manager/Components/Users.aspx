@@ -26,7 +26,6 @@
                             <td bind="Sex">性别</td>
                             <td bind="Phone">手机</td>
                             <td bind="Address">地址</td>
-                            <td bind="Url">Url</td>
                             <td bind="Id" onDelete="deleteUser" onEdit="showEditDialog">操作</td>
                         </tr>
                     </table>

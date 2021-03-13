@@ -34,6 +34,7 @@ namespace DAL
             SqlParameter p = new SqlParameter("@id", id);
             return DbHelper.ExecuteNotQuery(sql, p);
         }
+        
         public Project GetModel(int id)
         {
             string sql = "select * from Projects where Id=@id";

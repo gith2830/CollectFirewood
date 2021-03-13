@@ -8,3 +8,8 @@ C:\Users\lsl\Desktop\CollectFirewood\Model\bin\Debug\Model.pdb
 C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.dll
 C:\Users\lsl\Desktop\CollectFirewood\Model\obj\Debug\Model.pdb
+C:\Users\mo\Desktop\CollectFirewood\Model\bin\Debug\Model.dll
+C:\Users\mo\Desktop\CollectFirewood\Model\bin\Debug\Model.pdb
+C:\Users\mo\Desktop\CollectFirewood\Model\obj\Debug\Model.csprojAssemblyReference.cache
+C:\Users\mo\Desktop\CollectFirewood\Model\obj\Debug\Model.dll
+C:\Users\mo\Desktop\CollectFirewood\Model\obj\Debug\Model.pdb

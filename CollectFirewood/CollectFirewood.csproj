@@ -321,6 +321,10 @@
       <Project>{2a12be81-3420-44db-9c2f-982fbb99263c}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{0117cd36-aeb6-4634-8287-4217f5ea4fd4}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{f690dcb8-9979-44b3-85e4-818cd7463411}</Project>
       <Name>Model</Name>
@@ -344,7 +348,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>17158</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44324/</IISUrl>
+          <IISUrl>https://localhost:44324/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -15,5 +15,10 @@ namespace BLL
             //传入父类初始化接口
             base.Dal = dal;
         }
+
+        public bool DeleteAllByUserId(int userId)
+        {
+            return dal.DeleteAllByUserId(userId)>0;
+        }
     }
 }
