@@ -32,8 +32,16 @@ namespace CollectFirewood.Member
                      User user;
                     if (userManager.Login(username, password,out user))
                     {
+<<<<<<< HEAD
                         Session["user"] = user;
                         Response.Redirect("index.aspx");
+=======
+                        Response.Redirect("index.aspx");                       
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('请确认是否输入正确的用户名或密码！！');</script>");
+>>>>>>> 1a4b18b44d774ee80435e640f2286eea88a97cf8
                     }
                 }
                 else
