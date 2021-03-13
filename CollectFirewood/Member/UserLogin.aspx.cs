@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +29,10 @@ namespace CollectFirewood.Member
                 if (checkbox.Checked)
                 {
                     UserManager userManager = new UserManager();
-                    if (userManager.Login(username, password))
+                     User user;
+                    if (userManager.Login(username, password,out user))
                     {
+                        Session["user"] = user;
                         Response.Redirect("index.aspx");
                     }
                 }

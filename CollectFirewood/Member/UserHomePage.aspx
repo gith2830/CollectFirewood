@@ -145,7 +145,7 @@
                 <a href="#">投资金融服务</a>&nbsp;/
             </div>
             <div class="serves-box">
-                <h1>众筹网</h3>
+                <h1>众筹网</h1>
                     <h5>zhongchou.cn</h5>
             </div>
         </div>

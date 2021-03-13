@@ -15,9 +15,10 @@ namespace BLL
         {
             base.Dal = dal;
         }
-        public bool Login(string username,string password)
+        public bool Login(string username,string password,out User outUser)
         {
             User user = dal.GetModel(username);
+            outUser = user;
             if (user == null) 
             {
                 return false;
