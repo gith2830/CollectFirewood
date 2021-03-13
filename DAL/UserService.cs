@@ -11,20 +11,13 @@ namespace DAL
 {
     public class UserService:IServiceBase<Model.User>
     {
-        /// <summary>
-        /// 获取User总数
-        /// </summary>
-        /// <returns></returns>
+        #region 接口方法
         public int GetModelCount()
         {
             string sql = "select count(*) from Users";
             return (int)DbHelper.ExecuteScalar(sql);
         }
-        /// <summary>
-        /// 获取User
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+
         public Model.User GetModel(int id)
         {
             string sql = "select * from Users where Id=@id";
@@ -47,11 +40,7 @@ namespace DAL
             model.Phone = dt.Rows[0]["Phone"].ToString();
             return model;
         }
-        /// <summary>
-        /// 根据用户名获取User
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
+
         public Model.User GetModel(string username)
         {
             string sql = "select * from Users where Username=@username";
@@ -74,12 +63,7 @@ namespace DAL
             model.Phone = dt.Rows[0]["Phone"].ToString();
             return model;
         }
-        /// <summary>
-        /// 获取User集合
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
+
         public List<Model.User> GetPageList(int start, int end)
         {
             string sql = "select * from(select *,row_number()over(order by id) as num from Users) as t where t.num between @start and @end";
@@ -111,11 +95,7 @@ namespace DAL
             }
             return models;
         }
-        /// <summary>
-        /// 添加User
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+
         public int Add(Model.User user)
         {
             string sql = "insert into users([UserName],[Nickname],[Pwd],[Sex],[Phone],[Address],[Url],[Description],[UserPic]) values(@UserName,@Nickname,@Pwd,@Sex,@Phone,@Address,@Url,@Description,@UserPic)";
@@ -133,22 +113,14 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
-        /// <summary>
-        /// 根据id删除User
-        /// </summary>
-        /// <param name="id">User的id</param>
-        /// <returns></returns>
+
         public int Delete(int id)
         {
             string sql = "delete from users where id=@id";
             SqlParameter p = new SqlParameter("@id", id);
             return DbHelper.ExecuteNotQuery(sql, p);
         }
-        /// <summary>
-        /// 修改User
-        /// </summary>
-        /// <param name="admin">User模型</param>
-        /// <returns></returns>
+
         public int Update(Model.User user)
         {
             string sql = "update users set UserName=@UserName,Nickname=@Nickname,Pwd=@Pwd,Sex=@Sex,Phone=@Phone,Address=@Address,Url=@Url,Description=@Description,UserPic=@UserPic where Id=@Id";
@@ -167,5 +139,6 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
+        #endregion
     }
 }

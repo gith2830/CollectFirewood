@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
+    // BLL层接口实现类
     public class ManagerBase<Model>: IManagerBase<Model>
     {
         protected DAL.IServiceBase<Model> Dal { get; set; }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
+    // BLL层接口
     public interface IManagerBase<T>
     {
         /// <summary>

@@ -11,6 +11,7 @@ namespace DAL
 {
     public class ClassifyService : IServiceBase<Classify>
     {
+        #region 接口方法
         public int Add(Classify model)
         {
             string sql = "insert into classifys([ClassifyName]) VALUES(@ClassifyName)";
@@ -73,6 +74,22 @@ namespace DAL
             return models;
         }
 
+        public int Update(Classify model)
+        {
+            string sql = "update classifys set ClassifyName = @ClassifyName  where id = @id";
+            SqlParameter[] ps = new SqlParameter[]
+            {
+                new SqlParameter("@id",model.Id),
+                new SqlParameter("@ClassifyName",model.ClassifyName),
+            };
+            return DbHelper.ExecuteNotQuery(sql, ps);
+        }
+        #endregion
+
+        /// <summary>
+        /// 获得所有分类
+        /// </summary>
+        /// <returns></returns>
         public List<Classify> GetAllList()
         {
             string sql = "select * from Classifys";
@@ -90,17 +107,6 @@ namespace DAL
                 models.Add(model);
             }
             return models;
-        }
-
-        public int Update(Classify model)
-        {
-            string sql = "update classifys set ClassifyName = @ClassifyName  where id = @id";
-            SqlParameter[] ps = new SqlParameter[]
-            {
-                new SqlParameter("@id",model.Id),
-                new SqlParameter("@ClassifyName",model.ClassifyName),
-            };
-            return DbHelper.ExecuteNotQuery(sql, ps);
         }
     }
 }

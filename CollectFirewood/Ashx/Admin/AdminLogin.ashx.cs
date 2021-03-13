@@ -15,6 +15,10 @@ namespace CollectFirewood.ashx
             //context.Response.ContentType = "text/html";
             Login(context);
         }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="context"></param>
         private void Login(HttpContext context)
         {
             BLL.AdminManager bll = new BLL.AdminManager();

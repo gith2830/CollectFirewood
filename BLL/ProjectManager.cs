@@ -8,9 +8,12 @@ namespace BLL
 {
     public class ProjectManager:ManagerBase<Model.Project>
     {
+        // dal接口 调用执行dal层的方法
+        DAL.ProjectService dal = new DAL.ProjectService();
         public ProjectManager()
         {
-            base.Dal = new DAL.ProjectService();
+            //传入父类初始化接口
+            base.Dal = dal;
         }
     }
 }

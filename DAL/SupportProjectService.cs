@@ -11,6 +11,7 @@ namespace DAL
 {
     public class SupportProjectService : IServiceBase<Model.SupportProject>
     {
+        #region 接口方法
         public int Add(SupportProject model)
         {
             string sql = "insert into SupportProjects([UserId],[ProjectId],[Money]) values(@UserId,@ProjectId,@Money)";
@@ -91,5 +92,6 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
+        #endregion
     }
 }

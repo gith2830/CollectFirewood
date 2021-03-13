@@ -10,22 +10,21 @@ namespace BLL
 {
     public class UserManager : ManagerBase<User>
     {
+        // dal接口 调用执行dal层的方法
         DAL.UserService dal = new DAL.UserService();
         public UserManager()
         {
+            //传入父类初始化接口
             base.Dal = dal;
         }
-<<<<<<< HEAD
-        public bool Login(string username,string password,out User outUser)
-=======
         /// <summary>
         /// 登录方法
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public bool Login(string username,string password)
->>>>>>> 1a4b18b44d774ee80435e640f2286eea88a97cf8
+        /// <param name="username">用户名</param>
+        /// <param name="password">密码</param>
+        /// <param name="outUser">返回的user</param>
+        /// <returns>是否登录成功</returns>
+        public bool Login(string username, string password, out User outUser)
         {
             User user = dal.GetModel(username);
             outUser = user;
@@ -40,6 +39,11 @@ namespace BLL
             return false;
         }
 
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public int Register(User user)
         {
             UserManager userManager = new UserManager();

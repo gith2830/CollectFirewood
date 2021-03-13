@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+    /// <summary>
+    /// service接口
+    /// </summary>
+    /// <typeparam name="T">模型类型</typeparam>
     public interface IServiceBase<T>
     {
         /// <summary>
@@ -22,10 +26,10 @@ namespace DAL
         T GetModel(int id);
 
         /// <summary>
-        /// 获取model集合
+        /// 从第start行数据获取到end行的数据
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">开始行</param>
+        /// <param name="end">结束行</param>
         /// <returns></returns>
         List<T> GetPageList(int start, int end);
 

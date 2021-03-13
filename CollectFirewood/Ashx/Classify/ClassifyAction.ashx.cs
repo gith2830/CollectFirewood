@@ -17,6 +17,7 @@ namespace CollectFirewood.Ashx.Classify
             context.Response.ContentType = "text/plain";
             BLL.ClassifyManager bll = new BLL.ClassifyManager();
             string action = context.Request["action"];
+            // 获得分页
             if (action == "get")
             {
                 int pageIndex, pageSize;
@@ -43,12 +44,14 @@ namespace CollectFirewood.Ashx.Classify
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write(js.Serialize(obj));
             }
+            // 获得所有
             else if (action=="getAll")
             {
                 List<Model.Classify> list = bll.GetAllList();
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write(js.Serialize(list));
             }
+            // 获得一个
             else if (action == "getById")
             {
                 int id;
@@ -66,6 +69,7 @@ namespace CollectFirewood.Ashx.Classify
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write("ok:" + js.Serialize(user));
             }
+            // 添加
             else if (action == "add")
             {
                 Model.Classify classify = new Model.Classify();
@@ -84,6 +88,7 @@ namespace CollectFirewood.Ashx.Classify
                     context.Response.Write("no:添加失败");
                 }
             }
+            // 修改
             else if (action == "edit")
             {
                 int id;
@@ -114,6 +119,7 @@ namespace CollectFirewood.Ashx.Classify
                     context.Response.Write("no:修改失败");
                 }
             }
+            // 删除
             else if (action == "delete")
             {
                 int id = 0;

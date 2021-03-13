@@ -10,20 +10,12 @@ namespace DAL
 {
     public class AdminService:IServiceBase<Model.Admin>
     {
-        /// <summary>
-        /// 获取admin总数
-        /// </summary>
-        /// <returns></returns>
+        #region 接口方法
         public int GetModelCount()
         {
             string sql = "select count(*) from Admins";
             return (int)DbHelper.ExecuteScalar(sql);
         }
-        /// <summary>
-        /// 获取Admin
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public Model.Admin GetModel(int id)
         {
             string sql = "select * from Admins where Id=@id";
@@ -39,11 +31,6 @@ namespace DAL
             model.Pwd = dt.Rows[0]["Pwd"].ToString();
             return model;
         }
-        /// <summary>
-        /// 获取Admin
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public Model.Admin GetModel(string adminName)
         {
             string sql = "select * from Admins where AdminName=@adminName";
@@ -59,12 +46,6 @@ namespace DAL
             model.Pwd = dt.Rows[0]["Pwd"].ToString();
             return model;
         }
-        /// <summary>
-        /// 获取Admin集合
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
         public List<Model.Admin> GetPageList(int start,int end)
         {
             string sql = "select * from(select *,row_number()over(order by id) as num from Admins) as t where t.num between @start and @end";
@@ -89,11 +70,6 @@ namespace DAL
             }
             return models;
         }
-        /// <summary>
-        /// 添加admin
-        /// </summary>
-        /// <param name="admin">admin模型</param>
-        /// <returns></returns>
         public int Add(Model.Admin admin)
         {
             string sql = "insert into admins([AdminName],[Pwd]) values(@AdminName,@Pwd)";
@@ -104,22 +80,12 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
-        /// <summary>
-        /// 根据id删除Admin
-        /// </summary>
-        /// <param name="id">Admin的id</param>
-        /// <returns></returns>
         public int Delete(int id)
         {
             string sql = "delete from admins where id=@id";
             SqlParameter p = new SqlParameter("@id",id);
             return DbHelper.ExecuteNotQuery(sql,p);
         }
-        /// <summary>
-        /// 修改Admin
-        /// </summary>
-        /// <param name="admin">Admin模型</param>
-        /// <returns></returns>
         public int Update(Model.Admin admin)
         {
             string sql = "update admins set AdminName=@AdminName,Pwd=@Pwd where Id=@Id";
@@ -131,5 +97,6 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql,ps);
         }
+        #endregion
     }
 }

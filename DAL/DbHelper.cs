@@ -64,6 +64,12 @@ namespace DAL
                 return null;
             }
         }
+        /// <summary>
+        /// 获得一个数据库表
+        /// </summary>
+        /// <param name="strCmd">sql命令</param>
+        /// <param name="ps">sql参数</param>
+        /// <returns></returns>
         public static DataTable GetDataTable(string strCmd, params SqlParameter[] ps)
         {
             try

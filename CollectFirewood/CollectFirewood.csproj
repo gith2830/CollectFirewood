@@ -327,7 +327,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ashx\User\NewFolder1\" />
     <Folder Include="Content\Css\components\" />
   </ItemGroup>
   <PropertyGroup>

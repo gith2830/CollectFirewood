@@ -17,6 +17,7 @@ namespace CollectFirewood.Ashx.Admin
             context.Response.ContentType = "text/plain";
             BLL.AdminManager bll = new BLL.AdminManager();
             string action = context.Request["action"];
+            // 获取分页
             if (action == "get")
             {
                 int pageIndex, pageSize;
@@ -42,7 +43,9 @@ namespace CollectFirewood.Ashx.Admin
                 };
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write(js.Serialize(obj));
-            }else if(action== "getById")
+            }
+            //获得一个
+            else if(action== "getById")
             {
                 int id = 0;
                 if (!int.TryParse(context.Request["id"], out id))
@@ -59,6 +62,7 @@ namespace CollectFirewood.Ashx.Admin
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write("ok:"+js.Serialize(admin));
             }
+            // 删除
             else if (action == "delete")
             {
                 int id = 0;
@@ -76,6 +80,7 @@ namespace CollectFirewood.Ashx.Admin
                     context.Response.Write("no:删除失败");
                 }
             }
+            // 修改
             else if (action == "edit")
             {
                 int id = 0;
@@ -106,6 +111,7 @@ namespace CollectFirewood.Ashx.Admin
                     context.Response.Write("no:修改失败");
                 }
             }
+            // 添加
             else if (action == "add")
             {
                 Model.Admin admin = new Model.Admin

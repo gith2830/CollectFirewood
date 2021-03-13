@@ -11,6 +11,7 @@ namespace DAL
 {
     public class CommentService : IServiceBase<Model.Comment>
     {
+        #region 接口方法
         public int Add(Comment model)
         {
             string sql = "insert into Comments([UserId],[ProjectId],[Content]) values(@UserId,@ProjectId,@Content)";
@@ -91,5 +92,6 @@ namespace DAL
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
+        #endregion
     }
 }

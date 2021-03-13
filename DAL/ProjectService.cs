@@ -11,9 +11,10 @@ namespace DAL
 {
     public class ProjectService : IServiceBase<Model.Project>
     {
+        #region 接口方法
         public int Add(Project model)
         {
-            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[Goal],[Deadline],[LikeCount],[Content]) values(@ClassifyId,@ProjectName,@State,@Goal,@Deadline,@LikeCount,@Content)";
+            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[Goal],[Deadline],[LikeCount],[Content],CoverImg) values(@ClassifyId,@ProjectName,@State,@Goal,@Deadline,@LikeCount,@Content,@CoverImg)";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@ClassifyId",model.ClassifyId),
@@ -23,17 +24,16 @@ namespace DAL
                 new SqlParameter("@Deadline",model.Deadline),
                 new SqlParameter("@LikeCount",model.LikeCount),
                 new SqlParameter("@Content",model.Content),
+                new SqlParameter("@CoverImg",model.CoverImg),
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
-
         public int Delete(int id)
         {
             string sql = "delete from Projects where id=@id";
             SqlParameter p = new SqlParameter("@id", id);
             return DbHelper.ExecuteNotQuery(sql, p);
         }
-
         public Project GetModel(int id)
         {
             string sql = "select * from Projects where Id=@id";
@@ -52,6 +52,7 @@ namespace DAL
             model.Deadline = DateTime.Parse(dt.Rows[0]["Deadline"].ToString());
             model.LikeCount = Convert.ToInt32(dt.Rows[0]["LikeCount"].ToString());
             model.Content = dt.Rows[0]["Content"].ToString();
+            model.CoverImg = dt.Rows[0]["CoverImg"].ToString();
             return model;
         }
 
@@ -87,6 +88,7 @@ namespace DAL
                 model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
+                model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
                 models.Add(model);
             }
             return models;
@@ -94,7 +96,7 @@ namespace DAL
 
         public int Update(Project model)
         {
-            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content where Id=@Id";
+            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg where Id=@Id";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@Id",model.Id),
@@ -105,8 +107,10 @@ namespace DAL
                 new SqlParameter("@Deadline",model.Deadline),
                 new SqlParameter("@LikeCount",model.LikeCount),
                 new SqlParameter("@Content",model.Content),
+                new SqlParameter("@CoverImg",model.CoverImg),
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
+        #endregion
     }
 }

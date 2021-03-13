@@ -13,6 +13,14 @@ namespace BLL
         {
             base.Dal = dal;
         }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="adminName">用户名</param>
+        /// <param name="adminPwd">密码</param>
+        /// <param name="msg">返回的信息</param>
+        /// <param name="admin">返回admin模型</param>
+        /// <returns>是否登录成功</returns>
         public bool Login(string adminName,string adminPwd,out string msg,out Model.Admin admin)
         {
             admin = dal.GetModel(adminName);
