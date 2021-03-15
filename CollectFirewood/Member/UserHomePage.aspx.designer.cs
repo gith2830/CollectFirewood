@@ -11,7 +11,7 @@ namespace CollectFirewood.Member
 {
 
 
-    public partial class UserHomePage
+    public partial class index
     {
     }
 }

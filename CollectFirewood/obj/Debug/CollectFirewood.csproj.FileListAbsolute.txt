@@ -323,3 +323,5 @@ C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.dl
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\obj\Debug\CollectFirewood.pdb
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\bin\Common.dll
 C:\Users\mo\Desktop\CollectFirewood\CollectFirewood\bin\Common.pdb
+C:\Users\lsl\Desktop\CollectFirewood\CollectFirewood\bin\Common.dll
+C:\Users\lsl\Desktop\CollectFirewood\CollectFirewood\bin\Common.pdb

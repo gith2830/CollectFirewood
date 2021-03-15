@@ -65,12 +65,12 @@ namespace CollectFirewood.Member
                         user.UserPic = "";
                         if (userManager.Register(user)==1)
                         {
-                            Response.Write("<script>alert('注册成功');</script>");
+                            Response.Write("<script>alert('注册成功！');</script>");
                             Response.Redirect("UserLogin.aspx");
                         }
                         else
                         {
-                            Response.Write("<script>alert('注册失败');</script>");
+                            Response.Write("<script>alert('注册失败！');</script>");
                         }
                     }
                 }

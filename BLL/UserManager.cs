@@ -19,8 +19,7 @@ namespace BLL
         }
 
         public override bool Add(User model)
-        {
-            model.Pwd = Common.MD5Helper.GetMD5String(model.Pwd);
+        {       
             if (dal.Add(model) > 0)
             {
                 return true;
