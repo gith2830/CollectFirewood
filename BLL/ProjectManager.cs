@@ -36,5 +36,17 @@ namespace BLL
                 return false;
             }
         }
+
+        /// <summary>
+        /// 给项目捐钱
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="projectId">项目id</param>
+        /// <param name="money">捐赠金额</param>
+        /// <returns></returns>
+        public bool AddProejctMoney(int userId,int projectId,decimal money)
+        {
+            return dal.AddProjectMoney(userId, projectId, money) > 0;
+        }
     }
 }

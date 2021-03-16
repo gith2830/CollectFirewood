@@ -88,5 +88,38 @@ namespace DAL
                 return null;
             }
         }
+
+        /// <summary>
+        /// 执行事务
+        /// </summary>
+        /// <param name="strCmd">sql代码</param>
+        /// <param name="ps">sql参数</param>
+        /// <returns></returns>
+        public static int ExecuteTransaction(string strCmd, params SqlParameter[] ps)
+        {
+            int result = 0;
+            SqlTransaction tran = null;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connStr))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(strCmd, con))
+                    {
+                        tran = con.BeginTransaction();
+                        cmd.Parameters.AddRange(ps);
+                        result = cmd.ExecuteNonQuery();
+                        tran.Commit();
+                        return result;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                tran?.Rollback();
+                Console.WriteLine(e.Message);
+                return result;
+            }
+        }
     }
 }

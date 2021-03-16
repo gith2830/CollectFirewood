@@ -12,6 +12,7 @@ namespace Model
         public int ClassifyId { get; set; }
         public string ProjectName { get; set; }
         public ProjectState State { get; set; }
+        public decimal CurrentMoney { get; set; }
         public decimal Goal { get; set; }
         public DateTime Deadline { get; set; }
         public int LikeCount { get; set; }

@@ -14,12 +14,13 @@ namespace DAL
         #region 接口方法
         public int Add(Project model)
         {
-            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[Goal],[Deadline],[LikeCount],[Content],CoverImg) values(@ClassifyId,@ProjectName,@State,@Goal,@Deadline,@LikeCount,@Content,@CoverImg)";
+            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[CurrentMoney],[Goal],[Deadline],[LikeCount],[Content],CoverImg) values(@ClassifyId,@ProjectName,@State,@CurrentMoney,@Goal,@Deadline,@LikeCount,@Content,@CoverImg)";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@ClassifyId",model.ClassifyId),
                 new SqlParameter("@ProjectName",model.ProjectName),
                 new SqlParameter("@State",model.State),
+                new SqlParameter("@CurrentMoney",model.CurrentMoney),
                 new SqlParameter("@Goal",model.Goal),
                 new SqlParameter("@Deadline",model.Deadline),
                 new SqlParameter("@LikeCount",model.LikeCount),
@@ -49,6 +50,7 @@ namespace DAL
             model.ClassifyId = Convert.ToInt32(dt.Rows[0]["ClassifyId"].ToString());
             model.ProjectName = dt.Rows[0]["ProjectName"].ToString();
             model.State = (ProjectState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["State"].ToString());
+            model.CurrentMoney = Convert.ToDecimal(dt.Rows[0]["CurrentMoney"].ToString());
             model.Goal = Convert.ToDecimal(dt.Rows[0]["Goal"].ToString());
             model.Deadline = DateTime.Parse(dt.Rows[0]["Deadline"].ToString());
             model.LikeCount = Convert.ToInt32(dt.Rows[0]["LikeCount"].ToString());
@@ -84,7 +86,7 @@ namespace DAL
                 model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
                 model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
                 model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
-                var a = dt.Rows[i]["Goal"].ToString();
+                model.CurrentMoney = Convert.ToDecimal(dt.Rows[i]["CurrentMoney"].ToString());
                 model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
                 model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
@@ -97,13 +99,14 @@ namespace DAL
 
         public int Update(Project model)
         {
-            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg where Id=@Id";
+            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,CurrentMoney=@CurrentMoney,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg where Id=@Id";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@Id",model.Id),
                 new SqlParameter("@ClassifyId",model.ClassifyId),
                 new SqlParameter("@ProjectName",model.ProjectName),
                 new SqlParameter("@State",model.State),
+                new SqlParameter("@CurrentMoney",model.CurrentMoney),
                 new SqlParameter("@Goal",model.Goal),
                 new SqlParameter("@Deadline",model.Deadline),
                 new SqlParameter("@LikeCount",model.LikeCount),
@@ -111,6 +114,26 @@ namespace DAL
                 new SqlParameter("@CoverImg",model.CoverImg),
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
+        }
+
+        /// <summary>
+        /// 给项目捐钱
+        /// </summary>
+        /// <param name="userId">用户id</param>
+        /// <param name="projectId">项目id</param>
+        /// <param name="money">捐钱数额</param>
+        /// <returns></returns>
+        public int AddProjectMoney(int userId,int projectId,decimal money)
+        {
+            string sql = "update Projects set CurrentMoney=@Money where Id=@ProjectId;" +
+                "insert into SupportProjects([UserId],[ProjectId],[Money]) values(@UserId,@ProjectId,@Money);";
+            SqlParameter[] ps = new SqlParameter[]
+            {
+                new SqlParameter("@UserId",userId),
+                new SqlParameter("@ProjectId",projectId),
+                new SqlParameter("@Money",money),
+            };
+            return DbHelper.ExecuteTransaction(sql, ps);
         }
         #endregion
     }
