@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="CollectFirewood.Member.Index" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +19,7 @@
             <div class="top-logobox grid-cell-1">
                 <img src="/Material/logo.png" alt="">
             </div>
-            <div class="top-listbox grid-cell-1">
+            <div class="top-listbox grid-cell-1"> 
                 <ul>
                     <li><a href="#" class="active1">首页</a></li>
                     <li><a href="BrowseItems.aspx">浏览项目</a></li>
@@ -34,13 +35,13 @@
             <div class="top-toolbox grid-cell-1">
                 <ul>
                     <%if (Session["user"] == null)
-                       { %>
-                             <li><a href="UserLogin.aspx" id="login">登录</a></li>
+                        { %>
+                    <li><a href="UserLogin.aspx" id="login">登录</a></li>
                     <% } %>
                     <%else
-                       {%>
-                             <li><a href="Userinfo.aspx" ><%=(Session["user"] as Model.User).UserName %></a></li>
-                    <%}%>                   
+                        {%>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).UserName %></a></li>
+                    <%}%>
                     <li style="display: none;"><a href="Userinfo" id="userhomepage">主页</a></li>
                 </ul>
             </div>
@@ -72,15 +73,19 @@
             <!-- 首页 -->
             <div class="home contentbox">
                 <span class="home-picbox">
-                    <a href=""><img src="/Material/1.jpg" alt=""></a>
-                    <a href=""><img src="/Material/2.jpg" alt=""></a>
-                    <a href=""><img src="/Material/3.jpg" alt=""></a>
-                    <a href=""><img src="/Material/4.jpg" alt=""></a>
+                    <a href="">
+                        <img src="/Material/1.jpg" alt=""></a>
+                    <a href="">
+                        <img src="/Material/2.jpg" alt=""></a>
+                    <a href="">
+                        <img src="/Material/3.jpg" alt=""></a>
+                    <a href="">
+                        <img src="/Material/4.jpg" alt=""></a>
                 </span>
                 <span class="home-manufacture">
                     <span class="home-manufacture_listbox ">
-                        <span style="font-size: 24px;font-weight: bold;float: left;">众筹制造</span>
-                        <ul style="float:right;">
+                        <span style="font-size: 24px; font-weight: bold; float: left;">众筹制造</span>
+                        <ul style="float: right;">
                             <li><a href="#">科技</a></li>
                             <li><a href="#">艺术</a></li>
                             <li><a href="#">设计</a></li>
@@ -95,19 +100,24 @@
                             <li><a href="#">其他</a></li>
                         </ul>
                     </span>
-                    <span class="grid">
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
+                    <span class="" style="width:100px;"> 
+                        <asp:Repeater ID="ProjectList" runat="server">
+                            <ItemTemplate>
+                                <dl style="display:block;width:24.2%;">
+                                    <dt><a href="">
+                                        <img src="<%# Eval("CoverImg") %>"></a><span class="like">关注</span></dt>
+                                    <dd><%# Eval("ProjectName") %></dd>
+                                    <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元<span class="statusbox">众筹中</span></dd>
+                                    <dd><progress value="<%# (Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100%>" max="100"></progress></dd>
+                                    <dd class="grid"><span class="status grid-cell-1"><span><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %></span>
+                                        <h6 class="ccc">已完成</h6>
+                                    </span><span class="grid-cell-1 status"><span><%# Math.Floor(Convert.ToDecimal(Eval("CurrentMoney"))) %></span>元<h6 class="ccc">已筹资</h6>
+                                    </span><span class="grid-cell-1 status"><span><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%></span>天<h6 class="ccc">剩余时间</h6>
+                                    </span></dd>
+                                </dl>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <%--<dl class="grid-cell-1">
                             <dt><a href=""><img src="/Material/电影院.jpg" alt=""></a><span class="like">关注</span></dt>
                             <dd>【大卫电影院】国家首个电商电影院</dd>
                             <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
@@ -282,11 +292,11 @@
                                 </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
                                 </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
                                 </span></dd>
-                        </dl>
+                        </dl>--%>
                     </span>
                     <span class="btnmore">查找更多项目</span>
             </div>
-           
+
             <!-- 用户主页 -->
             <div class="homepage">
                 <dl>
@@ -295,7 +305,8 @@
                     <dd>个性签名</dd>
                     <dd>加入时间: <span>0</span></dd>
                     <dd>所在地区: <span>地区</span> </dd>
-                    <dd><input type="button" value="个人设置"><input type="button" value="消息通知"></dd>
+                    <dd>
+                        <input type="button" value="个人设置"><input type="button" value="消息通知"></dd>
                 </dl>
                 <ul class="meaulist">
                     <li>支持的项目 <span>0</span> </li>
@@ -329,34 +340,40 @@
             <div class="botton-collect">
                 <div class="botton-collect_left">
                     <dl>
-                        <dt><img src="/Material/钱包.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/钱包.png" alt=""></dt>
                         <dd class="red"><span>0</span>元</dd>
                         <dd>爱情保险</dd>
                     </dl>
                     <dl>
-                        <dt><img src="/Material/叶子.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/叶子.png" alt=""></dt>
                         <dd class="red"><span>0</span>小时</dd>
                         <dd>爱情保险</dd>
                     </dl>
                     <dl>
-                        <dt><img src="/Material/人群.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/人群.png" alt=""></dt>
                         <dd class="red"><span>0</span>人</dd>
                         <dd>爱情保险</dd>
                     </dl>
                 </div>
                 <div class="botton-collect_right">
                     <dl>
-                        <dt style="background-color: pink;"><img src="/Material/奖杯.png" alt=""></dt>
+                        <dt style="background-color: pink;">
+                            <img src="/Material/奖杯.png" alt=""></dt>
                         <dd>项目总数</dd>
                         <dd style="color: pink;"><span>0</span>个</dd>
                     </dl>
                     <dl>
-                        <dt style="background-color: thistle;"><img src="/Material/钱.png" alt=""></dt>
+                        <dt style="background-color: thistle;">
+                            <img src="/Material/钱.png" alt=""></dt>
                         <dd>累计支持人</dd>
                         <dd style="color: thistle;"><span>0</span>元</dd>
                     </dl>
                     <dl>
-                        <dt style="background-color: orange;"><img src="/Material/人.png" alt=""></dt>
+                        <dt style="background-color: orange;">
+                            <img src="/Material/人.png" alt=""></dt>
                         <dd>累计筹资数</dd>
                         <dd style="color: orange;"><span>0</span>人</dd>
                     </dl>
@@ -409,7 +426,7 @@
             &nbsp;<a href="#">友好基金会</a>&nbsp;<a href="#">人人生活</a>&nbsp;<a href="#">众筹导航</a>
             &nbsp;<a href="#">调查派</a>&nbsp;<a href="#">奇笛网</a>&nbsp;<a href="#">融360</a>&nbsp;<a href="#">联信财富</a>
             <br>
-            <span style="margin-top: 20px;display: block;color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
+            <span style="margin-top: 20px; display: block; color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
                 京ICP备14016844号</span>
         </div>
     </div>

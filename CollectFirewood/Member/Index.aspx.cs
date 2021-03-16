@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,9 @@ namespace CollectFirewood.Member
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ProjectManager projectManager = new ProjectManager();
+            this.ProjectList.DataSource = projectManager.GetPageList(1,15);
+            //DataBind();
         }
     }
 }
