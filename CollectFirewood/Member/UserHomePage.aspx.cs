@@ -14,5 +14,10 @@ namespace CollectFirewood.Member
         {
 
         }
+
+        protected void btnUserInfo_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Userinfo.aspx");
+        }
     }
 }

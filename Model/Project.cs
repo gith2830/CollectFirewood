@@ -18,5 +18,7 @@ namespace Model
         public int LikeCount { get; set; }
         public string Content { get; set; }
         public string CoverImg { get; set; }
+        public PublishState PublishState { get; set; }
+        public int OwnerId { get; set; }
     }
 }

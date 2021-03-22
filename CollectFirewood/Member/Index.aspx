@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="CollectFirewood.Member.Index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="CollectFirewood.Member.Index" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,8 @@
 </head>
 
 <body>
-    <!-- 头部 -->
+    <form action="" method="post">
+            <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -40,9 +41,8 @@
                     <% } %>
                     <%else
                         {%>
-                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).UserName %></a></li>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
                     <%}%>
-                    <li style="display: none;"><a href="Userinfo" id="userhomepage">主页</a></li>
                 </ul>
             </div>
         </div>
@@ -51,20 +51,11 @@
     <div class="type">
         <div class="middle">
             <ul id="type">
-                <li><a href="#" class="active2">浏览全部</a></li>
-                <li><a href="#">科技</a></li>
-                <li><a href="#">艺术</a></li>
-                <li><a href="#">设计</a></li>
-                <li><a href="#">音乐</a></li>
-                <li><a href="#">影视</a></li>
-                <li><a href="#">出版</a></li>
-                <li><a href="#">动漫</a></li>
-                <li><a href="#">工艺</a></li>
-                <li><a href="#">公开课</a></li>
-                <li><a href="#">农业</a></li>
-                <li><a href="#">其他</a></li>
-                <li>|</li>
-                <li><a href="#">苏州站</a></li>
+                <asp:Repeater ID="TypeList" runat="server">
+                   <ItemTemplate>
+                        <li><a href="index.aspx?ClassifyId=<%# Eval("Id") %>"><%# Eval("ClassifyName") %> </a></li>
+                   </ItemTemplate>
+                </asp:Repeater>
             </ul>
         </div>
     </div>
@@ -73,19 +64,19 @@
             <!-- 首页 -->
             <div class="home contentbox">
                 <span class="home-picbox">
-                    <a href="">
+                    <a href="#">
                         <img src="/Material/1.jpg" alt=""></a>
-                    <a href="">
+                    <a href="#">
                         <img src="/Material/2.jpg" alt=""></a>
-                    <a href="">
+                    <a href="#">
                         <img src="/Material/3.jpg" alt=""></a>
-                    <a href="">
+                    <a href="#">
                         <img src="/Material/4.jpg" alt=""></a>
                 </span>
                 <span class="home-manufacture">
                     <span class="home-manufacture_listbox ">
                         <span style="font-size: 24px; font-weight: bold; float: left;">众筹制造</span>
-                        <ul style="float: right;">
+                       <%-- <ul>
                             <li><a href="#">科技</a></li>
                             <li><a href="#">艺术</a></li>
                             <li><a href="#">设计</a></li>
@@ -98,13 +89,15 @@
                             <li><a href="#">农业</a></li>
                             <li><a href="#">苏州站</a></li>
                             <li><a href="#">其他</a></li>
-                        </ul>
+                        </ul>--%>
                     </span>
-                    <span class="" style="width:100px;"> 
+
+                    <span class="" style="display:block;float:left;margin:0 auto;"> 
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
-                                <dl style="display:block;width:24.2%;">
-                                    <dt><a href="">
+                                <a href="#">
+                                    <dl style="display:block;width:24%;margin-right:10px;margin-top:20px;">
+                                    <dt><a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
                                         <img src="<%# Eval("CoverImg") %>"></a><span class="like">关注</span></dt>
                                     <dd><%# Eval("ProjectName") %></dd>
                                     <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元<span class="statusbox">众筹中</span></dd>
@@ -115,225 +108,23 @@
                                     </span><span class="grid-cell-1 status"><span><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%></span>天<h6 class="ccc">剩余时间</h6>
                                     </span></dd>
                                 </dl>
+                                </a>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <%--<dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/电影院.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫电影院】国家首个电商电影院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/相声.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫相声】国家首个电商相声院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <br>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                    </span>
-                </span>
-                <span class="home-more">
-                    <span class="home-more_title">
-                        <h3>热门项目</h3>
-                    </span>
-                    <span class="grid" style="flex-wrap: wrap;">
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/电影院.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫电影院】国家首个电商电影院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/相声.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫相声】国家首个电商相声院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <br>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/电影院.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫电影院】国家首个电商电影院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/相声.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫相声】国家首个电商相声院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <br>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/电影院.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫电影院】国家首个电商电影院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/相声.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫相声】国家首个电商相声院</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>
-                        <br>
-                        <dl class="grid-cell-1">
-                            <dt><a href=""><img src="/Material/咖啡厅.jpg" alt=""></a><span class="like">关注</span></dt>
-                            <dd>【大卫咖啡】国家首个电商咖啡</dd>
-                            <dd>目标:<span>0</span>天<span>0</span>元<span class="statusbox">众筹中</span></dd>
-                            <dd><progress value="30" max="100"></progress></dd>
-                            <dd class="grid"><span class="status grid-cell-1"><span>30%</span>
-                                    <h6 class="ccc">已完成</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>元<h6 class="ccc">已筹资</h6>
-                                </span><span class="grid-cell-1 status"><span>0</span>天<h6 class="ccc">剩余时间</h6>
-                                </span></dd>
-                        </dl>--%>
-                    </span>
-                    <span class="btnmore">查找更多项目</span>
-            </div>
-
-            <!-- 用户主页 -->
-            <div class="homepage">
-                <dl>
-                    <dt>图片</dt>
-                    <dd id="homepage-usernum">用户名</dd>
-                    <dd>个性签名</dd>
-                    <dd>加入时间: <span>0</span></dd>
-                    <dd>所在地区: <span>地区</span> </dd>
-                    <dd>
-                        <input type="button" value="个人设置"><input type="button" value="消息通知"></dd>
-                </dl>
-                <ul class="meaulist">
-                    <li>支持的项目 <span>0</span> </li>
-                    <li>发起的项目 <span>0</span> </li>
-                    <li>喜欢的项目 <span>0</span> </li>
-                </ul>
-                <ul class="homepagetype">
-                    <li><a href="#">所有</a></li>
-                    <li><a href="#">众筹中</a></li>
-                    <li><a href="#">已成功</a></li>
-                    <li><a href="#">已失败</a></li>
-                </ul>
-                <br>
-                <table>
-                    <tr>
-                        <td>项目名称</td>
-                        <td>发布日期</td>
-                        <td>截止日期</td>
-                        <td>目标</td>
-                        <td>进度</td>
-                        <td>状态</td>
-                    </tr>
-                </table>
-            </div>
+                    </span>               
+            </div>          
         </div>
     </div>
     <div class="middle">
+        <a href="#" class="pageitem">上一页</a>
+        <a href="#" class="pageitem">1</a>
+        <a href="#" class="pageitem">2</a>
+        <a href="#" class="pageitem">3</a>
+        <a href="#" class="pageitem">4</a>
+        <a href="#" class="pageitem">5</a>
+        <a href="#" class="pageitem">下一页</a>
+    </div>
+    <div class="middle" style="background-color:"red";>
         <!-- 底部 -->
         <div class="botton">
             <span>我们已经收到~~~</span>
@@ -430,6 +221,7 @@
                 京ICP备14016844号</span>
         </div>
     </div>
+    </form>
     <script>
         // 首页盒子中的轮播图方法
         function show(cur) {

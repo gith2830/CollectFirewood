@@ -6,12 +6,6 @@
     margin: 0px;
     padding: 0px;
 }
-input, textarea {
-    outline: none;
-    border: 1px solid #908e8e;
-    padding: 2px 2px;
-    border-radius: 10px;
-}
 /*页眉*/
 #header {
     height: 50px;

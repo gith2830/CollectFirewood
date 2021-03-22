@@ -166,9 +166,11 @@ body{
 .type ul li{
     float: left;
     list-style-type: none;
-
 }
-.type ul li a{
+#type li a:hover{
+    color:tomato;
+}
+.type ul li a {
     text-decoration: none;
     display: block;
     height: 39px;
@@ -203,7 +205,6 @@ body{
 }
 .home-manufacture {
     display: block;
-    width: 1600px;
     height: 400px;
 }
 .home-manufacture_listbox{
@@ -217,9 +218,10 @@ body{
     list-style-type: none;
     float: left;
     width: 60px;
+    display:block;
 }
 .home-manufacture_listbox ul li:nth-child(1){
-    margin-left: 500px;
+    margin-left: 400px;
 }
 .home-manufacture_listbox ul li a{
     text-decoration: none;
@@ -505,7 +507,6 @@ progress{
 }
 .browse-main_all{   
     width: 100%;
-    height: 100%;
 }
 .browse-main_all dl{
     margin-top: 40px;
@@ -522,27 +523,6 @@ progress{
     cursor: pointer;
     transition-delay: 0.1s;
     transition-duration: 0.4s;
-}
-.browse-main_all dl:nth-child(2){
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.browse-main_all dl:nth-child(3){
-    margin-right: 10px;
-}
-.browse-main_all dl:nth-child(7){
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.browse-main_all dl:nth-child(8){
-    margin-right: 10px;
-}
-.browse-main_all dl:nth-child(12){
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.browse-main_all dl:nth-child(13){
-    margin-right: 10px;
 }
 .browse-main_all dl dt{
     height: 160px;
@@ -949,11 +929,15 @@ progress{
     margin-left: 10px;
     border-radius: 8px;
     float: left;
-    width: 160px;
+    width: 180px;
     height: 200px;
     border: 1px solid lightgray;
 }
-.homepage dl dd{
+.homepage dl dt img{
+    width:100%;
+    height:100%;
+}
+.homepage dl dd {
     height: 40px;
     margin-left: 5px;
 }
@@ -1004,7 +988,7 @@ progress{
     border-bottom: 1px solid gray;
 }
 .open{
-    height: 125c0px;
+    height: 1250px;
     width: 100%;
     overflow: hidden;
 background-color: whitesmoke;
@@ -1072,7 +1056,7 @@ background-color: whitesmoke;
     text-decoration: none;
 }
 .projectinfobox {
-    border-radius: 5xp;
+    border-radius: 5px;
     width: 100%;
     height: 2000px;
     margin-top: 30px;

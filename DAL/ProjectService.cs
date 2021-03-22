@@ -14,7 +14,7 @@ namespace DAL
         #region 接口方法
         public int Add(Project model)
         {
-            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[CurrentMoney],[Goal],[Deadline],[LikeCount],[Content],CoverImg) values(@ClassifyId,@ProjectName,@State,@CurrentMoney,@Goal,@Deadline,@LikeCount,@Content,@CoverImg)";
+            string sql = "insert into Projects([ClassifyId],[ProjectName],[State],[CurrentMoney],[Goal],[Deadline],[LikeCount],[Content],CoverImg,PublishState,OwnerId) values(@ClassifyId,@ProjectName,@State,@CurrentMoney,@Goal,@Deadline,@LikeCount,@Content,@CoverImg,@PublishState,@OwnerId)";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@ClassifyId",model.ClassifyId),
@@ -26,6 +26,8 @@ namespace DAL
                 new SqlParameter("@LikeCount",model.LikeCount),
                 new SqlParameter("@Content",model.Content),
                 new SqlParameter("@CoverImg",model.CoverImg),
+                new SqlParameter("@PublishState",model.PublishState),
+                new SqlParameter("@OwnerId",model.OwnerId),
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
@@ -56,6 +58,8 @@ namespace DAL
             model.LikeCount = Convert.ToInt32(dt.Rows[0]["LikeCount"].ToString());
             model.Content = dt.Rows[0]["Content"].ToString();
             model.CoverImg = dt.Rows[0]["CoverImg"].ToString();
+            model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["PublishState"].ToString());
+            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
             return model;
         }
 
@@ -92,6 +96,81 @@ namespace DAL
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
+                models.Add(model);
+            }
+            return models;
+        }
+
+        /// <summary>
+        /// 根据条件分页获取
+        /// </summary>
+        /// <param name="start">开始行</param>
+        /// <param name="end">结束行</param>
+        /// <param name="wheres">筛选条件</param>
+        /// <param name="orderBys">排序值</param>
+        /// <returns></returns>
+        public List<Project> GetPageListWhereToAndOrderBy(int start, int end,Dictionary<string,object> wheres,List<string> orderBys)
+        {
+            StringBuilder sql = new StringBuilder("select * from(select *,row_number()over(order by id) as num from Projects) as t where t.num between @start and @end");
+            List<SqlParameter> paramList = new List<SqlParameter>()
+            {
+                new SqlParameter("@start",start),
+                new SqlParameter("@end",end),
+            };
+            if (wheres!=null&&wheres.Count()>0)
+            {
+                foreach (var item in wheres)
+                {
+                    if (string.IsNullOrWhiteSpace(item.Key))
+                    {
+                        throw new Exception("查询条件不能为空");
+                    }
+                    sql.Append($" and {item.Key}=@{item.Key}");
+                    paramList.Add(new SqlParameter("@"+item.Key, item.Value));
+                }
+            }
+            if (orderBys!=null&&orderBys.Count()>0)
+            {
+                sql.Append(" order by ");
+                foreach (var item in orderBys)
+                {
+                    if (string.IsNullOrWhiteSpace(item))
+                    {
+                        throw new Exception("查询条件不能为空");
+                    }
+                    if (orderBys.First() == item)
+                    {
+                        sql.Append($"{item}");
+                    }
+                    else
+                    {
+                        sql.Append($",{item}");
+                    }
+                }
+            }
+            DataTable dt = DbHelper.GetDataTable(sql.ToString(), paramList.ToArray());
+            if (dt == null && dt.Rows.Count < 1)
+            {
+                return null;
+            }
+            List<Model.Project> models = new List<Model.Project>();
+            for (int i = 0; i < dt.Rows.Count; ++i)
+            {
+                Model.Project model = new Model.Project();
+                model.Id = Convert.ToInt32(dt.Rows[i]["Id"].ToString());
+                model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
+                model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
+                model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
+                model.CurrentMoney = Convert.ToDecimal(dt.Rows[i]["CurrentMoney"].ToString());
+                model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
+                model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
+                model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
+                model.Content = dt.Rows[i]["Content"].ToString();
+                model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
                 models.Add(model);
             }
             return models;
@@ -99,7 +178,7 @@ namespace DAL
 
         public int Update(Project model)
         {
-            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,CurrentMoney=@CurrentMoney,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg where Id=@Id";
+            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,CurrentMoney=@CurrentMoney,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg,PublishState=@PublishState,Owner=@Owner where Id=@Id";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@Id",model.Id),
@@ -112,6 +191,8 @@ namespace DAL
                 new SqlParameter("@LikeCount",model.LikeCount),
                 new SqlParameter("@Content",model.Content),
                 new SqlParameter("@CoverImg",model.CoverImg),
+                new SqlParameter("@PublishState",model.PublishState),
+                new SqlParameter("@OwnerId",model.OwnerId),
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }

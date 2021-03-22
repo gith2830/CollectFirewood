@@ -5,10 +5,7 @@
     margin-top: 30px;
     padding-bottom: 300px;
 }
-/*隐藏类*/
-.hide {
-    display: none;
-}
+
 /*进度条*/
 .ProjectInformation_Content__SpeedOfProgress {
     width: 100%;
@@ -17,6 +14,7 @@
     background: white;
     margin-bottom: 10px;
     font-size: 20px;
+    color: black;
     border: 1px solid #e5e3e3;
 }
 .ProjectInformation_Content__SpeedOfProgress span {
@@ -26,8 +24,9 @@
     border: 1px solid #e5e3e3;
     float: left;
 }
-.SpeedOfProgress__span{
+.SpeedOfProgress__span {
     background: #f46e6e;
+    color: white;
 }
 /*项目信息*/
 .ProjectInformation_Content__title {
@@ -52,37 +51,90 @@
     margin-left: 30px;
 }
 
-.ProjectInformation_Content__Detailed span {
+.ProjectInformation_Content__Detailed__span {
     display: inline-block;
     width: 100px;
     text-align: right;
     vertical-align: top;
     padding-top: 3px;
+    font-size: 18px;
 }
 .ProjectInformation_Content__Detailed p {
-    margin-top: 20px;
+    margin-top: 30px;
     line-height: 10px;
 }
-#Content__Detailed__inputName{
+.Content__Detailed__video,
+.Content__Detailed__inputName {
     width: 400px;
+    height: 20px;
+    padding-left: 10px;
+    border-radius: 10px;
+    outline: none;
 }
-.Content__Detailed__Category{
+.Content__Detailed__inputDay,
+.Content__Detailed__inputMoney {
+    height: 20px;
+    padding-left: 10px;
+    width: 300px;
+    border-radius: 10px;
+    outline: none;
+}
+.Cover_span{
+    color: #a39f9f;
+    width: 300px;
+}
+.Content__Detailed__synopsis{
+    width: 550px;
+    height: 300px;
+    padding: 10px;
+    margin-top: -10px;
+    border-radius: 5px;
+}
+.Content__Detailed__Details {
+    width: 800px;
+    height: 800px;
+    padding: 10px;
+    margin-top: -10px;
+    border-radius: 5px;
+}
+.Content__Detailed__Category {
     margin: 0 10px;
     height: 25px;
     width: 60px;
 }
-#Content__Detailed__Cover {
+.Content__Detailed__Cover {
     border: none;
 }
-#Content__Detailed__Label{
+.Content__Detailed__Label{
     width: 300px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: -3px;
+}
+.ProjectInformation_ddl {
+    padding: 5px;
+    height: 20px;
+    width: 200px;
 }
 .ProjectInformation_Content__Img {
     flex-grow: 2;
     border: 1px solid #e5e3e3;
     height: 100px;
 }
-.NextStep{
+.Img_thumbnail{
+    background: #a39f9f;
+    text-align: center;
+    height: 200px;
+    color: #808080;
+    line-height: 200px;
+}
+.Img_target{
+    background: white;
+    height: 100px;
+    color: #a39f9f;
+    padding: 10px;
+}
+.NextStep {
     font-size: 20px;
     width: 100px;
     height: 50px;
@@ -93,5 +145,6 @@
     margin-right: 100px;
     margin-top: 20px;
     cursor: pointer;
+    border: 1px solid #cd4848;
 }
 

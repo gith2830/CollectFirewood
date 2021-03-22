@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="OpenPlatform.aspx.cs" Inherits="CollectFirewood.Member.OpenPlatform" %>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +21,7 @@
             </div>
             <div class="top-listbox grid-cell-1">
                 <ul>
-                    <li><a href="index.aspx" >首页</a></li>
+                    <li><a href="index.aspx">首页</a></li>
                     <li><a href="BrowseItems.aspx">浏览项目</a></li>
                     <li><a href="#" class="active1">开放平台</a></li>
                     <li><a href="NoviceHelp.aspx">新手帮助</a></li>
@@ -32,73 +34,46 @@
             </div>
             <div class="top-toolbox grid-cell-1">
                 <ul>
-                    <li><a href="#" id="login">登录</a></li>
-                    <li style="display: none;"><a href="#" id="userhomepage">主页</a></li>
+                    <%if (Session["user"] == null)
+                        { %>
+                    <li><a href="UserLogin.aspx" id="login">登录</a></li>
+                    <% } %>
+                    <%else
+                        {%>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                    <%}%>
                 </ul>
             </div>
         </div>
     </header>
-     <div class="middle">
-          <!-- 开放平台 -->
-            <div class="open contentbox">
-                <div class="openinfobox">
-                    <a href="#" class="openinfobox-link">
-                        <dl class="openinfobox__item grid">
-                            <dt>
-                                <img src="/Material/咖啡厅.jpg" alt="">
-                            </dt>
-                            <dd class="grid-cell-4">
-                                <h3>项目名称</h3>
-                                <p>发布人信息</p>
-                                <p>发布地区</p>
-                                <p title="项目的详情">项目的简介</p>
-                            </dd>
-                        </dl>
-                    </a>
-                    <a href="#" class="openinfobox-link">
-                        <dl class="openinfobox__item grid">
-                            <dt>
-                                <img src="/Material/咖啡厅.jpg" alt="">
-                            </dt>
-                            <dd class="grid-cell-4">
-                                <h3>项目名称</h3>
-                                <p>发布人信息</p>
-                                <p>发布地区</p>
-                                <p title="项目的详情">项目的简介</p>
-                            </dd>
-                        </dl>
-                    </a>
-                    <a href="#" class="openinfobox-link">
-                        <dl class="openinfobox__item grid">
-                            <dt>
-                                <img src="/Material/咖啡厅.jpg" alt="">
-                            </dt>
-                            <dd class="grid-cell-4">
-                                <h3>项目名称</h3>
-                                <p>发布人信息</p>
-                                <p>发布地区</p>
-                                <p title="项目的详情">项目的简介</p>
-                            </dd>
-                        </dl>
-                    </a>
-                    <a href="#" class="openinfobox-link">
-                        <dl class="openinfobox__item grid">
-                            <dt>
-                                <img src="/Material/咖啡厅.jpg" alt="">
-                            </dt>
-                            <dd class="grid-cell-4">
-                                <h3>项目名称</h3>
-                                <p>发布人信息</p>
-                                <p>发布地区</p>
-                                <p title="项目的详情">项目的简介</p>
-                            </dd>
-                        </dl>
-                    </a>
-                </div>
-                <span class="openinfobox__more"><a href="#">点击查看更多</a></span>
+    <div class="middle">
+        <!-- 开放平台 -->
+        <div class="open contentbox">
+            <div class="openinfobox">
+                <asp:Repeater ID="ProjectList" runat="server">
+                    <ItemTemplate>
+                        <a href="#" class="openinfobox-link">
+                            <dl class="openinfobox__item grid">
+                                <dt>
+                                    <img src="<%# Eval("CoverImg") %>" alt="">
+                                </dt>
+                                <dd class="grid-cell-4">
+                                    <h3><%# Eval("ProjectName") %></h3>
+                                    <p>发布人信息</p>
+                                    <p>发布地区</p>
+                                    <p title="项目的详情">项目的简介</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </ItemTemplate>
+                </asp:Repeater>
+
+
             </div>
-     </div>      
-          
+            <span class="openinfobox__more"><a href="#">点击查看更多</a></span>
+        </div>
+    </div>
+
     <!-- 服务 -->
     <div class="serves">
         <div class="middle">
@@ -144,7 +119,7 @@
             &nbsp;<a href="#">友好基金会</a>&nbsp;<a href="#">人人生活</a>&nbsp;<a href="#">众筹导航</a>
             &nbsp;<a href="#">调查派</a>&nbsp;<a href="#">奇笛网</a>&nbsp;<a href="#">融360</a>&nbsp;<a href="#">联信财富</a>
             <br>
-            <span style="margin-top: 20px;display: block;color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
+            <span style="margin-top: 20px; display: block; color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
                 京ICP备14016844号</span>
         </div>
     </div>

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="NoviceHelp.aspx.cs" Inherits="CollectFirewood.Member.NoviceHelp" %>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -32,8 +34,14 @@
             </div>
             <div class="top-toolbox grid-cell-1">
                 <ul>
-                    <li><a href="#" id="login">登录</a></li>
-                    <li style="display: none;"><a href="#" id="userhomepage">主页</a></li>
+                    <%if (Session["user"] == null)
+                        { %>
+                    <li><a href="UserLogin.aspx" id="login">登录</a></li>
+                    <% } %>
+                    <%else
+                        {%>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                    <%}%>
                 </ul>
             </div>
         </div>

@@ -48,22 +48,49 @@
     width: 100px;
     vertical-align: top;
     padding-top: 3px;
+    font-size: 18px;
 }
-#ReturnOptions__tea{
+/*支持回报选项*/
+.ReturnSetting_SupportAmount {
+    outline: none;
+    height: 15px;
+    padding: 5px;
+    width: 200px;
+    border-radius: 10px;
+}
+.ReturnOptions__tea {
     vertical-align: top;
+    width: 500px;
+    height: 200px;
+}
+.ReturnSetting_ExplainImg{
+    margin-left: 105px;
+    margin-top: 20px;
 }
 .ReturnSetting_Content__ReturnOptions .span_explain {
     width: 600px;
     color: #c6bbbb;
     text-align: left;
 }
+.ReturnSetting_Quota,
+.ReturnSetting_Freight,
+.ReturnSetting_ProjectEnd {
+    outline: none;
+    height: 15px;
+    padding: 5px;
+    width: 50px;
+    border-radius: 5px;
+}
+.ReturnSetting_BtnSave{
+    margin-left: 100px;
+}
 .Save {
     background: #f46e6e;
     color: white;
     margin-top: 20px;
-    margin-left: 50px;
     padding: 5px;
     cursor: pointer;
+    border: 1px solid #cd4848;
 }
 
 .ReturnSetting_Content__Reminder {

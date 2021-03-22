@@ -100,5 +100,25 @@ namespace DAL
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
         #endregion
+        /// <summary>
+        /// 获取行数
+        /// </summary>
+        /// <param name="where">where条件</param>
+        /// <returns></returns>
+        public int GetCountWhereTo(Dictionary<string,object> where)
+        {
+            //select UserId,count(*) as count from SupportProjects where ProjectId = 10003 group by UserId
+            StringBuilder sb = new StringBuilder("select count(*) from SupportProjects");
+            List<SqlParameter> list = new List<SqlParameter>();
+            foreach (var item in where)
+            {
+                if (item.Equals(where.FirstOrDefault()))
+                {
+                    sb.Append(" where");
+                }
+                sb.Append($" {item.Key}={item.Value}");
+            }
+            return DbHelper.ExecuteNotQuery(sb.ToString(), list.ToArray());
+        }
     }
 }

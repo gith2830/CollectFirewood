@@ -33,9 +33,15 @@
                 <div class="top-searchbox_btn"></div>
             </div>
             <div class="top-toolbox grid-cell-1">
-                <ul>
+               <ul>
+                    <%if (Session["user"] == null)
+                        { %>
                     <li><a href="UserLogin.aspx" id="login">登录</a></li>
-                    <li style="display: none;"><a href="#" id="userhomepage">主页</a></li>
+                    <% } %>
+                    <%else
+                        {%>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                    <%}%>
                 </ul>
             </div>
         </div>
@@ -44,14 +50,16 @@
         <div id="content">          
             <!-- 用户主页 -->
             <div class="homepage">
-                <dl>
-                    <dt>图片</dt>
-                    <dd id="homepage-usernum">用户名</dd>
-                    <dd>个性签名</dd>
-                    <dd>加入时间: <span>0</span></dd>
-                    <dd>所在地区: <span>地区</span> </dd>
-                    <dd><input type="button" value="个人设置"><input type="button" value="消息通知"></dd>
+                <form runat="server">
+                    <dl>
+                    <dt><img style="width:100%;height:100%;" src="<%=(Session["user"] as Model.User).UserPic %>" /></dt>
+                    <dd id="homepage-usernum">用户名:&nbsp;<%=(Session["user"] as Model.User).Nickname %></dd>
+                    <dd>个性签名:&nbsp;<span><%=(Session["user"] as Model.User).Description %></span></dd>
+                    <dd>所在地区:&nbsp;<span><%=(Session["user"] as Model.User).Address %></span></dd>
+                    <dd>
+                        <asp:Button ID="btnUserInfo" runat="server" Text="个人设置" OnClick="btnUserInfo_Click" /></dd>
                 </dl>
+                </form>
                 <ul class="meaulist">
                     <li>支持的项目 <span>0</span></li>
                     <li>发起的项目 <span>0</span></li>

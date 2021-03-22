@@ -1,0 +1,16 @@
+D:\Project\C#\ASP.NET\CollectFirewood\Common\bin\Debug\Common.dll
+D:\Project\C#\ASP.NET\CollectFirewood\Common\bin\Debug\Common.pdb
+D:\Project\C#\ASP.NET\CollectFirewood\Common\obj\Debug\Common.csprojAssemblyReference.cache
+D:\Project\C#\ASP.NET\CollectFirewood\Common\obj\Debug\Common.dll
+D:\Project\C#\ASP.NET\CollectFirewood\Common\obj\Debug\Common.pdb
+C:\Users\mo\Desktop\CollectFirewood\Common\bin\Debug\Common.dll
+C:\Users\mo\Desktop\CollectFirewood\Common\bin\Debug\Common.pdb
+C:\Users\mo\Desktop\CollectFirewood\Common\obj\Debug\Common.csprojAssemblyReference.cache
+C:\Users\mo\Desktop\CollectFirewood\Common\obj\Debug\Common.dll
+C:\Users\mo\Desktop\CollectFirewood\Common\obj\Debug\Common.pdb
+C:\Users\lsl\Desktop\CollectFirewood\Common\bin\Debug\Common.dll
+C:\Users\lsl\Desktop\CollectFirewood\Common\bin\Debug\Common.pdb
+C:\Users\lsl\Desktop\CollectFirewood\Common\obj\Debug\Common.csprojAssemblyReference.cache
+C:\Users\lsl\Desktop\CollectFirewood\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\lsl\Desktop\CollectFirewood\Common\obj\Debug\Common.dll
+C:\Users\lsl\Desktop\CollectFirewood\Common\obj\Debug\Common.pdb

@@ -17,6 +17,47 @@ namespace BLL
             base.Dal = dal;
         }
 
+        public override List<Project> GetPageList(int pageIndex, int pageSize)
+        {
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+            return dal.GetPageList(start, end);
+        }
+
+        /// <summary>
+        /// 分页获取还在进行众筹的项目集合
+        /// </summary>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">页行数</param>
+        /// <returns></returns>
+        public List<Project> GetPageListForInProgress(int pageIndex,int pageSize,int classifyId)
+        {
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+            Dictionary<string, object> wheres = new Dictionary<string, object>();
+            wheres.Add(nameof(Model.Project.State), Model.ProjectState.InProgress);
+            List<string> orderBy = new List<string>();
+            orderBy.Add("classifyId");
+            return dal.GetPageListWhereToAndOrderBy(start, end, wheres, orderBy);
+        }
+
+        /// <summary>
+        /// 分页获取已经完成的众筹项目集合
+        /// </summary>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">页行数</param>
+        /// <returns></returns>
+        public List<Project> GetPageListForFinish(int pageIndex,int pageSize, int classifyId)
+        {
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+            Dictionary<string, object> wheres = new Dictionary<string, object>();
+            wheres.Add(nameof(Model.Project.State), Model.ProjectState.Finish);
+            Dictionary<string, object> orderBy = new Dictionary<string, object>();
+            orderBy.Add("classifyId", classifyId);
+            return dal.GetPageListWhereToAndOrderBy(start, end, wheres,null);
+        }
+
         /// <summary>
         /// 修改项目进度
         /// </summary>
@@ -47,6 +88,24 @@ namespace BLL
         public bool AddProejctMoney(int userId,int projectId,decimal money)
         {
             return dal.AddProjectMoney(userId, projectId, money) > 0;
+        }
+
+        /// <summary>
+        /// 分页获取已经完成的众筹项目集合
+        /// </summary>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">页行数</param>
+        /// <returns></returns>
+        public List<Project> GetPageListForState(int pageIndex, int pageSize, int classifyId,int state)
+        {
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+            Dictionary<string, object> wheres = new Dictionary<string, object>();
+            ProjectState projectState = (ProjectState)Enum.Parse(typeof(ProjectState),state.ToString());
+            wheres.Add(nameof(Model.Project.State), projectState);
+            Dictionary<string, object> orderBy = new Dictionary<string, object>();
+            orderBy.Add("classifyId", classifyId);
+            return dal.GetPageListWhereToAndOrderBy(start, end, wheres, null);
         }
     }
 }

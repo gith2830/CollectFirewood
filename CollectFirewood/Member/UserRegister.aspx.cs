@@ -59,10 +59,10 @@ namespace CollectFirewood.Member
                         user.Phone = userphone;
                         user.Pwd = password;
                         user.Sex = sex;
-                        user.Address = "";
-                        user.Description = "";
+                        user.Address = "尚未填写";
+                        user.Description = "这个人很懒，什么都没有留下";
                         user.Url = "";
-                        user.UserPic = "";
+                        user.UserPic = "/Material/人.png";
                         if (userManager.Register(user)==1)
                         {
                             Response.Write("<script>alert('注册成功！');</script>");
