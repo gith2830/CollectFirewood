@@ -94,7 +94,7 @@ namespace DAL
         {
             string sql = "select * from Classifys";
             DataTable dt = DbHelper.GetDataTable(sql);
-            if (dt != null && dt.Rows.Count < 1)
+            if (dt == null || dt.Rows.Count < 1)
             {
                 return null;
             }

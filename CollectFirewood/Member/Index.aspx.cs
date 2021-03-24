@@ -10,21 +10,30 @@ namespace CollectFirewood.Member
 { 
     public partial class Index : System.Web.UI.Page
     {
+        public int PageIndex { get; set; }
+        public int PageCount { get; set; }
         protected void Page_Load(object sender, EventArgs e)
-        {        
-            ClassifyManager classifyManager = new ClassifyManager();
-            this.TypeList.DataSource = classifyManager.GetAllList();
-
-      
-            ProjectManager projectManager = new ProjectManager();
-            this.ProjectList.DataSource = projectManager.GetPageList(1, 15);
-
+        {
             if (!IsPostBack)
             {
-                int classifyId=int.Parse(Request["Id"]);
-
+                ClassifyManager classifyManager = new ClassifyManager();
+                this.TypeList.DataSource = classifyManager.GetAllList();
+                ProjectManager projectManager = new ProjectManager();
+                int classifyId = Convert.ToInt32(Request["Id"]);
+                int pageIndex;
+                int pageSize = 10;
+                if (!int.TryParse(Request["pageIndex"], out pageIndex))
+                {
+                    pageIndex = 1;
+                }
+                int pageCount = projectManager.GetPageCount(pageSize);
+                PageCount = pageCount;
+                pageIndex = pageIndex < 1 ? 1 : pageIndex;
+                pageIndex = pageIndex > pageCount ? pageCount : pageIndex;
+                PageIndex = pageIndex;
+                this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize);
+                DataBind();
             }
-            DataBind();
         }
     }
 }

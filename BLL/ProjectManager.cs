@@ -107,5 +107,25 @@ namespace BLL
             orderBy.Add("classifyId", classifyId);
             return dal.GetPageListWhereToAndOrderBy(start, end, wheres, null);
         }
+
+        public int GetPageCount(int pageSize)
+        {
+            int projectCount = dal.GetModelCount();
+            int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
+            return pageCount;
+        }
+
+        /// <summary>
+        /// 获取某个分类和状态下总页数
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public int GetPageCountByClassifyCheckState(int classifyId, ProjectState state,int pageSize)
+        {
+            int projectCount = dal.GetModelCountByClassifyCheckState(classifyId, state);
+            int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
+            return pageCount;
+        }
     }
 }

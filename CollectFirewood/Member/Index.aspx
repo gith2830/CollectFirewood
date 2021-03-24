@@ -116,13 +116,14 @@
         </div>
     </div>
     <div class="middle">
-        <a href="#" class="pageitem">上一页</a>
+        <%--<a href="#" class="pageitem">上一页</a>
         <a href="#" class="pageitem">1</a>
         <a href="#" class="pageitem">2</a>
         <a href="#" class="pageitem">3</a>
         <a href="#" class="pageitem">4</a>
         <a href="#" class="pageitem">5</a>
-        <a href="#" class="pageitem">下一页</a>
+        <a href="#" class="pageitem">下一页</a>--%>
+        <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %>
     </div>
     <div class="middle" style="background-color:"red";>
         <!-- 底部 -->

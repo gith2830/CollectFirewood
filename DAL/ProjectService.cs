@@ -90,14 +90,14 @@ namespace DAL
                 model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
                 model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
                 model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
-                model.CurrentMoney = Convert.ToDecimal(dt.Rows[i]["CurrentMoney"].ToString());
+                model.CurrentMoney = Convert.ToDecimal(string.IsNullOrWhiteSpace(dt.Rows[i]["CurrentMoney"].ToString())?"0": dt.Rows[i]["CurrentMoney"].ToString());
                 model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
                 model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
-                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
-                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString())?"0": dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[0]["OwnerId"].ToString())?"0": dt.Rows[0]["OwnerId"].ToString());
                 models.Add(model);
             }
             return models;
@@ -217,5 +217,25 @@ namespace DAL
             return DbHelper.ExecuteTransaction(sql, ps);
         }
         #endregion
+
+        /// <summary>
+        /// 获取状态下所有条数
+        /// </summary>
+        /// <param name="classifyId">分类id</param>
+        /// <param name="state">状态</param>
+        /// <returns></returns>
+        public int GetModelCountByClassifyCheckState(int classifyId, ProjectState state)
+        {
+            StringBuilder sql = new StringBuilder("select count(*) from Projects where State=@state");
+            List<SqlParameter> psList = new List<SqlParameter>(){
+                new SqlParameter("@state", state) 
+            };
+            if (classifyId > 1)
+            {
+                sql.Append(" and classifyId=@classifyId");
+                psList.Add(new SqlParameter("@classifyId", classifyId));
+            }
+            return (int)DbHelper.ExecuteScalar(sql.ToString(),psList.ToArray());
+        }
     }
 }
