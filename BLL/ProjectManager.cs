@@ -96,18 +96,27 @@ namespace BLL
         /// <param name="pageIndex">页数</param>
         /// <param name="pageSize">页行数</param>
         /// <returns></returns>
-        public List<Project> GetPageListForState(int pageIndex, int pageSize, int classifyId,int state)
+        public List<Project> GetPageListForState(int pageIndex, int pageSize, int classifyId,ProjectState state)
         {
             int start = (pageIndex - 1) * pageSize + 1;
             int end = start + pageSize - 1;
             Dictionary<string, object> wheres = new Dictionary<string, object>();
-            ProjectState projectState = (ProjectState)Enum.Parse(typeof(ProjectState),state.ToString());
-            wheres.Add(nameof(Model.Project.State), projectState);
-            Dictionary<string, object> orderBy = new Dictionary<string, object>();
-            orderBy.Add("classifyId", classifyId);
+            if (state!=ProjectState.Null)
+            {
+                wheres.Add(nameof(Model.Project.State), state);
+            }
+            if (classifyId>0)
+            {
+                wheres.Add(nameof(Model.Project.ClassifyId), classifyId);
+            }
             return dal.GetPageListWhereToAndOrderBy(start, end, wheres, null);
         }
 
+        /// <summary>
+        /// 获取总页数
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public int GetPageCount(int pageSize)
         {
             int projectCount = dal.GetModelCount();
@@ -121,9 +130,9 @@ namespace BLL
         /// <param name="state"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public int GetPageCountByClassifyCheckState(int classifyId, ProjectState state,int pageSize)
+        public int GetPageCount(int classifyId, ProjectState? state,int pageSize)
         {
-            int projectCount = dal.GetModelCountByClassifyCheckState(classifyId, state);
+            int projectCount = dal.GetModelCount(classifyId, state);
             int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
             return pageCount;
         }

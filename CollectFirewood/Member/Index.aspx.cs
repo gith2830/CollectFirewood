@@ -19,7 +19,6 @@ namespace CollectFirewood.Member
                 ClassifyManager classifyManager = new ClassifyManager();
                 this.TypeList.DataSource = classifyManager.GetAllList();
                 ProjectManager projectManager = new ProjectManager();
-                int classifyId = Convert.ToInt32(Request["Id"]);
                 int pageIndex;
                 int pageSize = 10;
                 if (!int.TryParse(Request["pageIndex"], out pageIndex))

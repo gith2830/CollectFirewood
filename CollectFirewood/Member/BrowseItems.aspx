@@ -52,7 +52,7 @@
             <ul id="type">
                 <asp:Repeater ID="TypeList" runat="server">
                    <ItemTemplate>
-                        <li><a href="index.aspx?id=<%# Eval("Id") %>"><%# Eval("ClassifyName") %> </a></li>
+                        <li><a href="BrowseItems.aspx?classifyId=<%# Eval("Id") %>&state=<%=Convert.ToInt32(State) %>"><%# Eval("ClassifyName") %></a></li>
                    </ItemTemplate>
                 </asp:Repeater>
 
@@ -65,8 +65,8 @@
             <span class="browse-listbox">
                 <ul class="grid">
                     <li class="grid-cell-1"><a href="BrowseItems.aspx">所有项目</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0">进行中</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1">已结束</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0&classifyId=<%=ClassifyId %>">进行中</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1&classifyId=<%=ClassifyId %>">已结束</a></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
@@ -87,7 +87,7 @@
                     <span class="" style="display: block;">
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
-                                <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
+                                <a href="Projectinfo.aspx?classifyId=<%# Eval("Id") %>">
                                     <dl style="display: block; width: 23.2%; margin-right: 10px; margin-top: 20px;">
                                     <dt>
                                         <img src="<%# Eval("CoverImg") %>"><span class="like">关注</span></dt>
@@ -106,7 +106,6 @@
                     </span>
                 </div>
                 <div class="browse-main_ing browse-mainbox">
-                    
                 </div>
                 <div class="browse-main_ed browse-mainbox">
                     d
@@ -114,6 +113,7 @@
             </span>
         </div>
     </div>
+    <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %>
     <!-- 服务 -->
     <div class="serves">
         <div class="middle">

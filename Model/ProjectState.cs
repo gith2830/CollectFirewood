@@ -11,6 +11,7 @@ namespace Model
         //进行中
         InProgress,
         //完成
-        Finish
+        Finish,
+        Null
     }
 }

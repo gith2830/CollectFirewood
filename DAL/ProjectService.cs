@@ -113,7 +113,7 @@ namespace DAL
         /// <returns></returns>
         public List<Project> GetPageListWhereToAndOrderBy(int start, int end,Dictionary<string,object> wheres,List<string> orderBys)
         {
-            StringBuilder sql = new StringBuilder("select * from(select *,row_number()over(order by id) as num from Projects) as t where t.num between @start and @end");
+            StringBuilder sql = new StringBuilder("select * from(select *,row_number()over(order by id) as num from Projects");
             List<SqlParameter> paramList = new List<SqlParameter>()
             {
                 new SqlParameter("@start",start),
@@ -127,7 +127,14 @@ namespace DAL
                     {
                         throw new Exception("查询条件不能为空");
                     }
-                    sql.Append($" and {item.Key}=@{item.Key}");
+                    if (item.Equals(wheres.First()))
+                    {
+                        sql.Append($" where {item.Key}=@{item.Key}");
+                    }
+                    else
+                    {
+                        sql.Append($" and {item.Key}=@{item.Key}");
+                    }
                     paramList.Add(new SqlParameter("@"+item.Key, item.Value));
                 }
             }
@@ -150,8 +157,9 @@ namespace DAL
                     }
                 }
             }
+            sql.Append(") as t where t.num between @start and @end");
             DataTable dt = DbHelper.GetDataTable(sql.ToString(), paramList.ToArray());
-            if (dt == null && dt.Rows.Count < 1)
+            if (dt == null || dt.Rows.Count < 1)
             {
                 return null;
             }
@@ -169,8 +177,8 @@ namespace DAL
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
-                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
-                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString())?"0": dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]==DBNull.Value?0: dt.Rows[0]["OwnerId"]);
                 models.Add(model);
             }
             return models;
@@ -224,14 +232,25 @@ namespace DAL
         /// <param name="classifyId">分类id</param>
         /// <param name="state">状态</param>
         /// <returns></returns>
-        public int GetModelCountByClassifyCheckState(int classifyId, ProjectState state)
+        public int GetModelCount(int classifyId, ProjectState? state)
         {
-            StringBuilder sql = new StringBuilder("select count(*) from Projects where State=@state");
-            List<SqlParameter> psList = new List<SqlParameter>(){
-                new SqlParameter("@state", state) 
-            };
+            StringBuilder sql = new StringBuilder("select count(*) from Projects");
+            List<SqlParameter> psList = new List<SqlParameter>();
+            if (state != null)
+            {
+                if (sql.ToString().IndexOf("where") < 0)
+                {
+                    sql.Append(" where");
+                }
+                sql.Append(" State=@state");
+                psList.Add(new SqlParameter("@state", state));
+            }
             if (classifyId > 1)
             {
+                if (sql.ToString().IndexOf("where") < 0)
+                {
+                    sql.Append(" where");
+                }
                 sql.Append(" and classifyId=@classifyId");
                 psList.Add(new SqlParameter("@classifyId", classifyId));
             }

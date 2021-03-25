@@ -10,10 +10,10 @@ namespace Common
     {
         public static string GetPagaBar(int pageIndex, int pageCount)
         {
-            if (pageCount == 1)
-            {
-                return string.Empty;
-            }
+            //if (pageCount == 1)
+            //{
+            //    return string.Empty;
+            //}
             // 计算起始位置.要求页面上显示10个数字页码
             int start = pageIndex - 5;
             if (start < 1)
