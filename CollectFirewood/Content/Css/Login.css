@@ -32,21 +32,37 @@
     border-radius: 50%;
     background-color:#eee;
 }
-.login_form{
+.login_form {
     padding-top: 90px;
+    box-sizing: border-box;
 }
-.txt{
+.txt-box{
+    padding: 0 10px;
+    position: relative;
+}
+.txt {
+    box-sizing: border-box;
     border: 1px solid #ccc;
     height: 50px;
     width: 100%;
-    box-sizing: border-box;
     border-radius: 5px;
     margin-top: 20px;
     font-size: 20px;
     padding: 0 10px;
+    outline: none;
+    padding-left: 30px;
 }
-.txt:hover{
-    border: 1px solid #00f2ff;
+.iconfont{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+}
+.txt:hover {
+    border: 1px solid #00d0d0;
+    border-radius: 5px;
+}
+.txt:focus {
+    border: 1px solid #00d0d0;
     border-radius: 5px;
 }
 .btn-box{

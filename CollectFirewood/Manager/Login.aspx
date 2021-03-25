@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/Content/Css/Login.css">
     <link rel="stylesheet" href="/Content/Css/common.css">
     <link rel="stylesheet" href="/Content/Css/ui.css">
+    <link rel="stylesheet" href="/Content/Css/iconfont.css">
     <script src="/Content/Js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
@@ -21,11 +22,11 @@
             </div>
             <!-- 登录表单区域 -->
             <form action="" runat="server" method="post" class="login_form">
-                <div><input type="text" name="txtName" class="txt"></div>
-                <div><input type="password" name="txtPwd" class="txt"></div>
+                <div class="txt-box"><span class="iconfont icon-shiyanshirenyuan"></span><input type="text" name="txtName" class="txt"></div>
+                <div class="txt-box"><span class="iconfont icon-ic24-lock"></span><input type="password" name="txtPwd" class="txt"></div>
                 <div class="btn-box">
                     <input type="button" value="登录" name="" id="login-btn" class="button btn_huge btn_success">
-                    <input type="button" value="重置" name="" class="button btn_huge btn_default">
+                    <input type="button" value="重置" name="" id="reset-btn" class="button btn_huge btn_default">
                 </div>
             </form>
         </div>
@@ -40,12 +41,15 @@
                 console.log(data);
                 var serverData = data.split(":");
                 if (serverData[0] == "ok") {
-                    window.location = "https://localhost:44324/Manager/Index.aspx";
+                    window.location = "/Manager/Index.aspx";
                 } else {
                     var message = new Message();
                     message.danger("登录失败:" + serverData[1]);
                 }
             });
+        });
+        $("#reset-btn").click(function () {
+            $(".login_form .txt-box input").val("");
         });
     </script>
 </body>

@@ -58,20 +58,20 @@ namespace DAL
             model.LikeCount = Convert.ToInt32(dt.Rows[0]["LikeCount"].ToString());
             model.Content = dt.Rows[0]["Content"].ToString();
             model.CoverImg = dt.Rows[0]["CoverImg"].ToString();
-            model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["PublishState"].ToString());
-            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
+            model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["PublishState"]==DBNull.Value?"2": dt.Rows[0]["PublishState"].ToString());
+            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]==DBNull.Value?"0": dt.Rows[0]["OwnerId"]);
             return model;
         }
 
         public int GetModelCount()
         {
-            string sql = "select count(*) from Projects";
+            string sql = $"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}";
             return (int)DbHelper.ExecuteScalar(sql);
         }
 
         public List<Project> GetPageList(int start, int end)
         {
-            string sql = "select * from(select *,row_number()over(order by id) as num from Projects) as t where t.num between @start and @end";
+            string sql = $"select * from(select *,row_number()over(order by id) as num from Projects) as t where t.num between @start and @end and PublishState={Convert.ToInt32(PublishState.Approved)}";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@start",start),
@@ -96,8 +96,8 @@ namespace DAL
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
-                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString())?"0": dt.Rows[0]["PublishState"].ToString());
-                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[0]["OwnerId"].ToString())?"0": dt.Rows[0]["OwnerId"].ToString());
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[i]["PublishState"].ToString())?"0": dt.Rows[i]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[i]["OwnerId"].ToString())?"0": dt.Rows[i]["OwnerId"].ToString());
                 models.Add(model);
             }
             return models;
@@ -113,7 +113,7 @@ namespace DAL
         /// <returns></returns>
         public List<Project> GetPageListWhereToAndOrderBy(int start, int end,Dictionary<string,object> wheres,List<string> orderBys)
         {
-            StringBuilder sql = new StringBuilder("select * from(select *,row_number()over(order by id) as num from Projects");
+            StringBuilder sql = new StringBuilder($"select * from(select *,row_number()over(order by id) as num from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
             List<SqlParameter> paramList = new List<SqlParameter>()
             {
                 new SqlParameter("@start",start),
@@ -127,14 +127,7 @@ namespace DAL
                     {
                         throw new Exception("查询条件不能为空");
                     }
-                    if (item.Equals(wheres.First()))
-                    {
-                        sql.Append($" where {item.Key}=@{item.Key}");
-                    }
-                    else
-                    {
-                        sql.Append($" and {item.Key}=@{item.Key}");
-                    }
+                    sql.Append($" and {item.Key}=@{item.Key}");
                     paramList.Add(new SqlParameter("@"+item.Key, item.Value));
                 }
             }
@@ -186,7 +179,7 @@ namespace DAL
 
         public int Update(Project model)
         {
-            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,CurrentMoney=@CurrentMoney,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg,PublishState=@PublishState,Owner=@Owner where Id=@Id";
+            string sql = "update Projects set ClassifyId=@ClassifyId,ProjectName=@ProjectName,State=@State,CurrentMoney=@CurrentMoney,Goal=@Goal,Deadline=@Deadline,LikeCount=@LikeCount,Content=@Content,CoverImg=@CoverImg,PublishState=@PublishState,OwnerId=@OwnerId where Id=@Id";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@Id",model.Id),
@@ -234,18 +227,40 @@ namespace DAL
         /// <returns></returns>
         public int GetModelCount(int classifyId, ProjectState? state)
         {
-            StringBuilder sql = new StringBuilder("select count(*) from Projects");
+            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
             List<SqlParameter> psList = new List<SqlParameter>();
             if (state != null)
+            {
+                sql.Append(" and State=@state");
+                psList.Add(new SqlParameter("@state", state));
+            }
+            if (classifyId > 0)
             {
                 if (sql.ToString().IndexOf("where") < 0)
                 {
                     sql.Append(" where");
                 }
-                sql.Append(" State=@state");
+                sql.Append(" and classifyId=@classifyId");
+                psList.Add(new SqlParameter("@classifyId", classifyId));
+            }
+            return (int)DbHelper.ExecuteScalar(sql.ToString(),psList.ToArray());
+        }
+        /// <summary>
+        /// 获取状态下所有条数
+        /// </summary>
+        /// <param name="classifyId">分类id</param>
+        /// <param name="state">发布状态</param>
+        /// <returns></returns>
+        public int GetModelCount(int classifyId, PublishState? state)
+        {
+            StringBuilder sql = new StringBuilder("select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
+            List<SqlParameter> psList = new List<SqlParameter>();
+            if (state != null)
+            {
+                sql.Append("and PublishState=@state");
                 psList.Add(new SqlParameter("@state", state));
             }
-            if (classifyId > 1)
+            if (classifyId > 0)
             {
                 if (sql.ToString().IndexOf("where") < 0)
                 {

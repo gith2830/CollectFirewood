@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Css\iconfont.css" />
     <Content Include="Content\Css\LoginandRegister.css" />
     <Content Include="Content\Js\jquery-3.5.1.js" />
     <Content Include="Manager\Components\Admins.aspx" />
@@ -97,7 +98,6 @@
     <Content Include="Content\Css\grid.css" />
     <Content Include="Content\Css\Header.css" />
     <Content Include="Content\Css\home-iconfont.css" />
-    <Content Include="Content\Css\iconfont.css" />
     <Content Include="Content\Css\Index.css" />
     <Content Include="Content\Css\Login.css" />
     <Content Include="Content\Css\Site.css" />
@@ -348,7 +348,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>17158</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44324/</IISUrl>
+          <IISUrl>http://localhost:44325</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

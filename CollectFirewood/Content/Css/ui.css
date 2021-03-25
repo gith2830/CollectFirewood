@@ -1,6 +1,7 @@
 /**-----按钮-----/*/
 /* 类型 */
 .button{
+    outline:none;
     padding: 5px 20px;
     text-align: center;
     background-color: #666;

@@ -9,6 +9,7 @@ namespace Model
     public enum PublishState
     {
         Examine,
-        Approved
+        Approved,
+        NoApproved
     }
 }

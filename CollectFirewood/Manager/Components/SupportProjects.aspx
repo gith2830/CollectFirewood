@@ -208,7 +208,7 @@
                         }
                         var last_tr = $(header_tr[header_tr.length - 1]);
                         $(`<td>
-                               <button type="button" class="button btn_big btn_append" onclick="${edit_method}(${list[i][last_tr.attr("bind")]})"><span class="iconfont icon-xitongguanli"></span></button>
+                               <button type="button" class="button btn_big btn_append" onclick="${edit_method}(${list[i][last_tr.attr("bind")]})"><span class="iconfont icon-xitong"></span></button>
                                <button type="button" onclick="${del_method}(this, ${list[i][last_tr.attr("bind")]})" class="button btn_big btn_danger"><span class="iconfont icon-shanchu"></span></button>
                            </td>`).appendTo(tr);
                         $(".card__table-box table").append(tr);

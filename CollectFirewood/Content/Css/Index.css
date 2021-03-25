@@ -33,7 +33,8 @@
     background-color: #ccc;
 }
 .menu__title {
-    text-align: center;
+    padding-left: 30px;
+    text-align: left;
     height: 50px;
     line-height: 50px;
     color: #fff;
@@ -50,12 +51,12 @@
     background-color: #373d60;
 }
 .menu__item {
-    text-align: center;
+    text-align: left;
     height: 50px;
     line-height: 50px;
     font-size: 16px;
     color: #fff;
-    padding-left: 20px;
+    padding-left: 40px;
     border: 1px solid #373d41;
 }
 .menu__item:hover {
@@ -73,4 +74,7 @@
     width:99.5%;
     height: 99%;
     background-color: #eee;
+}
+span.iconfont{
+    margin-right:20px;
 }
