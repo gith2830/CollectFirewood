@@ -155,6 +155,9 @@
     <Compile Include="Ashx\User\UserAction.ashx.cs">
       <DependentUpon>UserAction.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ashx\ValidateCode.ashx.cs">
+      <DependentUpon>ValidateCode.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Base\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -308,6 +311,7 @@
     <Content Include="Ashx\Project\SupportProjectAction.ashx" />
     <Content Include="Ashx\Comment\CommentAction.ashx" />
     <Content Include="Master\MainMaster.Master" />
+    <Content Include="Ashx\ValidateCode.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -331,6 +335,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Ashx\NewFolder1\" />
     <Folder Include="Content\Css\components\" />
   </ItemGroup>
   <PropertyGroup>

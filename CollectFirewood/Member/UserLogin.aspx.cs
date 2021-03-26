@@ -24,6 +24,11 @@ namespace CollectFirewood.Member
             {
                 Response.Write("<script>alert('用户名或密码不能为空！');</script>");
             }
+            else if(Session["vCode"]==null||this.txt_ValidateCode.Text != Session["vCode"].ToString())
+            {
+                Response.Write("<script>alert('验证码错误！');</script>");
+                return;
+            }
             else
             {
                 if (checkbox.Checked)

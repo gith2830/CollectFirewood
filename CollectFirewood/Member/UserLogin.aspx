@@ -45,7 +45,12 @@
                             <td class="agreement"><asp:CheckBox ID="checkbox" runat="server" />阅读并同意众筹网的<a href="#">《服务协议》</a></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <asp:TextBox ID="txt_ValidateCode" runat="server"></asp:TextBox>
+                            </td>
+                            <td><img src="/Ashx/ValidateCode.ashx"/></td>
+                        </tr>
+                        <tr>
                             <td><asp:Button ID="btnLogin" runat="server" Text="登录" CssClass="btnLogin" OnClick="btnLogin_Click" /></td>
                         </tr>
                     </table>
