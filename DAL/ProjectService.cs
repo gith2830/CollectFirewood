@@ -71,7 +71,7 @@ namespace DAL
 
         public List<Project> GetPageList(int start, int end)
         {
-            string sql = $"select * from(select *,row_number()over(order by id) as num from Projects) as t where t.num between @start and @end and PublishState={Convert.ToInt32(PublishState.Approved)}";
+            string sql = $"select * from(select *,row_number()over(order by id) as num from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}) as t where t.num between @start and @end";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@start",start),
@@ -253,19 +253,10 @@ namespace DAL
         /// <returns></returns>
         public int GetModelCount(int classifyId, PublishState? state)
         {
-            StringBuilder sql = new StringBuilder("select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
+            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
             List<SqlParameter> psList = new List<SqlParameter>();
-            if (state != null)
-            {
-                sql.Append("and PublishState=@state");
-                psList.Add(new SqlParameter("@state", state));
-            }
             if (classifyId > 0)
             {
-                if (sql.ToString().IndexOf("where") < 0)
-                {
-                    sql.Append(" where");
-                }
                 sql.Append(" and classifyId=@classifyId");
                 psList.Add(new SqlParameter("@classifyId", classifyId));
             }
