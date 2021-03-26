@@ -21,7 +21,7 @@
             </div>
             <div class="top-listbox grid-cell-1">
                 <ul>
-                    <li><a href="#">首页</a></li>
+                    <li><a href="index.aspx">首页</a></li>
                     <li><a href="BrowseItems.aspx">浏览项目</a></li>
                     <li><a href="OpenPlatform.aspx">开放平台</a></li>
                     <li><a href="NoviceHelp.aspx">新手帮助</a></li>
@@ -33,7 +33,7 @@
                 <div class="top-searchbox_btn"></div>
             </div>
             <div class="top-toolbox grid-cell-1">
-               <ul>
+                <ul>
                     <%if (Session["user"] == null)
                         { %>
                     <li><a href="UserLogin.aspx" id="login">登录</a></li>
@@ -47,18 +47,19 @@
         </div>
     </header>
     <div class="middle">
-        <div id="content">          
+        <div id="content">
             <!-- 用户主页 -->
             <div class="homepage">
                 <form runat="server">
                     <dl>
-                    <dt><img style="width:100%;height:100%;" src="<%=(Session["user"] as Model.User).UserPic %>" /></dt>
-                    <dd id="homepage-usernum">用户名:&nbsp;<%=(Session["user"] as Model.User).Nickname %></dd>
-                    <dd>个性签名:&nbsp;<span><%=(Session["user"] as Model.User).Description %></span></dd>
-                    <dd>所在地区:&nbsp;<span><%=(Session["user"] as Model.User).Address %></span></dd>
-                    <dd>
-                        <asp:Button ID="btnUserInfo" runat="server" Text="个人设置" OnClick="btnUserInfo_Click" /></dd>
-                </dl>
+                        <dt>
+                            <img style="width: 100%; height: 100%;" src="<%=(Session["user"] as Model.User).UserPic %>" /></dt>
+                        <dd id="homepage-usernum">用户名:&nbsp;<%=(Session["user"] as Model.User).Nickname %></dd>
+                        <dd>个性签名:&nbsp;<span><%=(Session["user"] as Model.User).Description %></span></dd>
+                        <dd>所在地区:&nbsp;<span><%=(Session["user"] as Model.User).Address %></span></dd>
+                        <dd>
+                            <asp:Button ID="btnUserInfo" runat="server" Text="个人设置" OnClick="btnUserInfo_Click" /></dd>
+                    </dl>
                 </form>
                 <ul class="meaulist">
                     <li>支持的项目 <span>0</span></li>
@@ -66,21 +67,32 @@
                     <li>喜欢的项目 <span>0</span></li>
                 </ul>
                 <ul class="homepagetype">
-                    <li><a href="#">所有</a></li>
-                    <li><a href="#">众筹中</a></li>
-                    <li><a href="#">已成功</a></li>
-                    <li><a href="#">已失败</a></li>
+                    <li><a href="UserHomePage.aspx?State=2">所有</a></li>
+                    <li><a href="UserHomePage.aspx?State=0">众筹中</a></li>
+                    <li><a href="UserHomePage.aspx?State=1">已成功</a></li>
                 </ul>
                 <br>
                 <table>
                     <tr>
                         <td>项目名称</td>
-                        <td>发布日期</td>
                         <td>截止日期</td>
-                        <td>目标</td>
-                        <td>进度</td>
-                        <td>状态</td>
+                        <td>目标金额</td>
+                        <td>当前金额</td>
+                        <td>项目进度</td>
+                        <td>关注人数</td>
                     </tr>
+                    <asp:Repeater ID="RepeaterOfProjectInfo" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Eval("ProjectName") %></td>
+                                <td><%# Eval("Deadline") %></td>
+                                <td><%# Math.Round(Convert.ToDouble(Eval("Goal")),0) %></td>
+                                <td><%# Math.Round(Convert.ToDouble(Eval("CurrentMoney")),0) %></td>
+                                <td><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %>%</td>
+                                <td><%# Eval("LikeCount") %>人</td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </table>
             </div>
         </div>
@@ -92,34 +104,40 @@
             <div class="botton-collect">
                 <div class="botton-collect_left">
                     <dl>
-                        <dt><img src="/Material/钱包.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/钱包.png" alt=""></dt>
                         <dd class="red"><span>0</span>元</dd>
                         <dd>爱情保险</dd>
                     </dl>
                     <dl>
-                        <dt><img src="/Material/叶子.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/叶子.png" alt=""></dt>
                         <dd class="red"><span>0</span>小时</dd>
                         <dd>爱情保险</dd>
                     </dl>
                     <dl>
-                        <dt><img src="/Material/人群.png" alt=""></dt>
+                        <dt>
+                            <img src="/Material/人群.png" alt=""></dt>
                         <dd class="red"><span>0</span>人</dd>
                         <dd>爱情保险</dd>
                     </dl>
                 </div>
                 <div class="botton-collect_right">
                     <dl>
-                        <dt style="background-color: pink;"><img src="/Material/奖杯.png" alt=""></dt>
+                        <dt style="background-color: pink;">
+                            <img src="/Material/奖杯.png" alt=""></dt>
                         <dd>项目总数</dd>
                         <dd style="color: pink;"><span>0</span>个</dd>
                     </dl>
                     <dl>
-                        <dt style="background-color: thistle;"><img src="/Material/钱.png" alt=""></dt>
+                        <dt style="background-color: thistle;">
+                            <img src="/Material/钱.png" alt=""></dt>
                         <dd>累计支持人</dd>
                         <dd style="color: thistle;"><span>0</span>元</dd>
                     </dl>
                     <dl>
-                        <dt style="background-color: orange;"><img src="/Material/人.png" alt=""></dt>
+                        <dt style="background-color: orange;">
+                            <img src="/Material/人.png" alt=""></dt>
                         <dd>累计筹资数</dd>
                         <dd style="color: orange;"><span>0</span>人</dd>
                     </dl>
@@ -154,7 +172,7 @@
             </div>
             <div class="serves-box">
                 <h1>众筹网</h1>
-                    <h5>zhongchou.cn</h5>
+                <h5>zhongchou.cn</h5>
             </div>
         </div>
     </div>
@@ -172,7 +190,7 @@
             &nbsp;<a href="#">友好基金会</a>&nbsp;<a href="#">人人生活</a>&nbsp;<a href="#">众筹导航</a>
             &nbsp;<a href="#">调查派</a>&nbsp;<a href="#">奇笛网</a>&nbsp;<a href="#">融360</a>&nbsp;<a href="#">联信财富</a>
             <br>
-            <span style="margin-top: 20px;display: block;color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
+            <span style="margin-top: 20px; display: block; color: lightgray;">2014 北京东方联合投资管理有限公司 zhongchou.cn 版权所有
                 京ICP备14016844号</span>
         </div>
     </div>

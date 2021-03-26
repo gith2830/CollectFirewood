@@ -1,4 +1,5 @@
-﻿using CollectFirewood.Base;
+﻿using BLL;
+using CollectFirewood.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,28 @@ namespace CollectFirewood.Member
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Request["State"] == null)
+            {
+                ProjectManager projectManager = new ProjectManager();
+                int UserId = (Session["user"] as Model.User).Id;
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelById(UserId);
+                this.RepeaterOfProjectInfo.DataBind();
+            }
+            else if(int.Parse(Request["State"]) == 1)
+            {
+                ProjectManager projectManager = new ProjectManager();
+                int UserId = (Session["user"] as Model.User).Id;
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelByIdAndState(UserId,1);
+                this.RepeaterOfProjectInfo.DataBind();
+            }
+            else
+            {
+                ProjectManager projectManager = new ProjectManager();
+                int UserId = (Session["user"] as Model.User).Id;
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelByIdAndState(UserId, 0);
+                this.RepeaterOfProjectInfo.DataBind();
+            }
+           
         }
 
         protected void btnUserInfo_Click(object sender, EventArgs e)

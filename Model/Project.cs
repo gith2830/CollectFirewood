@@ -20,5 +20,6 @@ namespace Model
         public string CoverImg { get; set; }
         public PublishState PublishState { get; set; }
         public int OwnerId { get; set; }
+        public string  Nickname { get; set; }
     }
 }

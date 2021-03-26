@@ -1,5 +1,4 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProjectLaunch.aspx.cs" Inherits="CollectFirewood.Member.ProjectLaunch" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProjectLaunch.aspx.cs" Inherits="CollectFirewood.Member.ProjectLaunch" %>
 
 <!DOCTYPE html>
 
@@ -27,7 +26,7 @@
                 </div>
                 <div class="top-listbox grid-cell-1">
                     <ul>
-                        <li><a href="#">首页</a></li>
+                        <li><a href="index.aspx">首页</a></li>
                         <li><a href="BrowseItems.aspx">浏览项目</a></li>
                         <li><a href="OpenPlatform.aspx">开放平台</a></li>
                         <li><a href="NoviceHelp.aspx">新手帮助</a></li>
@@ -122,9 +121,8 @@
                                         天
                                     </p>
                                     <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">类别：</span><br />
-                                        <br />
-                                        <input type="button" class="Content__Detailed__Category" value="科技" />
+                                        <span class="ProjectInformation_Content__Detailed__span">类别：</span>
+                                       <%-- <input type="button" class="Content__Detailed__Category" value="科技" />
                                         <input type="button" class="Content__Detailed__Category" value="艺术" />
                                         <input type="button" class="Content__Detailed__Category" value="设计" />
                                         <input type="button" class="Content__Detailed__Category" value="影视" />
@@ -133,16 +131,31 @@
                                         <input type="button" class="Content__Detailed__Category" value="公益" />
                                         <input type="button" class="Content__Detailed__Category" value="公开课" />
                                         <input type="button" class="Content__Detailed__Category" value="音乐" />
-                                        <input type="button" class="Content__Detailed__Category" value="农业" />
+                                        <input type="button" class="Content__Detailed__Category" value="农业" />--%>
+                                        <asp:DropDownList ID="DropDownListByTypes" CssClass="ProjectInformation_ddl" runat="server">
+                                            <asp:ListItem Value="10000">科技</asp:ListItem>
+                                            <asp:ListItem Value="10001">艺术</asp:ListItem>
+                                            <asp:ListItem Value="10002">设计</asp:ListItem>
+                                            <asp:ListItem Value="10003">音乐</asp:ListItem>
+                                            <asp:ListItem Value="10004">影视</asp:ListItem>
+                                            <asp:ListItem Value="10005">出版</asp:ListItem>
+                                            <asp:ListItem Value="10006">动漫</asp:ListItem>
+                                            <asp:ListItem Value="10007">公益</asp:ListItem>
+                                            <asp:ListItem Value="10008">公开课</asp:ListItem>
+                                            <asp:ListItem Value="10009">农业</asp:ListItem>
+                                            <asp:ListItem Value="10010">苏州站</asp:ListItem>
+                                            <asp:ListItem Value="10011">其他</asp:ListItem>
+                                        </asp:DropDownList>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目地点：</span>
-                                        <asp:DropDownList ID="Content__Detailed__province" CssClass="ProjectInformation_ddl" runat="server">
+<%--                                        <asp:DropDownList ID="Content__Detailed__province" CssClass="ProjectInformation_ddl" runat="server">
                                             <asp:ListItem>请选择省份</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:DropDownList ID="Content__Detailed__city" CssClass="ProjectInformation_ddl" runat="server">
                                             <asp:ListItem>请选择城市</asp:ListItem>
-                                        </asp:DropDownList>
+                                        </asp:DropDownList>--%>
+                                        <asp:TextBox ID="Content__Detailed__Address" CssClass="Content__Detailed__inputName" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目封面：</span>
@@ -166,9 +179,7 @@
                                         <asp:TextBox ID="TextBox1" CssClass="Content__Detailed__Label" placeholder="请使用逗号或空格分隔不同标签" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
-
-                                        <input type="button" id="button" class="NextStep" value="下一步" />
-
+                                        <asp:Button ID="button" runat="server" CssClass="NextStep" Text="下一步" />
                                     </p>
                                 </div>
                             </div>
@@ -245,10 +256,10 @@
                                             <span>回报时间：</span><span>项目结束后</span>
                                             <asp:TextBox ID="TextBox6" CssClass="ReturnSetting_ProjectEnd" runat="server"></asp:TextBox>天
                                         </p>
-                                        <div class="ReturnSetting_BtnSave">
+                                        <%--                                        <div class="ReturnSetting_BtnSave">
                                             <asp:Button ID="Button1" CssClass="Save" runat="server" Text="保存" />
                                             <asp:Button ID="Button2" CssClass="Save" runat="server" Text="取消保存" />
-                                        </div>
+                                        </div>--%>
                                         <p>
                                             <asp:Button ID="Button3" CssClass="NextStep" runat="server" Text="下一步" />
                                             <asp:Button ID="Button4" CssClass="NextStep" runat="server" Text="上一步" />
@@ -278,7 +289,6 @@
                             </div>
                         </div>
                     </div>
-
                     <%-- 发起人信息 --%>
                     <div class="Content_container" id="SponsorInformation" style="display: none">
                         <%-- 上面的进度条 --%>
@@ -332,10 +342,8 @@
                                     </p>
                                 </div>
                                 <div class="Content__Sponsor__btn">
-
-                                    <input type="button" class="Sponsor_btn" value="上一步" />
-                                    <asp:Button ID="Button5" runat="server" class="Sponsor_btn" Text="保存草稿" />
-                                    <asp:Button ID="Button6" Text="提交审核" class="Sponsor_btn" runat="server" />
+                                    <asp:Button ID="Button5" Text="上一步" class="Sponsor_btn" runat="server" />
+                                    <asp:Button ID="Button6" Text="提交审核" class="Sponsor_btn" runat="server" OnClick="Button6_Click" />
                                 </div>
                             </div>
 
@@ -359,9 +367,11 @@
                             <span class="SpeedOfProgress__span">发起人信息</span>
                             <span class="SpeedOfProgress__span">完成</span>
                         </div>
-                        <div class="complete_div">
-                            <img src="Images/完成.png" />
-                            <span>项目已提交，请耐心等待审核</span>
+                        <div class="/complete_div">
+                            <img src="/Material/完成.png" />
+                            <span>
+                                <h1>项目已提交，请耐心等待审核</h1>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -421,7 +431,6 @@
         </div>
     </form>
     <script>
-
         //按钮《立即发起项目》的点击事件
         $(function () {
             $(".establishBtn").click(function () {
@@ -435,37 +444,39 @@
                     alert("请阅读并同意《服务协议》和《众筹公告》");
                 }
             });
+            //项目信息下一步
             $("#button").click(function () {
-                $(".start").hide();
-                $(".Content_container").hide();
+
+                $("#ProjectInformation").hide();
                 $("#ReturnSetting").show();
+                return false;
             });
+            //回报设置的上一步
             $("#Button4").click(function () {
-                $(".start").hide();
-                $(".Content_container").hide();
+                $("#ReturnSetting").hide();
                 $("#ProjectInformation").show();
+                return false;
+            });
+            //回报设置的下一步
+            $("#Button3").click(function () {
+                $("#ReturnSetting").hide();
+                $("#SponsorInformation").show();
+                return false;
+            });
+            //发起人的上一步
+            $("#Button5").click(function () {
+                $("#SponsorInformation").hide();
+                $("#ReturnSetting").show();
+                return false;
+            });
+            //提交审核
+            $("#Button6").click(function () {
+                $("#SponsorInformation").hide();
+                $("#complete").show();
+                return false;
             });
         });
-        $(function () {
 
-        });
-        $(function () {
-
-        });
-        //获取高度
-        var bodyHeight = window.innerHeight;
-        document.querySelector("body").style.minHeight = bodyHeight + "px";
-        //设置宽度
-        var bodyWidth = screen.availWidth;
-        document.querySelector("body").style.width = bodyWidth + "px";
-        //设置导航栏点击事件样式
-        $(function () {
-            //设置鼠标点击事件
-            $("li").click(function () {
-                $("li").siblings("li").removeClass("li-add");
-                $(this).addClass("li-add");
-            });
-        });
     </script>
 </body>
 </html>

@@ -32,7 +32,7 @@ namespace DAL
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return 0;
@@ -122,5 +122,21 @@ namespace DAL
             }
         }
 
+        public static SqlDataReader GetReader(string sql)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(connStr);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                return reader;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
     }
 }

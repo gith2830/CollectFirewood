@@ -13,5 +13,10 @@ namespace CollectFirewood.Member
         {
 
         }
+
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

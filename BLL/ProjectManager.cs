@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DAL;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,6 +113,7 @@ namespace BLL
             return dal.GetPageListWhereToAndOrderBy(start, end, wheres, null);
         }
 
+
         /// <summary>
         /// 获取总页数
         /// </summary>
@@ -130,11 +132,37 @@ namespace BLL
         /// <param name="state"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public int GetPageCount(int classifyId, ProjectState? state,int pageSize)
+        public int GetPageCount(int classifyId, ProjectState? state, int pageSize)
         {
             int projectCount = dal.GetModelCount(classifyId, state);
             int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
             return pageCount;
+        }
+        public List<Project> GetModelByClassifyId(int classifyid)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByClassifyId(classifyid);
+        }
+
+        public List<Project> GetModelByState(int state)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByState(state);
+        }
+        public List<Project> GetModelByAll()
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByAll();
+        }
+        public List<Project> GetModelById(int id)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelById(id);
+        }
+        public List<Project> GetModelByIdAndState(int id, int State)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByIdAndState(id,State);
         }
     }
 }

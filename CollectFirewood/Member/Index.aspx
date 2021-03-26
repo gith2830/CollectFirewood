@@ -92,12 +92,12 @@
                         </ul>--%>
                     </span>
 
-                    <span class="" style="display:block;float:left;margin:0 auto;"> 
+                    <span class="" style="display:block;float:left;margin:0 auto;width:100%;"> 
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
-                                <a href="#">
+                                <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
                                     <dl style="display:block;width:24%;margin-right:10px;margin-top:20px;">
-                                    <dt><a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
+                                    <dt>
                                         <img src="<%# Eval("CoverImg") %>"></a><span class="like">关注</span></dt>
                                     <dd><%# Eval("ProjectName") %></dd>
                                     <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元<span class="statusbox">众筹中</span></dd>

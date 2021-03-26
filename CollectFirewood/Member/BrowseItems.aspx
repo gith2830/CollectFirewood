@@ -13,7 +13,8 @@
 </head>
 
 <body>
-    <!-- 头部 -->
+    <form action="" method="post">
+            <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -64,9 +65,9 @@
         <div class="browse contentbox ">
             <span class="browse-listbox">
                 <ul class="grid">
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx">所有项目</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0&classifyId=<%=ClassifyId %>">进行中</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1&classifyId=<%=ClassifyId %>">已结束</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=2">所有项目</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0">进行中</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1">已结束</a></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
@@ -84,11 +85,11 @@
             </span>
             <span id="browse-main">
                 <div class="browse-main_all browse-mainbox">
-                    <span class="" style="display: block;">
+                    <span class="" style="display: block;width:100%;float:left;">
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
-                                <a href="Projectinfo.aspx?classifyId=<%# Eval("Id") %>">
-                                    <dl style="display: block; width: 23.2%; margin-right: 10px; margin-top: 20px;">
+                                <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
+                                    <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px;">
                                     <dt>
                                         <img src="<%# Eval("CoverImg") %>"><span class="like">关注</span></dt>
                                     <dd><%# Eval("ProjectName") %></dd>
@@ -100,22 +101,23 @@
                                     </span><span class="grid-cell-1 status"><span><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%></span>天<h6 class="ccc">剩余时间</h6>
                                     </span></dd>
                                 </dl>
-                                </a>
+                                </a>                                      
                             </ItemTemplate>
-                        </asp:Repeater>
-                    </span>
-                </div>
+                        </asp:Repeater>                                       
+                    </span>  
+                    <div style="display:block;"> <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %> </div>
+                 </div>
                 <div class="browse-main_ing browse-mainbox">
+                    
                 </div>
                 <div class="browse-main_ed browse-mainbox">
-                    d
+                    
                 </div>
             </span>
         </div>
     </div>
-    <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %>
     <!-- 服务 -->
-    <div class="serves">
+    <div class="serves" style="float:left;">
         <div class="middle">
             <div class="serves-box">
                 <h4>众筹项目</h4>
@@ -146,7 +148,7 @@
         </div>
     </div>
     <!-- 版权 -->
-    <div class="copyright">
+    <div class="copyright" style="float:left;">
         <div class="middle">
             <span style="color: lightgray;">友情链接：</span>
             <a href="#">和讯网</a>&nbsp;<a href="#">雷锋网</a>&nbsp;<a href="#">36氪
@@ -163,19 +165,20 @@
                 京ICP备14016844号</span>
         </div>
     </div>
+    </form>
 </body>
 <script>
-    $(".browse-listbox ul li").eq(0).addClass("active3");
     $("#browse-main .browse-mainbox").eq(0).show();
-    //  浏览项目  页面选项卡切换（所有项目  众筹中  已经完成）
-    $(".browse-listbox ul li").each(function (index) {
-        $(this).click(function () {
-            if (index > 2) {
-                return;
-            }
-            $(this).addClass("active3").siblings().removeClass("active3");
-            $("#browse-main .browse-mainbox").eq(index).show().siblings().hide();
-        })
-    })
+    //$(".browse-listbox ul li").eq(0).addClass("active3");
+    ////  浏览项目  页面选项卡切换（所有项目  众筹中  已经完成）
+    //$(".browse-listbox ul li a").each(function (index) {
+    //    $(this).click(function () {
+    //        if (index > 2) {
+    //            return;
+    //        }
+    //        $(".browse-listbox ul li").eq(index).addClass("active3").siblings().removeClass("active3");
+    //        //$("#browse-main .browse-mainbox").eq(index).show().siblings().hide();
+    //    })
+    //})
 </script>
 </html>

@@ -58,19 +58,20 @@
                                     <img src="<%# Eval("CoverImg") %>" alt="">
                                 </dt>
                                 <dd class="grid-cell-4">
-                                    <h3><%# Eval("ProjectName") %></h3>
-                                    <p>发布人信息</p>
-                                    <p>发布地区</p>
-                                    <p title="项目的详情">项目的简介</p>
+                                    <h1><%# Eval("ProjectName") %></h1>                                  
+                                    <p>项目发起人:&nbsp;<%# Eval("Nickname") %></p>
+                                    <p>发布地区:&nbsp;</p>
+                                    <p>项目详情:&nbsp</p>
+                                    <p title="<%# Eval("Content") %>"><span style="display:inline-block;width:80px;"></span><%# Eval("Content") %></p>
                                 </dd>
                             </dl>
                         </a>
                     </ItemTemplate>
                 </asp:Repeater>
-
-
             </div>
-            <span class="openinfobox__more"><a href="#">点击查看更多</a></span>
+            <form action="" method="post" runat="server">
+                <span class="openinfobox__more"><asp:Button ID="btnOfMore" runat="server" Text="点击查看更多" BorderStyle="None" BackColor="#E1E1E1" OnClick="btnOfMore_Click"></asp:Button></span>
+            </form>
         </div>
     </div>
 

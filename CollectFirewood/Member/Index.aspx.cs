@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace CollectFirewood.Member
-{ 
+{
     public partial class Index : System.Web.UI.Page
     {
         public int PageIndex { get; set; }
@@ -32,6 +32,29 @@ namespace CollectFirewood.Member
                 PageIndex = pageIndex;
                 this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize);
                 DataBind();
+            }
+
+            {
+                ClassifyManager classifyManager = new ClassifyManager();
+                this.TypeList.DataSource = classifyManager.GetAllList();
+                this.TypeList.DataBind();
+                if (!IsPostBack)
+                {
+                    if (Request["ClassifyId"] == null)
+                    {
+                        ProjectManager projectManager = new ProjectManager();
+                        this.ProjectList.DataSource = projectManager.GetPageList(1, 15);
+                        this.ProjectList.DataBind();
+                    }
+                    else
+                    {
+                        int classifyId = int.Parse(Request["ClassifyId"].ToString());
+                        ProjectManager projectManager = new ProjectManager();
+                        this.ProjectList.DataSource = projectManager.GetModelByClassifyId(classifyId);
+                        this.ProjectList.DataBind();
+                    }
+                }
+
             }
         }
     }

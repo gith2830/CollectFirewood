@@ -37,7 +37,7 @@ namespace DAL
             SqlParameter p = new SqlParameter("@id", id);
             return DbHelper.ExecuteNotQuery(sql, p);
         }
-        
+
         public Project GetModel(int id)
         {
             string sql = "select * from Projects where Id=@id";
@@ -51,14 +51,14 @@ namespace DAL
             model.Id = Convert.ToInt32(dt.Rows[0]["Id"].ToString());
             model.ClassifyId = Convert.ToInt32(dt.Rows[0]["ClassifyId"].ToString());
             model.ProjectName = dt.Rows[0]["ProjectName"].ToString();
-            model.State = (ProjectState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["State"].ToString());
+            model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["State"].ToString());
             model.CurrentMoney = Convert.ToDecimal(dt.Rows[0]["CurrentMoney"].ToString());
             model.Goal = Convert.ToDecimal(dt.Rows[0]["Goal"].ToString());
             model.Deadline = DateTime.Parse(dt.Rows[0]["Deadline"].ToString());
             model.LikeCount = Convert.ToInt32(dt.Rows[0]["LikeCount"].ToString());
             model.Content = dt.Rows[0]["Content"].ToString();
             model.CoverImg = dt.Rows[0]["CoverImg"].ToString();
-            model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState),dt.Rows[0]["PublishState"].ToString());
+            model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
             model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
             return model;
         }
@@ -90,14 +90,14 @@ namespace DAL
                 model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
                 model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
                 model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
-                model.CurrentMoney = Convert.ToDecimal(string.IsNullOrWhiteSpace(dt.Rows[i]["CurrentMoney"].ToString())?"0": dt.Rows[i]["CurrentMoney"].ToString());
+                model.CurrentMoney = Convert.ToDecimal(string.IsNullOrWhiteSpace(dt.Rows[i]["CurrentMoney"].ToString()) ? "0" : dt.Rows[i]["CurrentMoney"].ToString());
                 model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
                 model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
-                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString())?"0": dt.Rows[0]["PublishState"].ToString());
-                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[0]["OwnerId"].ToString())?"0": dt.Rows[0]["OwnerId"].ToString());
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[i]["PublishState"].ToString()) ? "0" : dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[i]["OwnerId"].ToString()) ? "0" : dt.Rows[i]["OwnerId"].ToString());
                 models.Add(model);
             }
             return models;
@@ -111,7 +111,7 @@ namespace DAL
         /// <param name="wheres">筛选条件</param>
         /// <param name="orderBys">排序值</param>
         /// <returns></returns>
-        public List<Project> GetPageListWhereToAndOrderBy(int start, int end,Dictionary<string,object> wheres,List<string> orderBys)
+        public List<Project> GetPageListWhereToAndOrderBy(int start, int end, Dictionary<string, object> wheres, List<string> orderBys)
         {
             StringBuilder sql = new StringBuilder("select * from(select *,row_number()over(order by id) as num from Projects");
             List<SqlParameter> paramList = new List<SqlParameter>()
@@ -119,7 +119,7 @@ namespace DAL
                 new SqlParameter("@start",start),
                 new SqlParameter("@end",end),
             };
-            if (wheres!=null&&wheres.Count()>0)
+            if (wheres != null && wheres.Count() > 0)
             {
                 foreach (var item in wheres)
                 {
@@ -135,10 +135,10 @@ namespace DAL
                     {
                         sql.Append($" and {item.Key}=@{item.Key}");
                     }
-                    paramList.Add(new SqlParameter("@"+item.Key, item.Value));
+                    paramList.Add(new SqlParameter("@" + item.Key, item.Value));
                 }
             }
-            if (orderBys!=null&&orderBys.Count()>0)
+            if (orderBys != null && orderBys.Count() > 0)
             {
                 sql.Append(" order by ");
                 foreach (var item in orderBys)
@@ -177,8 +177,8 @@ namespace DAL
                 model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
                 model.Content = dt.Rows[i]["Content"].ToString();
                 model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
-                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString())?"0": dt.Rows[0]["PublishState"].ToString());
-                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]==DBNull.Value?0: dt.Rows[0]["OwnerId"]);
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString()) ? "0" : dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"] == DBNull.Value ? 0 : dt.Rows[0]["OwnerId"]);
                 models.Add(model);
             }
             return models;
@@ -212,7 +212,7 @@ namespace DAL
         /// <param name="projectId">项目id</param>
         /// <param name="money">捐钱数额</param>
         /// <returns></returns>
-        public int AddProjectMoney(int userId,int projectId,decimal money)
+        public int AddProjectMoney(int userId, int projectId, decimal money)
         {
             string sql = "update Projects set CurrentMoney=@Money where Id=@ProjectId;" +
                 "insert into SupportProjects([UserId],[ProjectId],[Money]) values(@UserId,@ProjectId,@Money);";
@@ -254,7 +254,172 @@ namespace DAL
                 sql.Append(" and classifyId=@classifyId");
                 psList.Add(new SqlParameter("@classifyId", classifyId));
             }
-            return (int)DbHelper.ExecuteScalar(sql.ToString(),psList.ToArray());
+            return (int)DbHelper.ExecuteScalar(sql.ToString(), psList.ToArray());
+        }
+        /// <summary>
+        /// 通过分类id查找
+        /// </summary>
+        /// <param name="classifyid"></param>
+        /// <returns></returns>
+        public List<Project> GetModelByClassifyId(int classifyid)
+        {
+            string sql = $"select * from Projects where ClassifyId={classifyid}";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Project> list = new List<Project>();
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    ClassifyId = int.Parse(dr["ClassifyId"].ToString()),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    State = (ProjectState)int.Parse(dr["State"].ToString()),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"].ToString()),
+                    Goal = Convert.ToDecimal(dr["Goal"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"].ToString()),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString()),
+                    Content = dr["Content"].ToString(),
+                    CoverImg = dr["CoverImg"].ToString(),
+                    PublishState = (PublishState)int.Parse(dr["PublishState"].ToString()),
+                    OwnerId = int.Parse(dr["OwnerId"].ToString())
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+        }
+        /// <summary>
+        /// 通过状态查找
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public List<Project> GetModelByState(int state)
+        {
+            string sql = $"select * from Projects where ClassifyId={state}";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Project> list = new List<Project>();
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    ClassifyId = int.Parse(dr["ClassifyId"].ToString()),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    State = (ProjectState)int.Parse(dr["State"].ToString()),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"].ToString()),
+                    Goal = Convert.ToDecimal(dr["Goal"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"].ToString()),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString()),
+                    Content = dr["Content"].ToString(),
+                    CoverImg = dr["CoverImg"].ToString(),
+                    PublishState = (PublishState)int.Parse(dr["PublishState"].ToString()),
+                    OwnerId = int.Parse(dr["OwnerId"].ToString())
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+        }
+        /// <summary>
+        /// 查询有限行数
+        /// </summary>
+        /// <returns></returns>
+        public List<Project> GetModelByAll()
+        {
+            string sql = "select top 6  * from Projects p left join [Users] u on p.OwnerId=u.Id";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            Project project = null;
+            List<Project> list = new List<Project>();
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    ClassifyId = int.Parse(dr["ClassifyId"].ToString()),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    State = (ProjectState)int.Parse(dr["State"].ToString()),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"].ToString()),
+                    Goal = Convert.ToDecimal(dr["Goal"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"].ToString()),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString()),
+                    Content = dr["Content"].ToString(),
+                    CoverImg = dr["CoverImg"].ToString(),
+                    PublishState = (PublishState)int.Parse(dr["PublishState"].ToString()),
+                    OwnerId = int.Parse(dr["OwnerId"].ToString()),
+                    Nickname = dr["Nickname"].ToString()
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<Project> GetModelById(int id)
+        {
+            string sql = $"select * from Projects where OwnerId='{id}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            Project project = null;
+            List<Project> list = new List<Project>();
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    ClassifyId = int.Parse(dr["ClassifyId"].ToString()),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    State = (ProjectState)int.Parse(dr["State"].ToString()),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"].ToString()),
+                    Goal = Convert.ToDecimal(dr["Goal"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"].ToString()),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString()),
+                    Content = dr["Content"].ToString(),
+                    CoverImg = dr["CoverImg"].ToString(),
+                    PublishState = (PublishState)int.Parse(dr["PublishState"].ToString()),
+                    OwnerId = int.Parse(dr["OwnerId"].ToString()),
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+        }
+        /// <summary>
+        /// 通过id和状态一起查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Project> GetModelByIdAndState(int id, int State)
+        {
+            string sql = $"select * from Projects where OwnerId='{id}' and State='{State}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            Project project = null;
+            List<Project> list = new List<Project>();
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id = int.Parse(dr["Id"].ToString()),
+                    ClassifyId = int.Parse(dr["ClassifyId"].ToString()),
+                    ProjectName = dr["ProjectName"].ToString(),
+                    State = (ProjectState)int.Parse(dr["State"].ToString()),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"].ToString()),
+                    Goal = Convert.ToDecimal(dr["Goal"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"].ToString()),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString()),
+                    Content = dr["Content"].ToString(),
+                    CoverImg = dr["CoverImg"].ToString(),
+                    PublishState = (PublishState)int.Parse(dr["PublishState"].ToString()),
+                    OwnerId = int.Parse(dr["OwnerId"].ToString()),
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+
         }
     }
 }

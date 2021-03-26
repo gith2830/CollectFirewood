@@ -41,6 +41,7 @@ namespace CollectFirewood.Member
                 pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
                 PageIndex = pageIndex;
                 this.ProjectList.DataSource = projectManager.GetPageListForState(PageIndex, pageSize, classifyId, state);
+                this.ProjectList.DataBind();
             }
             else
             {
@@ -49,11 +50,15 @@ namespace CollectFirewood.Member
                 pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
                 PageIndex = pageIndex;
                 this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize);
+                this.ProjectList.DataBind();
             }
+
             ClassifyManager classifyManager = new ClassifyManager();
             this.TypeList.DataSource = classifyManager.GetAllList();
-            DataBind();
-            
+            this.TypeList.DataBind();
+        
+            this.ProjectList.DataSource = projectManager.GetPageList(1,15);
+            this.ProjectList.DataBind();
             
         }
     }

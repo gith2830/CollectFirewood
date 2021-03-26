@@ -51,22 +51,22 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.TextBox Content__Detailed__inputDay;
 
         /// <summary>
-        /// Content__Detailed__province 控件。
+        /// DropDownListByTypes 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList Content__Detailed__province;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListByTypes;
 
         /// <summary>
-        /// Content__Detailed__city 控件。
+        /// Content__Detailed__Address 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList Content__Detailed__city;
+        protected global::System.Web.UI.WebControls.TextBox Content__Detailed__Address;
 
         /// <summary>
         /// Content__Detailed__Cover 控件。
@@ -112,6 +112,15 @@ namespace CollectFirewood.Member
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox1;
+
+        /// <summary>
+        /// button 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button button;
 
         /// <summary>
         /// TextBox2 控件。
@@ -166,24 +175,6 @@ namespace CollectFirewood.Member
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox6;
-
-        /// <summary>
-        /// Button1 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
-
-        /// <summary>
-        /// Button2 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
 
         /// <summary>
         /// Button3 控件。
