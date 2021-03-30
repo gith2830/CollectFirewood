@@ -12,5 +12,9 @@ namespace Model
         public int UserId { get; set; }
         public int ProjectId { get; set; }
         public string Content { get; set; }
+        public string SendTime { get; set; }
+        //联表
+        public string Nickname { get; set; }
+        public string UserPic { get; set; }
     }
 }

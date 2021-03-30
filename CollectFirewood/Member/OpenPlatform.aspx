@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>开放平台</title>
     <script src="/Content/Js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
@@ -28,7 +28,7 @@
                     <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                 </ul>
             </div>
-            <div class="top-searchbox grid-cell-1">
+            <div class="top-searchbox grid-cell-1" style="display:none;">
                 <input type="text" name="" id="" placeholder="搜索">
                 <div class="top-searchbox_btn"></div>
             </div>
@@ -53,15 +53,15 @@
                 <asp:Repeater ID="ProjectList" runat="server">
                     <ItemTemplate>
                         <a href="#" class="openinfobox-link">
-                            <dl class="openinfobox__item grid">
-                                <dt>
+                            <dl class="openinfobox__item grid" >
+                                <dt style="width:30%;">
                                     <img src="<%# Eval("CoverImg") %>" alt="">
                                 </dt>
-                                <dd class="grid-cell-4">
+                                <dd style="width:70%;text-overflow:ellipsis;" >
                                     <h1><%# Eval("ProjectName") %></h1>                                  
                                     <p>项目发起人:&nbsp;<%# Eval("Nickname") %></p>
-                                    <p>发布地区:&nbsp;</p>
-                                    <p>项目详情:&nbsp</p>
+                                    <p>发布地区:&nbsp;<%# Eval("Address") %></p>
+                                    <p>项目详情:&nbsp</p>                                    
                                     <p title="<%# Eval("Content") %>"><span style="display:inline-block;width:80px;"></span><%# Eval("Content") %></p>
                                 </dd>
                             </dl>

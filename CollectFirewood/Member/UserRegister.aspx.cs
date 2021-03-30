@@ -22,15 +22,14 @@ namespace CollectFirewood.Member
             }
             
         }
-
-        protected void btnRegister_Click(object sender, EventArgs e)
+        protected void btnRegister_Click1(object sender, EventArgs e)
         {
             string userphone = this.userphone.Text;
             string nickname = this.nickname.Text;
             string username = this.username.Text;
             string password = this.password.Text;
-            char sex = Convert.ToChar( this.RadioButtonList1.SelectedValue);
-            int numbercode =int.Parse(this.numbercode.Text);
+            char sex = Convert.ToChar(this.DropDownList1.SelectedValue);
+            int numbercode = int.Parse(this.numbercode.Text);
             //判读是否打勾
             if (checkbox.Checked)
             {
@@ -52,7 +51,7 @@ namespace CollectFirewood.Member
                         return;
                     }
                     else
-                    {                        
+                    {
                         User user = new User();
                         user.UserName = username;
                         user.Nickname = nickname;
@@ -63,7 +62,7 @@ namespace CollectFirewood.Member
                         user.Description = "这个人很懒，什么都没有留下";
                         user.Url = "";
                         user.UserPic = "/Material/人.png";
-                        if (userManager.Register(user)==1)
+                        if (userManager.Register(user) == 1)
                         {
                             Response.Write("<script>alert('注册成功！');</script>");
                             Response.Redirect("UserLogin.aspx");

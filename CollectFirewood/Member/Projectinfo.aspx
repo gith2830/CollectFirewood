@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>项目详情</title>
     <script src="./js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
@@ -58,25 +58,36 @@
                         <span class="projectinfobox-address">截至时间：<%=this.project.Deadline %>&nbsp;</span>
                         <div class="projectContent">
                             <%=this.project.Content %>
-                        </div>
-                        <div class="Saybox">
-                            <div>
-                                <span>img</span>&nbsp;<span>nickname</span>&nbsp;<span>time</span>
-                                <p>SayContent</p>
-                            </div>
-                        </div>
-                        <asp:TextBox runat="server" TextMode="MultiLine" ID="Comment" />
-                        <asp:Button ID="btnSend" runat="server" Text="发表" />
+                        </div>  
+                        <br />
+                        <hr />
+                        <asp:Repeater ID="RepeaterComment" runat="server">
+                            <ItemTemplate>
+                                <dl class="Comment">
+                                    <dt style="border-radius:50%;margin-right:5px;">
+                                        <img src="<%# Eval("UserPic") %>" alt="Alternate Text" />
+                                    </dt>
+                                    <dd>
+                                        <p>用户名:&nbsp;&nbsp;<%# Eval("Nickname") %></p>
+                                        <p>发布时间:&nbsp;&nbsp; <%# Eval("SendTime") %></p>
+                                        <p>评论内容&nbsp;&nbsp;<%# Eval("Content") %></p>                                        
+                                    </dd>
+                                </dl>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <asp:TextBox runat="server" TextMode="MultiLine" ID="Comment" CssClass="TextBoxOfComment" style="width:97%;resize: none; "/>
+                        <asp:Button ID="btnSend" runat="server" Text="发表" OnClick="btnSend_Click" CssClass="BtnCommentSend" />
                     </div>
                     <!-- 右边 -->
                     <div class="projectinfobox-right">
                         <div class="right-like">
-                            <input type="button" value="支持" class="support">
-                            <input type="button" value="关注" class="fllow">
+                            <asp:Button ID="support" runat="server" Text="支持" BorderStyle="none"  CssClass="support" OnClick="support_Click" />
+                            <asp:Button ID="like" runat="server" Text="关注" BorderStyle="none" BackColor="Pink" CssClass="fllow" OnClick="like_Click" />
+                            <%--<input type="button" value="关注" class="fllow">--%>
                         </div>
                         <!-- 喜欢和支持 -->
                         <div class="returnbox" style="height: 300px;">
-                            <span style="color: grey;">目前累计金额</span><span class="returnbox-state" style="float: right;">众筹中</span>
+                            <span style="color: grey;">目前累计金额</span>
                             <h1>￥<%=Math.Round(this.project.CurrentMoney,0) %></h1>
                             <br>
                             <div><span>此项目必须在<span style="color: orange;"><%=this.project.Deadline.ToString("D") %></span>前得到<span style="color: orange">￥<%=Math.Round(this.project.Goal,0) %></span>的支持才算成功</span></div>
@@ -100,44 +111,41 @@
                         </div>
                         <!-- 支持300 -->
                         <div class="returnbox" style="color: grey;">
-                            <span>支持￥300</span><span style="float: right;">
+                            <span>支持￥>300￥<1000￥</span><span style="float: right;">已有<span style="color: orange;"><%=Session["Small"] %></span>位支持者</span>
                             <br>
-                            <div style="margin-top: 20px;">感谢您的支持！您将获得：</div>
+                            <%--<div style="margin-top: 20px;">感谢您的支持！您将获得：</div>
                             <div>1.一次树屋入住服务。（众筹结束后市场价格为800-1000元）</div>
                             <div>2.“爪哇国”“护照”一本（可以优惠参与树屋“爪哇国”的各项活动，如音乐节，沙龙，手工等）</div>
                             <div>3.优先获得暑假带薪实习机会</div>
-                            <div>4.可优先获得下栋树屋众筹机会</div>
-                            <div>配送运费：<span>免费</span></div>
-                            <div>预计回报发送时间：<span>项目成功结束后30天内</span></div>
-                            <input type="button" value="支持￥300">
+                            <div>4.可优先获得下栋树屋众筹机会</div>--%>
+                            <div><%=Session["Return"] %></div>
+                             <div>配送运费：<span><%=Math.Floor(Convert.ToDecimal(Session["Freight"])) %></span></div>
+                            <div>预计回报发送时间：<span>项目成功结束后<%=Session["ReturnTime"] %>天内</span></div>                           
                         </div>
                         <!-- 支持1000 -->
                         <div class="returnbox" style="color: grey;">
-                            <span>支持￥1000</span><span style="float: right;">已有<span style="color: orange;">8</span>位支持者</span>
+                            <span>支持￥>1000￥<5000￥</span><span style="float: right;">已有<span style="color: orange;"><%=Session["Middle"] %></span>位支持者</span>
                             <br>
                             <div style="margin-top: 20px;">感谢您的支持！您将获得：</div>
-                            <div>1.一次树屋入住服务。（众筹结束后市场价格为800-1000元）</div>
-                            <div>2.“爪哇国”“护照”一本（可以优惠参与树屋“爪哇国”的各项活动，如音乐节，沙龙，手工等）</div>
-                            <div>3.优先获得暑假带薪实习机会</div>
-                            <div>4.可优先获得下栋树屋众筹机会</div>
-                            <div>配送运费：<span>免费</span></div>
-                            <div>预计回报发送时间：<span>项目成功结束后30天内</span></div>
-                            <input type="button" value="支持￥1000">
+                             <div><%=Session["ReturnMiddle"] %></div>
+                             <div>配送运费：<span><%=Math.Floor(Convert.ToDecimal(Session["Freight"])) %></span></div>
+                            <div>预计回报发送时间：<span>项目成功结束后<%=Session["ReturnTime"] %>天内</span></div>   
                         </div>
                         <!-- 支持5000 -->
                         <div class="returnbox" style="color: grey;">
-                            <span>支持￥5000</span><span style="float: right;">已有<span style="color: orange;">3</span>位支持者</span>
+                            <span>支持￥>=5000￥</span><span style="float: right;">已有<span style="color: orange;"><%=Session["Max"] %></span>位支持者</span>
                             <br>
                             <div style="margin-top: 20px;">感谢您的支持！您将获得：</div>
-                            <div>1.一次树屋入住服务。（众筹结束后市场价格为800-1000元）</div>
-                            <div>2.“爪哇国”“护照”一本（可以优惠参与树屋“爪哇国”的各项活动，如音乐节，沙龙，手工等）</div>
-                            <div>3.优先获得暑假带薪实习机会</div>
-                            <div>4.可优先获得下栋树屋众筹机会</div>
-                            <div>配送运费：<span>免费</span></div>
-                            <div>预计回报发送时间：<span>项目成功结束后30天内</span></div>
-                            <input type="button" value="支持￥5000">
+                             <div><%=Session["ReturnMaX"] %></div>
+                            <div>配送运费：<span><%=Math.Floor(Convert.ToDecimal(Session["Freight"])) %></span></div>
+                            <div>预计回报发送时间：<span>项目成功结束后<%=Session["ReturnTime"] %>天内</span></div>   
                         </div>
-                    </div>
+                        <div class="returnbox" style="color: grey;">
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="请输入正确的金额" ControlToValidate="SupportSmall" ValidationExpression="^[0-9]*[1-9][0-9]*$">*</asp:RegularExpressionValidator>
+                            <asp:TextBox ID="SupportSmall" runat="server" CssClass="TextBoxOfSupportSmall"></asp:TextBox>
+                            <asp:Button ID="BtnOfSupportSmall" runat="server" Text="支持" CssClass="btnofsupport" OnClick="BtnOfSupportSmall_Click" />
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
+                        </div>
                 </div>
             </form>
         </div>
@@ -152,7 +160,7 @@
                     /&nbsp;<a href="#">音乐</a>&nbsp;/<br>
                     <a href="#">影视</a>&nbsp;/&nbsp;<a href="#">出版</a>&nbsp;/&nbsp;<a href="#">动漫</a>
                     /&nbsp;<a href="#">公益</a>&nbsp;/<br>
-                    <a href="#">公开课</a>&nbsp;/&nbsp;<a href="#">农业</a>&nbsp;/&nbsp;<a href="#">其他</a>&nbsp;/
+                    <a href="#">公开课</a>&nbsp;/&nbsp;<a href="#">农业</a>&nbsp;/&nbsp;<a href="#">其他</a>&nbsp;
                 </div>
                 <div class="serves-box">
                     <h4>关于众筹</h4>

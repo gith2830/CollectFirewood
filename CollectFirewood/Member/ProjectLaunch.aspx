@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+    <title>项目发布</title>
     <script src="../Content/Js/jquery-3.5.1.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
@@ -17,7 +17,7 @@
 
 </head>
 <body>
-    <form action="" method="post" runat="server">
+    <form action="" method="post" runat="server" enctype="multipart/form-data">
         <!-- 头部 -->
         <header class="top ">
             <div class="middle grid">
@@ -33,10 +33,7 @@
                         <li><a href="ProjectLaunch.aspx" class="active1">发起项目</a></li>
                     </ul>
                 </div>
-                <div class="top-searchbox grid-cell-1">
-                    <input type="text" name="" id="" placeholder="搜索">
-                    <div class="top-searchbox_btn"></div>
-                </div>
+             
                 <div class="top-toolbox grid-cell-1">
                     <ul>
                         <%if (Session["user"] == null)
@@ -108,21 +105,23 @@
                                 <div class="ProjectInformation_Content__Detailed">
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目名称：</span>
-                                        <asp:TextBox ID="Content__Detailed__inputName" CssClass="Content__Detailed__inputName" placeholder="名称不可超过40个字" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="Content__Detailed__inputName" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputName " placeholder="名称不可超过40个字" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">筹资金额：</span>
-                                        <asp:TextBox ID="Content__Detailed__inputMoney" CssClass="Content__Detailed__inputMoney" runat="server" placeholder="不少于500元"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="请输入正确的金额" ControlToValidate="Content__Detailed__inputMoney" ValidationExpression="^[0-9]*[1-9][0-9]*$">*</asp:RegularExpressionValidator>
+                                        <asp:TextBox ID="Content__Detailed__inputMoney" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputMoney" runat="server" placeholder="不少于500元"></asp:TextBox>
                                         天
                                     </p>
                                     <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">筹集天数：</span>
-                                        <asp:TextBox ID="Content__Detailed__inputDay" CssClass="Content__Detailed__inputDay" placeholder="10~90天" runat="server"></asp:TextBox>
+                                        <span class="ProjectInformation_Content__Detailed__span">筹集天数：</span>    
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="请输入正确的天数" ControlToValidate="Content__Detailed__inputDay" ValidationExpression="^[0-9]*[1-9][0-9]*$">*</asp:RegularExpressionValidator>
+                                        <asp:TextBox ID="Content__Detailed__inputDay" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputDay" placeholder="10~90天" runat="server"></asp:TextBox>
                                         天
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">类别：</span>
-                                       <%-- <input type="button" class="Content__Detailed__Category" value="科技" />
+                                        <%-- <input type="button" class="Content__Detailed__Category" value="科技" />
                                         <input type="button" class="Content__Detailed__Category" value="艺术" />
                                         <input type="button" class="Content__Detailed__Category" value="设计" />
                                         <input type="button" class="Content__Detailed__Category" value="影视" />
@@ -149,34 +148,16 @@
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目地点：</span>
-<%--                                        <asp:DropDownList ID="Content__Detailed__province" CssClass="ProjectInformation_ddl" runat="server">
-                                            <asp:ListItem>请选择省份</asp:ListItem>
-                                        </asp:DropDownList>
-                                        <asp:DropDownList ID="Content__Detailed__city" CssClass="ProjectInformation_ddl" runat="server">
-                                            <asp:ListItem>请选择城市</asp:ListItem>
-                                        </asp:DropDownList>--%>
-                                        <asp:TextBox ID="Content__Detailed__Address" CssClass="Content__Detailed__inputName" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="Content__Detailed__Address" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputName" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目封面：</span>
                                         <asp:FileUpload ID="Content__Detailed__Cover" CssClass="Content__Detailed__Cover" runat="server" />
                                         <span class="Cover_span">支持jpg、jpeg、png、gif格式</span>
-                                    </p>
-                                    <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">视频：</span>
-                                        <asp:FileUpload ID="Content__Detailed__video" CssClass="Content__Detailed__video" runat="server" placeholder="请输入视频播放地址" />
-                                    </p>
-                                    <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">项目简介：</span>
-                                        <asp:TextBox ID="Content__Detailed__synopsis" CssClass="Content__Detailed__synopsis" TextMode="MultiLine" placeholder="不超过75个字" runat="server"></asp:TextBox>
-                                    </p>
+                                    </p>  
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目详情：</span>
-                                        <asp:TextBox ID="Content__Detailed__Details" CssClass="Content__Detailed__Details" TextMode="MultiLine" runat="server"></asp:TextBox>
-                                    </p>
-                                    <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">标签：</span>
-                                        <asp:TextBox ID="TextBox1" CssClass="Content__Detailed__Label" placeholder="请使用逗号或空格分隔不同标签" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="Content__Detailed__Details" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__Details" TextMode="MultiLine" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
                                         <asp:Button ID="button" runat="server" CssClass="NextStep" Text="下一步" />
@@ -228,29 +209,37 @@
                                     </div>
 
                                     <div class="ReturnSetting_Content__ReturnOptions">
-                                        <p>
+                                <%--        <p>
                                             <span>支持金额：</span>
                                             <asp:TextBox ID="TextBox2" CssClass="ReturnSetting_SupportAmount" runat="server"></asp:TextBox>
                                             元
+                                        </p>--%>
+                                        <p>
+                                            <span>回报内容：</span>
+                                            <asp:TextBox ID="TextBox3" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>300￥<1000￥" runat="server"></asp:TextBox>
                                         </p>
                                         <p>
                                             <span>回报内容：</span>
-                                            <asp:TextBox ID="TextBox3" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="请填写关于回报或任何你希望项目发起人知道的信息，不多于500字" runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="TextBox1" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>1000￥<5000￥" runat="server"></asp:TextBox>
                                         </p>
                                         <p>
+                                            <span>回报内容：</span>
+                                            <asp:TextBox ID="TextBox4" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>=5000￥" runat="server"></asp:TextBox>
+                                        </p>
+                           <%--             <p>
                                             <span>说明图片：</span>
                                             <span class="span_explain">支持jpg，jpeg，png，gif格式，大小不超过500kb，最多上传3张</span><br />
                                             <asp:FileUpload ID="FileUpload1" CssClass="ReturnSetting_ExplainImg" runat="server" />
-                                        </p>
-                                        <p>
+                                        </p>--%>
+<%--                                        <p>
                                             <span>限定名额：</span>
                                             <asp:TextBox ID="TextBox4" CssClass="ReturnSetting_Quota" Text="0" runat="server"></asp:TextBox>个
-                                <span class="span_explain">“0”为不限制名额</span>
-                                        </p>
+                                            <span class="span_explain">“0”为不限制名额</span>
+                                        </p>--%>
                                         <p>
                                             <span>运费：</span>
                                             <asp:TextBox ID="TextBox5" CssClass="ReturnSetting_Freight" Text="0" runat="server"></asp:TextBox>元
-                            <span class="span_explain">“0”为不收取运费</span>
+                                            <span class="span_explain">“0”为不收取运费</span>
                                         </p>
                                         <p>
                                             <span>回报时间：</span><span>项目结束后</span>
@@ -312,10 +301,7 @@
                                     </p>
                                     <p>
                                         <span class="Sponsor_span">所在地：</span>
-                                        <asp:DropDownList ID="DropDownList1" CssClass="Sponsor_informationAddress" runat="server">
-                                        </asp:DropDownList>
-                                        <asp:DropDownList ID="DropDownList2" CssClass="Sponsor_informationAddress" runat="server">
-                                        </asp:DropDownList>
+                                        <asp:TextBox ID="UserAddress" CssClass="Sponsor_information" runat="server"></asp:TextBox>
                                     </p>
                                     <p>
                                         <span class="Sponsor_span">移动电话：</span>
@@ -332,10 +318,10 @@
                                         <span class="Sponsor_span">开户支行：</span>
                                         <asp:TextBox ID="TextBox10" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
                                     </p>
-                                    <p>
+                                   <%-- <p>
                                         <span class="Sponsor_span">开户名称：</span>
                                         <asp:TextBox ID="TextBox11" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
-                                    </p>
+                                    </p>--%>
                                     <p>
                                         <span class="Sponsor_span">银行账号：</span>
                                         <asp:TextBox ID="TextBox12" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
@@ -355,23 +341,6 @@
                                     <span class="Reminder_span__content">功后能快速并准确的为您打赏</span>
                                 </p>
                             </div>
-                        </div>
-                    </div>
-
-                    <%-- 完成 --%>
-                    <div class="Content_container" id="complete" style="display: none">
-                        <%-- 上面的进度条 --%>
-                        <div class="ProjectInformation_Content__SpeedOfProgress">
-                            <span class="SpeedOfProgress__span">项目信息</span>
-                            <span class="SpeedOfProgress__span">回报设置</span>
-                            <span class="SpeedOfProgress__span">发起人信息</span>
-                            <span class="SpeedOfProgress__span">完成</span>
-                        </div>
-                        <div class="/complete_div">
-                            <img src="/Material/完成.png" />
-                            <span>
-                                <h1>项目已提交，请耐心等待审核</h1>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -470,11 +439,10 @@
                 return false;
             });
             //提交审核
-            $("#Button6").click(function () {
-                $("#SponsorInformation").hide();
-                $("#complete").show();
-                return false;
-            });
+            //$("#Button6").click(function () {
+            //    $("#SponsorInformation").hide();
+            //    $("#complete").show();
+            //});
         });
 
     </script>

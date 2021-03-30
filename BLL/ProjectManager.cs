@@ -31,14 +31,37 @@ namespace BLL
         /// <param name="pageIndex">页数</param>
         /// <param name="pageSize">页行数</param>
         /// <returns></returns>
-        public List<Project> GetPageListForInProgress(int pageIndex,int pageSize,int classifyId)
+        public List<Project> GetPageListForInProgress(int pageIndex,int pageSize,int? classifyId)
         {
             int start = (pageIndex - 1) * pageSize + 1;
             int end = start + pageSize - 1;
             Dictionary<string, object> wheres = new Dictionary<string, object>();
             wheres.Add(nameof(Model.Project.State), Model.ProjectState.InProgress);
             List<string> orderBy = new List<string>();
-            orderBy.Add("classifyId");
+            if (classifyId!=null&&classifyId > 0)
+            {
+                orderBy.Add("classifyId");
+            }
+            return dal.GetPageListWhereToAndOrderBy(start, end, wheres, orderBy);
+        }
+
+        /// <summary>
+        /// 分页获取还在进行众筹的项目集合
+        /// </summary>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">页行数</param>
+        /// <returns></returns>
+        public List<Project> GetPageListForExamine(int pageIndex,int pageSize,int? classifyId)
+        {
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = start + pageSize - 1;
+            Dictionary<string, object> wheres = new Dictionary<string, object>();
+            wheres.Add(nameof(Model.Project.PublishState), Model.PublishState.Examine);
+            List<string> orderBy = new List<string>();
+            if (classifyId!=null&&classifyId > 0)
+            {
+                orderBy.Add("classifyId");
+            }
             return dal.GetPageListWhereToAndOrderBy(start, end, wheres, orderBy);
         }
 
@@ -69,6 +92,26 @@ namespace BLL
         {
             Model.Project project = dal.GetModel(projectId);
             project.State = state;
+            if (dal.Update(project)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 修改项目发布状态
+        /// </summary>
+        /// <param name="projectId">项目id</param>
+        /// <param name="state">项目状态</param>
+        /// <returns></returns>
+        public bool ChangeProjectState(int projectId, PublishState state)
+        {
+            Model.Project project = dal.GetModel(projectId);
+            project.PublishState = state;
             if (dal.Update(project)>0)
             {
                 return true;
@@ -138,6 +181,7 @@ namespace BLL
             int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
             return pageCount;
         }
+
         public List<Project> GetModelByClassifyId(int classifyid)
         {
             ProjectService projectService = new ProjectService();
@@ -159,10 +203,44 @@ namespace BLL
             ProjectService projectService = new ProjectService();
             return projectService.GetModelById(id);
         }
+        public List<Project> GetModelByIdTest(int id)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByIdTest(id);
+        }
         public List<Project> GetModelByIdAndState(int id, int State)
         {
             ProjectService projectService = new ProjectService();
-            return projectService.GetModelByIdAndState(id,State);
+            return projectService.GetModelByIdAndState(id, State);
+
+        }
+        /// <summary>
+        /// 获取某个分类和状态下总页数
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public int GetPageCount(int classifyId, PublishState? state,int pageSize)
+        {
+            int projectCount = dal.GetModelCount(classifyId, state);
+            int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
+            return pageCount;
+
+        }
+        public int ProjectLaunch(Project project)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.ProjectLaunch(project);
+        }
+        public Project GetProjectLaunchId(int UserId)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetProjectLaunchId(UserId);
+        }
+        public Project GetModelByPublishState(int UserId)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetModelByPublishState(UserId);
         }
     }
 }

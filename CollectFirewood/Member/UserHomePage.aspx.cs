@@ -11,8 +11,13 @@ namespace CollectFirewood.Member
 {
     public partial class UserHomePage : MemberPage // 继承MemberPage未登录的用户自动跳转到登录页面
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            CalculationManager calculationManager = new CalculationManager();
+            Session["SumOfProject"] = calculationManager.SumOfProject();
+            Session["SumOfCurrentMoney"] = calculationManager.SumOfCurrentMoney();
+            Session["SumOfSupportProjects"] = calculationManager.SumOfSupportProjects();
             if (Request["State"] == null)
             {
                 ProjectManager projectManager = new ProjectManager();

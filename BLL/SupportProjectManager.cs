@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL;
 
 namespace BLL
 {
@@ -19,6 +20,11 @@ namespace BLL
         public bool DeleteAllByUserId(int userId)
         {
             return dal.DeleteAllByUserId(userId)>0;
+        }
+        public int InsertData(int UserId, int ProjectId, Decimal Money)
+        {
+            SupportProjectService supportProjectService = new SupportProjectService();
+            return supportProjectService.InsertData(UserId, ProjectId, Money);
         }
     }
 }

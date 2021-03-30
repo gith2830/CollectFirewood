@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -140,5 +141,77 @@ namespace DAL
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
         #endregion
+        /// <summary>
+        /// 当cookis还没过期
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public int UpdateInfoHaveCookies(User user)
+        {
+            string sql = $"update users set Sex='{user.Sex}',Address='{user.Address}'where Id='{user.Id}'";
+            return DbHelper.Update(sql);
+        }
+
+        /// <summary>
+        /// 修改用户部分信息   昵称  性别  地址
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public int UpdateInfo(User user)
+        {
+            string sql = $"update users set Nickname='{user.Nickname}',Sex='{user.Sex}',Address='{user.Address}'where Id='{user.Id}'";
+            return DbHelper.Update(sql);
+        }
+        /// <summary>
+        /// 修改用户密码
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public int UpdatePassWord(User user)
+        {
+            string sql = $"update users set Pwd='{user.Pwd}'where Id='{user.Id}'";
+            return DbHelper.Update(sql);
+        }
+        /// <summary>
+        /// 修改用户其他信息  包括头像介绍
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public int UpdateOther(User user)
+        {
+            string sql = $"update users set UserPic='{user.UserPic}',Description='{user.Description}'where Id='{user.Id}'";
+            return DbHelper.Update(sql);
+        }
+        /// <summary>
+        /// 修改用户其他信息  介绍
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public int UpdateOtherNoPic(User user)
+        {
+            string sql = $"update users set Description='{user.Description}'where Id='{user.Id}'";
+            return DbHelper.Update(sql);
+        }
+        /// <summary>
+        /// 当用户修改密码时判读手机是否输入正确
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public User PhoneNumberTest(User user)
+        {
+            string sql = $"select * from users where Phone='{user.Phone}' and id='{user.Id}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            User UserPhone = null;
+            while (dr.Read())
+            {
+                UserPhone = new User()
+                {
+                    Id=int.Parse(dr["id"].ToString()),
+                    Phone=dr["Phone"].ToString()
+                };
+            }
+            dr.Close();
+            return UserPhone;
+        }
     }
 }

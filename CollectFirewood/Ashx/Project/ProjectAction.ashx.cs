@@ -44,6 +44,34 @@ namespace CollectFirewood.Ashx.Project
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 context.Response.Write(js.Serialize(obj));
             }
+            // 获得待审批的项目
+            else if(action == "getExamine")
+            {
+                int pageIndex, pageSize;
+                try
+                {
+                    pageIndex = Convert.ToInt32(context.Request["pageIndex"]);
+                    pageSize = Convert.ToInt32(context.Request["pageSize"]);
+                }
+                catch
+                {
+                    return;
+                }
+                pageIndex = pageIndex < 1 ? 1 : pageIndex;
+                pageSize = pageSize <= 0 || pageSize > 10 ? 10 : pageSize;
+                //int pageCount = (int)Math.Ceiling((double)bll.GetModelCount() / (double)pageSize);
+                int pageCount = bll.GetPageCount(0, Model.PublishState.Examine, pageSize);
+                List<Model.Project> list = bll.GetPageListForExamine(pageIndex, pageSize,null);
+                object obj = new
+                {
+                    pageIndex,
+                    pageSize,
+                    pageCount,
+                    data = list,
+                };
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                context.Response.Write(js.Serialize(obj));
+            }
             // 获得一个
             else if (action == "getById")
             {
@@ -153,6 +181,42 @@ namespace CollectFirewood.Ashx.Project
                 else
                 {
                     context.Response.Write("no:修改失败");
+                }
+            }
+            // 审批
+            else if(action == "examine")
+            {
+                int id = 0;
+                if (!int.TryParse(context.Request["id"], out id))
+                {
+                    context.Response.Write("error:非法的ID");
+                    return;
+                }
+                if (bll.ChangeProjectState(id,Model.PublishState.Approved))
+                {
+                    context.Response.Write("ok:审批成功");
+                }
+                else
+                {
+                    context.Response.Write("no:审批失败");
+                }
+            }
+            // 不审批
+            else if(action == "unexamine")
+            {
+                int id = 0;
+                if (!int.TryParse(context.Request["id"], out id))
+                {
+                    context.Response.Write("error:非法的ID");
+                    return;
+                }
+                if (bll.ChangeProjectState(id,Model.PublishState.NoApproved))
+                {
+                    context.Response.Write("ok:驳回成功");
+                }
+                else
+                {
+                    context.Response.Write("no:驳回失败");
                 }
             }
             // 删除

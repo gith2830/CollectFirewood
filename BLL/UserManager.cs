@@ -96,5 +96,36 @@ namespace BLL
             }
             return true;
         }
+
+        public int UpdateInfo(User user)
+        {
+            UserService userService = new UserService();
+            return userService.UpdateInfo(user);
+        }
+        public int UpdatePassWord(User user)
+        {
+            UserService userService = new UserService();
+            return userService.UpdatePassWord(user);
+        }
+        public int UpdateOther(User user)
+        {
+            UserService userService = new UserService();
+            return userService.UpdateOther(user);
+        }
+        public User PhoneNumberTest(User user)
+        {
+            UserService userService = new UserService();
+            return userService.PhoneNumberTest(user);
+        }
+        public int UpdateInfoHaveCookies(User user)
+        {
+            UserService userService = new UserService();
+            return userService.UpdateInfoHaveCookies(user);
+        }
+        public int UpdateOtherNoPic(User user)
+        {
+            UserService userService = new UserService();
+            return userService.UpdateOtherNoPic(user);
+        }
     }
 }

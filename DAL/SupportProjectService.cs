@@ -120,5 +120,11 @@ namespace DAL
             }
             return DbHelper.ExecuteNotQuery(sb.ToString(), list.ToArray());
         }
+
+        public int InsertData(int UserId,int ProjectId,Decimal Money)
+        {
+            string sql = $"insert into SupportProjects([UserId],[ProjectId],[Money]) values('{UserId}','{ProjectId}','{ Money}')";
+            return DbHelper.Update(sql);
+        }
     }
 }

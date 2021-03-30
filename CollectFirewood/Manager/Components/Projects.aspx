@@ -16,22 +16,21 @@
     <div class="content">
             <div class="card">
                 <button class="button btn_huge btn_append" type="button" onclick="showAddDialog()">添加</button>
+                <button class="button btn_huge btn_append" type="button" onclick="showExamineDialog()">待审批</button>
                 <div class="card__table-box">
-                    <table cellspacing="0" cellpadding="0">
+                    <table class="main-table" cellspacing="0" cellpadding="0">
                         <tr class="table-header">
                             <td bind="Id">ID</td>
-                            <td bind="ClassifyId">所属分类Id</td>
                             <td bind="ProjectName">项目名</td>
                             <td bind="State">状态</td>
                             <td bind="Goal">目标</td>
                             <td bind="Deadline">截至日期</td>
                             <td bind="LikeCount">喜欢人数</td>
-                            <td bind="Content">内容</td>
                             <td bind="Id" onDelete="deleteProject" onEdit="showEditDialog">操作</td>
                         </tr>
                     </table>
                 </div>
-                <ul class="page-box">
+                <ul class="main-page page-box">
                 </ul>
             </div>
         </div>
@@ -51,6 +50,22 @@
                     <button class="button btn_huge btn_append" type="button" onclick="addProject()">添加</button>
                     <button class="button btn_huge btn_default" type="button" onclick="addDialogClose()">取消</button>
                 </div>
+            </div>
+        </div>
+        <div class="examineDialog dialog-box">
+            <div class="dialog-box__title">添加</div>
+            <div class="dialog-box__content">
+                <div class="card__table-box">
+                    <table class="examine-table" cellspacing="0" cellpadding="0">
+                        <tr class="table-header">
+                            <td bind="Id">ID</td>
+                            <td bind="ProjectName">项目名</td>
+                            <td bind="Id" onDelete="unexamineProject" onEdit="examineProject">操作</td>
+                        </tr>
+                    </table>
+                </div>
+                <ul class="examine-page page-box">
+                </ul>
             </div>
         </div>
         <div class="editDialog dialog-box">
@@ -111,6 +126,34 @@
                 }
             });
         }
+        //审批
+        function examineProject(id) {
+            $.post("/Ashx/Project/ProjectAction.ashx", { "action": "examine", "id": id }, function (data) {
+                var serverData = data.split(":");
+                var msg = new Message();
+                if (serverData[0] == "ok") {
+                    msg.success(serverData[1]);
+                    getExamineProjects();
+                } else {
+                    msg.danger(serverData[1]);
+                }
+            });
+        }
+        //不审批
+        function unexamineProject(obj,id) {
+            $.post("/Ashx/Project/ProjectAction.ashx", { "action": "unexamine", "id": id }, function (data) {
+                var serverData = data.split(":");
+                var msg = new Message();
+                if (serverData[0] == "ok") {
+                    $(obj).parent().parent().remove();
+                    msg.success(serverData[1]);
+                    getExamineProjects();
+                } else {
+                    msg.danger(serverData[1]);
+                }
+            });
+        }
+        //编辑窗口退出
         function editDialogClose() {
             editDialog.hide();
         }
@@ -158,6 +201,12 @@
                 });
             addDialog.show();
         }
+        var examineDialog = new Dialog(".examineDialog");
+        function showExamineDialog() {
+            getExamineProjects();
+            examineDialog.show();
+        }
+        //发送添加项目请求
         function addProject() {
             var classifyId = $(".classifyId").val();
             var projectName = $(".projectName").val();
@@ -193,9 +242,11 @@
                 }
             });
         }
+        //添加窗口关闭
         function addDialogClose() {
             addDialog.hide();
         }
+        //删除项目
         function deleteProject(obj, id) {
             $.ajax({
                 type: "post",
@@ -224,6 +275,7 @@
             }
             return num;
         }
+        // 获取项目集合
         function getProjects() {
             $.ajax({
                 type: "get",
@@ -235,13 +287,14 @@
                     if (serverData[0] == "error") {
                         msg.danger(serverData[1]);
                     }
-                    $(".table-header").siblings().remove();
-                    $(".page-box").children().remove();
+                    $(".main-table .table-header").siblings().remove();
+                    $(".main-page").children().remove();
                     data = $.parseJSON(data);
                     pageIndex = data.pageIndex;
                     pageSize = data.pageSize;
                     pageCount = data.pageCount;
                     var list = data.data;
+                    if (list == null) return;
                     for (var i = 0; i < list.length; ++i) {
                         var strSec = list[i].Deadline.match(/\d+/g);
                         var date = new Date(parseInt(strSec));
@@ -253,10 +306,9 @@
                         var seconds = formatDate(date.getSeconds());
                         list[i].Deadline = year + "-" + month + "-" + day + ":" + hours + ":" + minutes + ":" + seconds;
                     }
-                    if (list == null) return;
-                    var header_tr = $(".table-header").children();
-                    var del_method = $(".table-header td:last").attr("onDelete");
-                    var edit_method = $(".table-header td:last").attr("onEdit");
+                    var header_tr = $(".main-table .table-header").children();
+                    var del_method = $(".main-table .table-header td:last").attr("onDelete");
+                    var edit_method = $(".main-table .table-header td:last").attr("onEdit");
                     for (var i = 0; i < list.length; ++i) {
                         var tr = $(`<tr></tr>`);
                         for (var j = 0; j < header_tr.length - 1; ++j) {
@@ -265,32 +317,103 @@
                         }
                         var last_tr = $(header_tr[header_tr.length - 1]);
                         $(`<td>
-                               <button type="button" class="button btn_big btn_append" onclick="${edit_method}(${list[i][last_tr.attr("bind")]})"><span class="iconfont icon-xitongguanli"></span></button>
+                               <button type="button" class="button btn_big btn_append" onclick="${edit_method}(${list[i][last_tr.attr("bind")]})"><span class="iconfont icon-xitong"></span></button>
                                <button type="button" onclick="${del_method}(this, ${list[i][last_tr.attr("bind")]})" class="button btn_big btn_danger"><span class="iconfont icon-shanchu"></span></button>
                            </td>`).appendTo(tr);
-                        $(".card__table-box table").append(tr);
+                        $(".card__table-box .main-table").append(tr);
                     }
-                    var pagination = new Pagination($(".page-box"));
+                    var pagination = new Pagination($(".main-table").parent().next(".page-box"));
                     pagination.reload(pageIndex, pageCount, 2);
-                    $(".first_page").click(function () {
+                    $(".main-page .first_page").click(function () {
                         pageIndex = 1;
                         getProjects();
                     });
-                    $(".last_page").click(function () {
+                    $(".main-page .last_page").click(function () {
                         pageIndex = pageCount;
                         getProjects();
                     });
-                    $(".previou_page").click(function () {
+                    $(".main-page .previou_page").click(function () {
                         pageIndex = --pageIndex < 1 ? 1 : pageIndex;
                         getProjects();
                     });
-                    $(".next_page").click(function () {
+                    $(".main-page .next_page").click(function () {
                         pageIndex = ++pageIndex > pageCount ? pageCount : pageIndex;
                         getProjects();
                     });
-                    $(".page_num").click(function () {
+                    $(".main-page .page_num").click(function () {
                         pageIndex = parseInt($(this).text());
                         getProjects();
+                    });
+                }
+            });
+        }
+        function getExamineProjects() {
+            $.ajax({
+                type: "get",
+                url: "/Ashx/Project/ProjectAction.ashx",
+                data: { "action": "getExamine", "pageIndex": pageIndex, "pageSize": pageSize },
+                success: function (data) {
+                    var serverData = data.split(":");
+                    var msg = new Message();
+                    if (serverData[0] == "error") {
+                        msg.danger(serverData[1]);
+                    }
+                    $(".examine-table .table-header").siblings().remove();
+                    $(".examine-page").children().remove();
+                    data = $.parseJSON(data);
+                    pageIndex = data.pageIndex;
+                    pageSize = data.pageSize;
+                    pageCount = data.pageCount;
+                    var list = data.data;
+                    if (list == null) return;
+                    for (var i = 0; i < list.length; ++i) {
+                        var strSec = list[i].Deadline.match(/\d+/g);
+                        var date = new Date(parseInt(strSec));
+                        var year = date.getFullYear();
+                        var month = date.getMonth() + 1;
+                        var day = formatDate(date.getDate());
+                        var hours = formatDate(date.getHours());
+                        var minutes = formatDate(date.getMinutes());
+                        var seconds = formatDate(date.getSeconds());
+                        list[i].Deadline = year + "-" + month + "-" + day + ":" + hours + ":" + minutes + ":" + seconds;
+                    }
+                    var header_tr = $(".examine-table .table-header").children();
+                    var del_method = $(".examine-table .table-header td:last").attr("onDelete");
+                    var edit_method = $(".examine-table .table-header td:last").attr("onEdit");
+                    for (var i = 0; i < list.length; ++i) {
+                        var tr = $(`<tr></tr>`);
+                        for (var j = 0; j < header_tr.length - 1; ++j) {
+                            var temp_tr = $(header_tr[j]);
+                            $(`<td>${list[i][temp_tr.attr("bind")]}</td>`).appendTo(tr);
+                        }
+                        var last_tr = $(header_tr[header_tr.length - 1]);
+                        $(`<td>
+                               <button type="button" class="button btn_big btn_append" onclick="${edit_method}(${list[i][last_tr.attr("bind")]})"><span class="iconfont icon-dagou"></span></button>
+                               <button type="button" onclick="${del_method}(this, ${list[i][last_tr.attr("bind")]})" class="button btn_big btn_danger"><span class="iconfont icon-cuowu"></span></button>
+                           </td>`).appendTo(tr);
+                        $(".card__table-box .examine-table").append(tr);
+                    }
+                    var pagination = new Pagination($(".examine-table").parent().next(".page-box"));
+                    pagination.reload(pageIndex, pageCount, 2);
+                    $(".examine-page .first_page").click(function () {
+                        pageIndex = 1;
+                        getExamineProjects();
+                    });
+                    $(".examine-page .last_page").click(function () {
+                        pageIndex = pageCount;
+                        getExamineProjects();
+                    });
+                    $(".examine-page .previou_page").click(function () {
+                        pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                        getExamineProjects();
+                    });
+                    $(".examine-page .next_page").click(function () {
+                        pageIndex = ++pageIndex > pageCount ? pageCount : pageIndex;
+                        getExamineProjects();
+                    });
+                    $(".examine-page .page_num").click(function () {
+                        pageIndex = parseInt($(this).text());
+                        getExamineProjects();
                     });
                 }
             });

@@ -44,6 +44,8 @@
     <Compile Include="Admin.cs" />
     <Compile Include="Classify.cs" />
     <Compile Include="Comment.cs" />
+    <Compile Include="LaunchInfo.cs" />
+    <Compile Include="Likes.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

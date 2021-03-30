@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>个人主页</title>
     <script src="/Content/Js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
@@ -103,43 +103,43 @@
             <span>我们已经收到~~~</span>
             <div class="botton-collect">
                 <div class="botton-collect_left">
-                    <dl>
+                     <dl>
                         <dt>
                             <img src="/Material/钱包.png" alt=""></dt>
-                        <dd class="red"><span>0</span>元</dd>
-                        <dd>爱情保险</dd>
+                        <dd class="red"><span><%=Session["SumOfCurrentMoney"] %></span>元</dd>
+                        <dd>筹资总数</dd>
                     </dl>
                     <dl>
                         <dt>
                             <img src="/Material/叶子.png" alt=""></dt>
-                        <dd class="red"><span>0</span>小时</dd>
-                        <dd>爱情保险</dd>
+                        <dd class="red"><span><%=Session["SumOfProject"] %></span>个</dd>
+                        <dd>项目总个数</dd>
                     </dl>
                     <dl>
                         <dt>
                             <img src="/Material/人群.png" alt=""></dt>
-                        <dd class="red"><span>0</span>人</dd>
-                        <dd>爱情保险</dd>
+                        <dd class="red"><span><%=Session["SumOfSupportProjects"] %></span>次</dd>
+                        <dd>累计支持人次</dd>
                     </dl>
                 </div>
                 <div class="botton-collect_right">
-                    <dl>
+                    <<dl>
                         <dt style="background-color: pink;">
                             <img src="/Material/奖杯.png" alt=""></dt>
                         <dd>项目总数</dd>
-                        <dd style="color: pink;"><span>0</span>个</dd>
+                        <dd style="color: pink;"><span><%=Session["SumOfProject"] %></span>个</dd>
                     </dl>
                     <dl>
                         <dt style="background-color: thistle;">
-                            <img src="/Material/钱.png" alt=""></dt>
-                        <dd>累计支持人</dd>
-                        <dd style="color: thistle;"><span>0</span>元</dd>
+                            <img src="/Material/人.png" alt=""></dt>
+                        <dd>累计支持人次</dd>
+                        <dd style="color: thistle;"><span><%=Session["SumOfSupportProjects"] %></span>次</dd>
                     </dl>
                     <dl>
                         <dt style="background-color: orange;">
-                            <img src="/Material/人.png" alt=""></dt>
+                            <img src="/Material/钱.png" alt=""></dt>
                         <dd>累计筹资数</dd>
-                        <dd style="color: orange;"><span>0</span>人</dd>
+                        <dd style="color: orange;"><span><%=Session["SumOfCurrentMoney"] %></span>元</dd>
                     </dl>
                 </div>
             </div>

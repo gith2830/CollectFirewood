@@ -33,6 +33,15 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.TextBox Content__Detailed__inputName;
 
         /// <summary>
+        /// RegularExpressionValidator1 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
+
+        /// <summary>
         /// Content__Detailed__inputMoney 控件。
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace CollectFirewood.Member
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Content__Detailed__inputMoney;
+
+        /// <summary>
+        /// RegularExpressionValidator2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
 
         /// <summary>
         /// Content__Detailed__inputDay 控件。
@@ -78,24 +96,6 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.FileUpload Content__Detailed__Cover;
 
         /// <summary>
-        /// Content__Detailed__video 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload Content__Detailed__video;
-
-        /// <summary>
-        /// Content__Detailed__synopsis 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Content__Detailed__synopsis;
-
-        /// <summary>
         /// Content__Detailed__Details 控件。
         /// </summary>
         /// <remarks>
@@ -103,15 +103,6 @@ namespace CollectFirewood.Member
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Content__Detailed__Details;
-
-        /// <summary>
-        /// TextBox1 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
         /// button 控件。
@@ -123,15 +114,6 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.Button button;
 
         /// <summary>
-        /// TextBox2 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
-
-        /// <summary>
         /// TextBox3 控件。
         /// </summary>
         /// <remarks>
@@ -141,13 +123,13 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.TextBox TextBox3;
 
         /// <summary>
-        /// FileUpload1 控件。
+        /// TextBox1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
         /// TextBox4 控件。
@@ -204,22 +186,13 @@ namespace CollectFirewood.Member
         protected global::System.Web.UI.WebControls.TextBox TextBox7;
 
         /// <summary>
-        /// DropDownList1 控件。
+        /// UserAddress 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
-
-        /// <summary>
-        /// DropDownList2 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
+        protected global::System.Web.UI.WebControls.TextBox UserAddress;
 
         /// <summary>
         /// TextBox8 控件。
@@ -247,15 +220,6 @@ namespace CollectFirewood.Member
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBox10;
-
-        /// <summary>
-        /// TextBox11 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox11;
 
         /// <summary>
         /// TextBox12 控件。

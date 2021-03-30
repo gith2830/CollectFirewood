@@ -67,7 +67,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Css\Body.css" />
+    <Content Include="Content\Css\iconfont.css" />
     <Content Include="Content\Css\LoginandRegister.css" />
+    <Content Include="Content\Js\ban.js" />
+    <Content Include="Content\Js\jquery-1.7.2.js" />
     <Content Include="Content\Js\jquery-3.5.1.js" />
     <Content Include="Manager\Components\Admins.aspx" />
     <Content Include="Manager\Components\Classifys.aspx" />
@@ -77,9 +81,14 @@
     <Content Include="Manager\Index.aspx" />
     <Content Include="Manager\Login.aspx" />
     <Content Include="Manager\Components\Projects.aspx" />
+    <Content Include="Material\bg1.jpg" />
+    <Content Include="Material\key.png" />
+    <Content Include="Material\lock_icon_copy.png" />
     <Content Include="Material\logo3.png" />
     <Content Include="Material\logo4.png" />
+    <Content Include="Material\user_icon_copy.png" />
     <Content Include="Member\BrowseItems.aspx" />
+    <Content Include="Member\Examine.aspx" />
     <Content Include="Member\OpenPlatform.aspx" />
     <Content Include="Member\NoviceHelp.aspx" />
     <Content Include="Member\Index.aspx" />
@@ -97,7 +106,6 @@
     <Content Include="Content\Css\grid.css" />
     <Content Include="Content\Css\Header.css" />
     <Content Include="Content\Css\home-iconfont.css" />
-    <Content Include="Content\Css\iconfont.css" />
     <Content Include="Content\Css\Index.css" />
     <Content Include="Content\Css\Login.css" />
     <Content Include="Content\Css\Site.css" />
@@ -154,6 +162,9 @@
     </Compile>
     <Compile Include="Ashx\User\UserAction.ashx.cs">
       <DependentUpon>UserAction.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Ashx\ValidateCode.ashx.cs">
+      <DependentUpon>ValidateCode.ashx</DependentUpon>
     </Compile>
     <Compile Include="Base\BasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -234,6 +245,13 @@
     <Compile Include="Member\BrowseItems.aspx.designer.cs">
       <DependentUpon>BrowseItems.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Member\Examine.aspx.cs">
+      <DependentUpon>Examine.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Examine.aspx.designer.cs">
+      <DependentUpon>Examine.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Member\OpenPlatform.aspx.cs">
       <DependentUpon>OpenPlatform.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -308,6 +326,7 @@
     <Content Include="Ashx\Project\SupportProjectAction.ashx" />
     <Content Include="Ashx\Comment\CommentAction.ashx" />
     <Content Include="Master\MainMaster.Master" />
+    <Content Include="Ashx\ValidateCode.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -331,6 +350,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Ashx\NewFolder1\" />
     <Folder Include="Content\Css\components\" />
   </ItemGroup>
   <PropertyGroup>
@@ -348,7 +368,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>17158</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44324/</IISUrl>
+          <IISUrl>http://localhost:44325</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

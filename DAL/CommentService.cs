@@ -14,12 +14,13 @@ namespace DAL
         #region 接口方法
         public int Add(Comment model)
         {
-            string sql = "insert into Comments([UserId],[ProjectId],[Content]) values(@UserId,@ProjectId,@Content)";
+            string sql = "insert into Comments([UserId],[ProjectId],[Content],[SendTime]) values(@UserId,@ProjectId,@Content,@Content)";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@UserId",model.UserId),
                 new SqlParameter("@ProjectId",model.ProjectId),
-                new SqlParameter("@Content",model.Content)
+                new SqlParameter("@Content",model.Content),
+                new SqlParameter("@SendTime",model.SendTime)
             };
             return DbHelper.ExecuteNotQuery(sql, ps);
         }
@@ -52,6 +53,7 @@ namespace DAL
             model.UserId = Convert.ToInt32(dt.Rows[0]["UserId"]);
             model.ProjectId = Convert.ToInt32(dt.Rows[0]["ProjectId"]);
             model.Content = dt.Rows[0]["Content"].ToString();
+            model.SendTime = dt.Rows[0]["SendTime"].ToString();
             return model;
         }
 
@@ -86,7 +88,29 @@ namespace DAL
             }
             return models;
         }
-
+        public List<Comment> GetModelLinkUsers(int UserId, int ProjectId)
+        {
+            string sql = $"select * from Comments c left join Users u on c.UserId=u.Id where UserId='{UserId}'and ProjectId='{ProjectId}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Comment> list = new List<Comment>();
+            Comment comment = null;
+            while (dr.Read())
+            {
+                comment = new Comment()
+                {
+                    Id=int.Parse(dr["Id"].ToString()),
+                    UserId=int.Parse(dr["UserId"].ToString()),
+                    ProjectId = int.Parse(dr["ProjectId"].ToString()),
+                    UserPic=dr["UserPic"].ToString(),
+                    SendTime=dr["SendTime"].ToString(),
+                    Nickname = dr["Nickname"].ToString(),
+                    Content=dr["Content"].ToString()
+                };
+                list.Add(comment);                
+            }
+            dr.Close();
+            return list;
+        }
         public int Update(Comment model)
         {
             string sql = "update Comments set UserId=@UserId,ProjectId=@ProjectId,Content=@Content where Id=@Id";

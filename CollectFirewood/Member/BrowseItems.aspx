@@ -6,16 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>浏览项目</title>
     <script src="/Content/Js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
 </head>
 
 <body>
-    <form action="" method="post">
+    <form action="" runat="server" method="post">
             <!-- 头部 -->
-    <header class="top ">
+    <%--<header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
                 <img src="/Material/logo.png" alt="">
@@ -29,10 +29,9 @@
                     <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                 </ul>
             </div>
-            <div class="top-searchbox grid-cell-1">
-                <input type="text" name="" id="" placeholder="搜索">
-                <div class="top-searchbox_btn"></div>
-            </div>
+           <div class="top-searchbox grid-cell-1">
+                 <asp:TextBox ID="TextBox1" runat="server" placeholder="搜索"></asp:TextBox>
+                 <a href="#"><div class="top-searchbox_btn"></div></a>
             <div class="top-toolbox grid-cell-1">
                 <ul>
                     <%if (Session["user"] == null)
@@ -46,7 +45,39 @@
                 </ul>
             </div>
         </div>
-    </header>
+    </header>--%>
+                <header class="top ">
+            <div class="middle grid">
+                <div class="top-logobox grid-cell-1">
+                    <img src="/Material/logo.png" alt="">
+                </div>
+                <div class="top-listbox grid-cell-1">
+                    <ul>
+                        <li><a href="Index.aspx">首页</a></li>
+                        <li><a href="#" class="active1">浏览项目</a></li>
+                        <li><a href="OpenPlatform.aspx">开放平台</a></li>
+                        <li><a href="NoviceHelp.aspx">新手帮助</a></li>
+                        <li><a href="ProjectLaunch.aspx">发起项目</a></li>
+                    </ul>
+                </div>
+                 <div class="top-searchbox grid-cell-1">
+                 <asp:TextBox ID="TextBox1" runat="server" placeholder="搜索"></asp:TextBox>
+                 <a href="BrowseItems.aspx?KeyWords=<%#this.TextBox1.Text %>"><div class="top-searchbox_btn"></div></a>
+            </div>
+                <div class="top-toolbox grid-cell-1">
+                    <ul>
+                        <%if (Session["user"] == null)
+                            { %>
+                        <li><a href="UserLogin.aspx" id="login">登录</a></li>
+                        <% } %>
+                        <%else
+                            {%>
+                        <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                        <%}%>
+                    </ul>
+                </div>
+            </div>
+        </header>
     <!-- 类型 -->
     <div class="type">
         <div class="middle">
@@ -56,7 +87,6 @@
                         <li><a href="BrowseItems.aspx?classifyId=<%# Eval("Id") %>&state=<%=Convert.ToInt32(State) %>"><%# Eval("ClassifyName") %></a></li>
                    </ItemTemplate>
                 </asp:Repeater>
-
             </ul>
         </div>
     </div>
@@ -65,7 +95,7 @@
         <div class="browse contentbox ">
             <span class="browse-listbox">
                 <ul class="grid">
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=2">所有项目</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx">所有项目</a></li>
                     <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0">进行中</a></li>
                     <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1">已结束</a></li>
                     <li class="grid-cell-1"></li>
@@ -85,15 +115,15 @@
             </span>
             <span id="browse-main">
                 <div class="browse-main_all browse-mainbox">
-                    <span class="" style="display: block;width:100%;float:left;">
+                    <span class="" style="display:block;float:left;margin:0 auto;width:100%;">
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
                                 <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
-                                    <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px;">
+                                    <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px;height:430px;">
                                     <dt>
-                                        <img src="<%# Eval("CoverImg") %>"><span class="like">关注</span></dt>
+                                        <img src="<%# Eval("CoverImg") %>"></dt>
                                     <dd><%# Eval("ProjectName") %></dd>
-                                    <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元<span class="statusbox">众筹中</span></dd>
+                                    <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元&nbsp;&nbsp;&nbsp;&nbsp;关注人数:<span><%# Eval("LikeCount") %></span></dd>
                                     <dd><progress value="<%# (Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100%>" max="100"></progress></dd>
                                     <dd class="grid"><span class="status grid-cell-1"><span><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %></span>
                                         <h6 class="ccc">已完成</h6>
@@ -105,14 +135,14 @@
                             </ItemTemplate>
                         </asp:Repeater>                                       
                     </span>  
-                    <div style="display:block;"> <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %> </div>
+                    <div style="display:inline-block;"> <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %> </div>
                  </div>
-                <div class="browse-main_ing browse-mainbox">
+<%--                <div class="browse-main_ing browse-mainbox">
                     
                 </div>
                 <div class="browse-main_ed browse-mainbox">
                     
-                </div>
+                </div>--%>
             </span>
         </div>
     </div>

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserRegister.aspx.cs" Inherits="CollectFirewood.Member.UserRegister" %>
 
-<!DOCTYPE html>
+<%--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -101,5 +101,65 @@
             </div>
         </div>
     </footer>
+</body>
+</html>--%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拾柴网注册页面</title>
+    <link href="../Content/Css/Body.css" rel="stylesheet" />
+    <script src="../Content/Js/jquery-1.7.2.js"></script>
+    <script src="../Content/Js/ban.js"></script>
+</head>
+<body>
+    <form action="" runat="server" method="post">
+        <canvas class="cavs" width="1575" height="1337"></canvas>
+        <div class="loginmain" style="height:500px;">
+            <div class="login-title">
+                <span>拾柴网注册界面</span>
+                <br />
+                <span style="font-size:8px;">已有账号,<a href="UserLogin.aspx">直接登录</a></span>
+            </div>
+
+
+            <div class="login-con">
+                <div class="login-user">
+                    <asp:TextBox ID="username" runat="server" placeholder="用户名" autocomplete="off"></asp:TextBox>
+                </div>
+                <div class="login-pwd">
+                    <asp:TextBox ID="password" runat="server" placeholder="密码" TextMode="Password" autocomplete="off"></asp:TextBox>
+                </div>
+                <div class="login-pwd">
+                    <asp:TextBox ID="userphone" runat="server" placeholder="手机号码" autocomplete="off"></asp:TextBox>
+                </div>
+                <div class="login-pwd">
+                    <asp:TextBox ID="nickname" runat="server" placeholder="昵称" autocomplete="off"></asp:TextBox>
+                </div>
+                <div class="login-pwd">
+                   <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ErrorMessage="请选择" ControlToValidate="RadioButtonList1" ForeColor="Red">*</asp:RequiredFieldValidator>性别:<asp:RadioButtonList ID="RadioButtonList1" runat="server" Height="16px" RepeatDirection="Horizontal">
+                        <asp:ListItem Selected="True">男</asp:ListItem>
+                        <asp:ListItem>女</asp:ListItem>
+                    </asp:RadioButtonList>--%>
+                    <span style="margin-left:64px;color:#757575">性别：</span>
+                    <asp:DropDownList ID="DropDownList1" runat="server" style="opacity:0.4;">
+                        <asp:ListItem Selected="True" >男</asp:ListItem>
+                        <asp:ListItem>女</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div class="login-yan">
+                    <asp:TextBox ID="numbercode" runat="server" placeholder="验证码"></asp:TextBox><asp:Label ID="getnumbercode" runat="server" Text="000" style="margin-left: 450px;opacity:0.4;" ForeColor="#FF99FF"></asp:Label>
+               </div>
+                <div>
+                    <asp:CheckBox ID="checkbox" runat="server" style="margin-left:65px;opacity:0.4;"/>阅读并同意众筹网的<a href="#">《服务协议》</a>
+                </div>
+                <div class="login-btn">
+                    <asp:Button ID="btnRegister" runat="server" Text="登录" OnClick="btnRegister_Click1" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
 </body>
 </html>

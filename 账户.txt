@@ -1,0 +1,2 @@
+前台 user 123com
+后台 admin 123com

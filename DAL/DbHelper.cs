@@ -138,5 +138,21 @@ namespace DAL
                 throw;
             }
         }
+
+        public static int Update(string sql)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(connStr);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sql, con);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminManager.cs" />
+    <Compile Include="CalculationManager.cs" />
     <Compile Include="ClassifyManager.cs" />
     <Compile Include="CommentManager.cs" />
     <Compile Include="IManagerBase.cs" />
+    <Compile Include="LaunchInfoManager.cs" />
+    <Compile Include="LikesManager.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

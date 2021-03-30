@@ -20,6 +20,14 @@ namespace Model
         public string CoverImg { get; set; }
         public PublishState PublishState { get; set; }
         public int OwnerId { get; set; }
+        public string Address { get; set; }
+        public string Return { get; set; }
+        public string ReturnMiddle { get; set; }
+        public string ReturnMax { get; set; }
+        public int ReturnTime { get; set; }
+        public decimal Freight { get; set; }
         public string  Nickname { get; set; }
+
+
     }
 }

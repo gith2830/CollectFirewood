@@ -48,10 +48,12 @@ function Dialog(obj) {
     var dialog = new Object();
     dialog.show = function () {
         $(obj).before($('<div class="dialog-baffle"></div>'));
-        $(obj).show();
+        $(obj).slideDown(200);
     }
     dialog.hide = function () {
-        $(obj).hide().prev(".dialog-baffle").remove();
+        $(obj).slideUp(200, function () {
+            $(obj).prev(".dialog-baffle").remove();
+        });
     }
     var closeBtn = $('<span class="dialog-close_btn">×</span>');
     var temp = $(obj).find(".dialog-box__title")

@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>新手帮助</title>
     <script src="/Content/Js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/Content/Css/拾柴网.css">
     <link rel="stylesheet" href="/Content/Css/grid.css">
@@ -27,10 +27,6 @@
                     <li><a href="NoviceHelp.aspx" class="active1">新手帮助</a></li>
                     <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                 </ul>
-            </div>
-            <div class="top-searchbox grid-cell-1">
-                <input type="text" name="" id="" placeholder="搜索">
-                <div class="top-searchbox_btn"></div>
             </div>
             <div class="top-toolbox grid-cell-1">
                 <ul>

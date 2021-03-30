@@ -14,13 +14,18 @@ namespace CollectFirewood.Member
         public int PageCount { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            CalculationManager calculationManager = new CalculationManager();
+            Session["SumOfProject"] = calculationManager.SumOfProject();
+            Session["SumOfCurrentMoney"] = calculationManager.SumOfCurrentMoney();
+            Session["SumOfSupportProjects"] = calculationManager.SumOfSupportProjects();
+
             if (!IsPostBack)
             {
                 ClassifyManager classifyManager = new ClassifyManager();
                 this.TypeList.DataSource = classifyManager.GetAllList();
                 ProjectManager projectManager = new ProjectManager();
                 int pageIndex;
-                int pageSize = 10;
+                int pageSize = 8;
                 if (!int.TryParse(Request["pageIndex"], out pageIndex))
                 {
                     pageIndex = 1;
@@ -34,28 +39,31 @@ namespace CollectFirewood.Member
                 DataBind();
             }
 
-            {
-                ClassifyManager classifyManager = new ClassifyManager();
-                this.TypeList.DataSource = classifyManager.GetAllList();
-                this.TypeList.DataBind();
-                if (!IsPostBack)
-                {
-                    if (Request["ClassifyId"] == null)
-                    {
-                        ProjectManager projectManager = new ProjectManager();
-                        this.ProjectList.DataSource = projectManager.GetPageList(1, 15);
-                        this.ProjectList.DataBind();
-                    }
-                    else
-                    {
-                        int classifyId = int.Parse(Request["ClassifyId"].ToString());
-                        ProjectManager projectManager = new ProjectManager();
-                        this.ProjectList.DataSource = projectManager.GetModelByClassifyId(classifyId);
-                        this.ProjectList.DataBind();
-                    }
-                }
+            //{
+            //    ClassifyManager classifyManager = new ClassifyManager();
+            //    this.TypeList.DataSource = classifyManager.GetAllList();
+            //    this.TypeList.DataBind();
+            //    if (!IsPostBack)
+            //    {
+            //        if (Request["ClassifyId"] == null)
+            //        {
+            //            ProjectManager projectManager = new ProjectManager();
+            //            this.ProjectList.DataSource = projectManager.GetPageList(1, 15);
+            //            this.ProjectList.DataBind();
+            //        }
+            //        else
+            //        {
+            //            int classifyId = int.Parse(Request["ClassifyId"].ToString());
+            //            ProjectManager projectManager = new ProjectManager();
+            //            this.ProjectList.DataSource = projectManager.GetModelByClassifyId(classifyId);
+            //            this.ProjectList.DataBind();
+            //        }
+            //    }
 
-            }
+            //}
         }
+
+
     }
+    
 }

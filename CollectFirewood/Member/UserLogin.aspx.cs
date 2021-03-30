@@ -15,25 +15,29 @@ namespace CollectFirewood.Member
         {
 
         }
-
-        protected void btnLogin_Click(object sender, EventArgs e)
+        protected void btnLogin_Click1(object sender, EventArgs e)
         {
             string username = this.username.Text;
             string password = this.password.Text;
-            if (username=="" || password=="")
+            if (username == "" || password == "")
             {
                 Response.Write("<script>alert('用户名或密码不能为空！');</script>");
+            }
+            else if (Session["vCode"] == null || this.txt_ValidateCode.Text != Session["vCode"].ToString())
+            {
+                Response.Write("<script>alert('验证码错误！');</script>");
+                return;
             }
             else
             {
                 if (checkbox.Checked)
                 {
                     UserManager userManager = new UserManager();
-                     User user;
-                    if (userManager.Login(username, password,out user))
+                    User user;
+                    if (userManager.Login(username, password, out user))
                     {
                         Session["user"] = user;
-                        Response.Redirect("index.aspx");                      
+                        Response.Redirect("index.aspx");
                     }
                     else
                     {
@@ -46,7 +50,6 @@ namespace CollectFirewood.Member
                     return;
                 }
             }
-            
         }
     }
 }

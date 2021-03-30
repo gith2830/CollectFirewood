@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +22,11 @@ namespace BLL
         {
             return dal.DeleteAllByUserId(userId)>0;
         }
+        public List<Comment> GetModelLinkUsers(int UserId, int ProjectId)
+        {
+            CommentService commentService = new CommentService();
+            return commentService.GetModelLinkUsers(UserId, ProjectId);
+        }
+
     }
 }

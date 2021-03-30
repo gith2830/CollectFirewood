@@ -57,7 +57,7 @@
                     <% } %>
                     <%else
                         {%>
-                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).UserName %></a></li>
+                    <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
                     <%}%>
                 </ul>
             </div>

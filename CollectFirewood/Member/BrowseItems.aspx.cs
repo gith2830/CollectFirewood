@@ -22,15 +22,15 @@ namespace CollectFirewood.Member
             //int State = int.Parse(Request.QueryString["State"]);
             //projectManager.GetPageListForState()
             int pageIndex;
-            int pageSize = 10;
+            int pageSize = 8;
             if (!int.TryParse(Request["pageIndex"], out pageIndex))
             {
                 pageIndex = 1;
             }
-            ProjectState state = Session["state"]==null?ProjectState.Null: (ProjectState)Enum.Parse(typeof(ProjectState),Session["state"].ToString());
+            ProjectState state = Session["state"] == null ? ProjectState.Null : (ProjectState)Enum.Parse(typeof(ProjectState), Session["state"].ToString());
             string id = Request["classifyId"];
-            int classifyId = Session["classifyId"]==null?0: Convert.ToInt32(Session["classifyId"]);
-            if (ProjectState.TryParse(Request["state"], out state)| int.TryParse(Request["classifyId"], out classifyId))
+            int classifyId = Session["classifyId"] == null ? 0 : Convert.ToInt32(Session["classifyId"]);
+            if (ProjectState.TryParse(Request["state"], out state) | int.TryParse(Request["classifyId"], out classifyId))
             {
                 State = state;
                 ClassifyId = classifyId;
@@ -41,7 +41,6 @@ namespace CollectFirewood.Member
                 pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
                 PageIndex = pageIndex;
                 this.ProjectList.DataSource = projectManager.GetPageListForState(PageIndex, pageSize, classifyId, state);
-                this.ProjectList.DataBind();
             }
             else
             {
@@ -50,16 +49,11 @@ namespace CollectFirewood.Member
                 pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
                 PageIndex = pageIndex;
                 this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize);
-                this.ProjectList.DataBind();
             }
-
             ClassifyManager classifyManager = new ClassifyManager();
             this.TypeList.DataSource = classifyManager.GetAllList();
-            this.TypeList.DataBind();
-        
-            this.ProjectList.DataSource = projectManager.GetPageList(1,15);
-            this.ProjectList.DataBind();
-            
+            DataBind();
         }
+
     }
 }
