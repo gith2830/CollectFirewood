@@ -36,7 +36,7 @@ namespace DAL
             int sum = 0;
             while (dr.Read())
             {
-                sum = (int)Convert.ToDecimal(dr["SumOfCurrentMoney"].ToString());
+                sum = (int)Convert.ToDecimal(dr["SumOfCurrentMoney"]==DBNull.Value?"0": dr["SumOfCurrentMoney"].ToString());
             }
             dr.Close();
             return sum;
@@ -54,17 +54,32 @@ namespace DAL
             dr.Close();
             return sum;
         }
-
+        /// <summary>
+        /// 关注
+        /// </summary>
+        /// <param name="ProjectId"></param>
+        /// <returns></returns>
         public int LikeCountAddition(int ProjectId)
         {
             string sql = $"update Projects set LikeCount= LikeCount+1 where id='{ProjectId}'";
             return DbHelper.Update(sql);
         }
+        /// <summary>
+        /// 取消关注
+        /// </summary>
+        /// <param name="ProjectId"></param>
+        /// <returns></returns>
         public int LikeCountSubtraction(int ProjectId)
         {
             string sql = $"update Projects set LikeCount= LikeCount-1 where id='{ProjectId}'";
             return DbHelper.Update(sql);
         }
+        /// <summary>
+        /// 捐款项目
+        /// </summary>
+        /// <param name="ProjectId"></param>
+        /// <param name="Money"></param>
+        /// <returns></returns>
         public int CurrentMoneyAddition(int ProjectId, decimal Money)
         {
             string sql = $"update Projects set CurrentMoney= CurrentMoney+'{Money}' where id='{ProjectId}'";
@@ -103,6 +118,23 @@ namespace DAL
             {
                 num = int.Parse(dr["SupportPeople"].ToString());
             };
+            dr.Close();
+            return num;
+        }
+        /// <summary>
+        /// 获取项目的支持人数
+        /// </summary>
+        /// <param name="PeojectId"></param>
+        /// <returns></returns>
+        public int CountSupportWhereProjectId(int PeojectId)
+        {
+            string sql = $"select COUNT(*) as [Count] from SupportProjects where ProjectId='{PeojectId}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            int num = 0;
+            while (dr.Read())
+            {
+                num = int.Parse(dr["Count"].ToString());
+            }
             dr.Close();
             return num;
         }

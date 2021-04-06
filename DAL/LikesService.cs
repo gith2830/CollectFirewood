@@ -38,6 +38,16 @@ namespace DAL
             return DbHelper.Update(sql);
         }
 
-
+        public int Delete(Dictionary<string,object> dicWhere)
+        {
+            StringBuilder sql = new StringBuilder("delete from Likes where 1=1");
+            List<SqlParameter> pList = new List<SqlParameter>();
+            foreach (var item in dicWhere)
+            {
+                sql.Append(" and " + item.Key + "=@" + item.Key.ToString());
+                pList.Add(new SqlParameter("@" + item.Key, item.Value));
+            }
+            return DbHelper.ExecuteNotQuery(sql.ToString(), pList.ToArray());
+        }
     }
 }

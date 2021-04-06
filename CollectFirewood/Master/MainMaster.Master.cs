@@ -13,5 +13,11 @@ namespace CollectFirewood.Master
         {
 
         }
+
+        protected void btnofExit_Click(object sender, EventArgs e)
+        {
+            Session["user"] = null;
+            Response.Write("<script>location.href='index.aspx';</script>");
+        }
     }
 }

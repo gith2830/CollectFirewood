@@ -148,7 +148,7 @@ namespace DAL
         /// <returns></returns>
         public int UpdateInfoHaveCookies(User user)
         {
-            string sql = $"update users set Sex='{user.Sex}',Address='{user.Address}'where Id='{user.Id}'";
+            string sql = $"update users set Sex='{user.Sex}',Address='{user.Address}' where Id='{user.Id}'";
             return DbHelper.Update(sql);
         }
 
@@ -169,7 +169,7 @@ namespace DAL
         /// <returns></returns>
         public int UpdatePassWord(User user)
         {
-            string sql = $"update users set Pwd='{user.Pwd}'where Id='{user.Id}'";
+            string sql = $"update users set Pwd='{user.Pwd}' where Id='{user.Id}'";
             return DbHelper.Update(sql);
         }
         /// <summary>

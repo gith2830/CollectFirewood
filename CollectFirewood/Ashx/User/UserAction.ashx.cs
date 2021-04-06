@@ -128,7 +128,7 @@ namespace CollectFirewood.Ashx.User
                 Model.User user = new Model.User();
                 user.UserName = username;
                 user.Nickname = context.Request["nickname"]==null? user.UserName : context.Request["nickname"];
-                user.Pwd = pwd;
+                user.Pwd = Common.MD5Helper.GetMD5String(pwd);
                 user.Sex = sex;
                 user.Phone = context.Request["phone"]==null?string.Empty: context.Request["phone"];
                 user.Address = context.Request["address"] == null ? string.Empty : context.Request["address"];

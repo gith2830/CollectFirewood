@@ -31,6 +31,18 @@ namespace DAL
             return DbHelper.ExecuteNotQuery(sql, p);
         }
 
+        public int Delete(Dictionary<string,object> dicWhere)
+        {
+            StringBuilder sql = new StringBuilder("delete from SupportProjects where 1=1");
+            List<SqlParameter> pList = new List<SqlParameter>();
+            foreach (var item in dicWhere)
+            {
+                sql.Append(" and " + item.Key + "=@" + item.Key.ToString());
+                pList.Add(new SqlParameter("@" + item.Key, item.Value));
+            }
+            return DbHelper.ExecuteNotQuery(sql.ToString(), pList.ToArray());
+        }
+
         public int DeleteAllByUserId(int userId)
         {
             string sql = "delete from SupportProjects where userId=@userId";

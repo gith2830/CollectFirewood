@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <form action="" runat="server" method="post">
+    <form action="" runat="server" method="get">
             <!-- 头部 -->
     <%--<header class="top ">
         <div class="middle grid">
@@ -61,8 +61,8 @@
                     </ul>
                 </div>
                  <div class="top-searchbox grid-cell-1">
-                 <asp:TextBox ID="TextBox1" runat="server" placeholder="搜索"></asp:TextBox>
-                 <a href="BrowseItems.aspx?KeyWords=<%#this.TextBox1.Text %>"><div class="top-searchbox_btn"></div></a>
+                 <input type="text" placeholder="搜索" name="KeyWords"/>
+                 <button  style="border:none;outline:none;background-color:transparent;float:left;"><div class="top-searchbox_btn"></div></button>
             </div>
                 <div class="top-toolbox grid-cell-1">
                     <ul>
@@ -73,6 +73,8 @@
                         <%else
                             {%>
                         <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                         <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                         <%}%>
                     </ul>
                 </div>
@@ -95,9 +97,26 @@
         <div class="browse contentbox ">
             <span class="browse-listbox">
                 <ul class="grid">
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx">所有项目</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=0">进行中</a></li>
-                    <li class="grid-cell-1"><a href="BrowseItems.aspx?State=1">已结束</a></li>
+                    <li class="grid-cell-1"><a style="text-decoration:none;color:black;" href="BrowseItems.aspx?state=2" class="">所有项目</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?state=0&classifyId=<%=ClassifyId %>" class=" 
+                        <% if (Session["state"] != null && Session["state"].ToString() == "InProgress")
+                                                { %>
+                            stateselect state
+                       <%  }%>
+                        <%else
+                                                { %>
+                         state 
+                        <%} %>
+                        ">进行中</a></li>
+                    <li class="grid-cell-1"><a href="BrowseItems.aspx?state=1&classifyId=<%=ClassifyId %>" class="state <% if (Session["state"]!=null&&Session["state"].ToString()=="Finish")
+                           { %>
+                            stateselect state
+                       <%  }%>
+                         <%else
+                                                { %>
+                         state 
+                        <%} %>
+                        "">已结束</a></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
@@ -105,11 +124,6 @@
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1"></li>
                     <li class="grid-cell-1">
-                        <select name="" id="">
-                            <option value="">排列方式</option>
-                            <option value="">排序2</option>
-                            <option value="">排序3</option>
-                        </select>
                     </li>
                 </ul>
             </span>
@@ -118,34 +132,40 @@
                     <span class="" style="display:block;float:left;margin:0 auto;width:100%;">
                         <asp:Repeater ID="ProjectList" runat="server">
                             <ItemTemplate>
-                                <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
-                                    <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px;height:430px;">
+                                <a href="Projectinfo.aspx?id=<%# Eval("Id") %>" style="color:black;">
+                                    <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px;">
                                     <dt>
                                         <img src="<%# Eval("CoverImg") %>"></dt>
                                     <dd><%# Eval("ProjectName") %></dd>
                                     <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元&nbsp;&nbsp;&nbsp;&nbsp;关注人数:<span><%# Eval("LikeCount") %></span></dd>
                                     <dd><progress value="<%# (Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100%>" max="100"></progress></dd>
-                                    <dd class="grid"><span class="status grid-cell-1"><span><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %></span>
-                                        <h6 class="ccc">已完成</h6>
-                                    </span><span class="grid-cell-1 status"><span><%# Math.Floor(Convert.ToDecimal(Eval("CurrentMoney"))) %></span>元<h6 class="ccc">已筹资</h6>
-                                    </span><span class="grid-cell-1 status"><span><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%></span>天<h6 class="ccc">剩余时间</h6>
+                                    <dd class="grid"><span style="color:red;" class="status grid-cell-1"><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %>%</span>
+                                    </span><span class="grid-cell-1 status"><%# Math.Floor(Convert.ToDecimal(Eval("CurrentMoney"))) %>元</>
+                                    </span><span class="grid-cell-1 status"><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%>天</span>
                                     </span></dd>
+<dd class="grid" style="text-align:center;"><span class="grid-cell-1 status">进度</span><span class="grid-cell-1 status">筹资</span><span class="grid-cell-1 status">时间</span></dd>
                                 </dl>
                                 </a>                                      
                             </ItemTemplate>
                         </asp:Repeater>                                       
-                    </span>  
-                    <div style="display:inline-block;"> <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %> </div>
+                    </span>                    
                  </div>
-<%--                <div class="browse-main_ing browse-mainbox">
-                    
-                </div>
-                <div class="browse-main_ed browse-mainbox">
-                    
-                </div>--%>
             </span>
         </div>
     </div>
+            <%var dic = new Dictionary<string,int>();
+                if (Session["state"] != null)
+                {
+                    dic.Add("state", Convert.ToInt32(Session["state"]));
+                }
+                if (Session["classifyId"]!=null)
+                {
+                    dic.Add("classifyId", Convert.ToInt32(Session["classifyId"]));
+                }
+                Session["state"] = null;
+                Session["classifyId"] = null;
+                %>
+          <div class="page-con middle"> <%=Server.UrlDecode(Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount,dic)) %> </div>
     <!-- 服务 -->
     <div class="serves" style="float:left;">
         <div class="middle">

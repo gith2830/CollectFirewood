@@ -15,7 +15,6 @@
     <form runat="server">
     <div class="content">
             <div class="card">
-                <button class="button btn_huge btn_append" type="button" onclick="showAddDialog()">添加</button>
                 <button class="button btn_huge btn_append" type="button" onclick="showExamineDialog()">待审批</button>
                 <div class="card__table-box">
                     <table class="main-table" cellspacing="0" cellpadding="0">
@@ -32,24 +31,6 @@
                 </div>
                 <ul class="main-page page-box">
                 </ul>
-            </div>
-        </div>
-        <div class="addDialog dialog-box">
-            <div class="dialog-box__title">添加</div>
-            <div class="dialog-box__content">
-                <table>
-                    <tr class="input-item"><td><span class="label-item">所属分类:</span></td><td><select class="input-text classifyId"></select></td></tr>
-                    <tr class="input-item"><td><span class="label-item">项目名:</span></td><td><input type="text" class="input-text projectName"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">状态:</span></td><td><select class="input-text projectState"><option value="0">进行中</option><option value="1">完成</option></select></td></tr>
-                    <tr class="input-item"><td><span class="label-item">目标金额:</span></td><td><input type="text" class="input-text projectGoal"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">截至日期:</span></td><td><input type="date" class="input-text projectDeadline"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">点赞数:</span></td><td><input type="text" class="input-text projectLikeCount"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">内容:</span></td><td><input type="text" class="input-text projectContent"/></td></tr>
-                </table>
-                <div class="btnBox">
-                    <button class="button btn_huge btn_append" type="button" onclick="addProject()">添加</button>
-                    <button class="button btn_huge btn_default" type="button" onclick="addDialogClose()">取消</button>
-                </div>
             </div>
         </div>
         <div class="examineDialog dialog-box">
@@ -92,9 +73,14 @@
     <script src="/Content/Js/ui.js"></script>
     <script src="/Content/Js/components.js"></script>
     <script>
-        var pageIndex = 1;
-        var pageSize = 9;
-        var pageCount = 0;
+        var mainPageIndex = 1;
+        var mainPageSize = 9;
+        var mainPageCount = 0;
+        var mainCount = 0;
+        var subPageIndex = 1;
+        var subPageSize = 9;
+        var subPageCount = 0;
+        var subCount = 0;
         var editDialog = new Dialog(".editDialog");
         function showEditDialog(id) {
             $.post("/Ashx/Project/ProjectAction.ashx", { "action": "getById", "id": id }, function (data) {
@@ -132,6 +118,9 @@
                 var serverData = data.split(":");
                 var msg = new Message();
                 if (serverData[0] == "ok") {
+                    if (subCount <= 1) {
+                        --subPageIndex;
+                    }
                     msg.success(serverData[1]);
                     getExamineProjects();
                 } else {
@@ -145,6 +134,9 @@
                 var serverData = data.split(":");
                 var msg = new Message();
                 if (serverData[0] == "ok") {
+                    if (subCount <= 1) {
+                        --subPageIndex;
+                    }
                     $(obj).parent().parent().remove();
                     msg.success(serverData[1]);
                     getExamineProjects();
@@ -190,61 +182,10 @@
                 }
             });
         }
-        var addDialog = new Dialog(".addDialog");
-        function showAddDialog() {
-            $.post("/Ashx/Classify/ClassifyAction.ashx", { "action": "getAll" },
-                function (data) {
-                    data = $.parseJSON(data);
-                    for (var i = 0; i < data.length; ++i) {
-                        $(".classifyId").append($(`<option value="${data[i].Id}">${data[i].ClassifyName}</option>`));
-                    }
-                });
-            addDialog.show();
-        }
         var examineDialog = new Dialog(".examineDialog");
         function showExamineDialog() {
             getExamineProjects();
             examineDialog.show();
-        }
-        //发送添加项目请求
-        function addProject() {
-            var classifyId = $(".classifyId").val();
-            var projectName = $(".projectName").val();
-            var projectState = $(".projectState").val();
-            var projectGoal = $(".projectGoal").val();
-            var projectDeadline = $(".projectDeadline").val();
-            var projectLikeCount = $(".projectLikeCount").val();
-            var projectContent = $(".projectContent").val();
-            $.post("/Ashx/Project/ProjectAction.ashx", {
-                "action": "add",
-                "classifyId": classifyId,
-                "projectName": projectName,
-                "state": projectState,
-                "goal": projectGoal,
-                "deadline": projectDeadline,
-                "likeCount": projectLikeCount,
-                "content": projectContent,
-            }, function (data) {
-                var serverData = data.split(":");
-                var msg = new Message();
-                if (serverData[0] == "ok") {
-                    getProjects();
-                    msg.success(serverData[1]);
-                    addDialog.hide();
-                    $(".classifyId").text("");
-                    $(".projectName").val("");
-                    $(".projectGoal").val("");
-                    $(".projectDeadline").val("");
-                    $(".projectLikeCount").val("");
-                    $(".projectContent").val("");
-                } else {
-                    msg.danger(serverData[1]);
-                }
-            });
-        }
-        //添加窗口关闭
-        function addDialogClose() {
-            addDialog.hide();
         }
         //删除项目
         function deleteProject(obj, id) {
@@ -256,6 +197,9 @@
                     var serverData = data.split(":");
                     var message = new Message();
                     if (serverData[0] == "ok") {
+                        if (mainCount <= 1) {
+                            --mainPageIndex;
+                        }
                         $(obj).parent().parent().remove();
                         message.success(serverData[1]);
                         getProjects();
@@ -280,7 +224,7 @@
             $.ajax({
                 type: "get",
                 url: "/Ashx/Project/ProjectAction.ashx",
-                data: { "action": "get", "pageIndex": pageIndex, "pageSize": pageSize },
+                data: { "action": "get", "pageIndex": mainPageIndex, "pageSize": mainPageSize },
                 success: function (data) {
                     var serverData = data.split(":");
                     var msg = new Message();
@@ -290,10 +234,11 @@
                     $(".main-table .table-header").siblings().remove();
                     $(".main-page").children().remove();
                     data = $.parseJSON(data);
-                    pageIndex = data.pageIndex;
-                    pageSize = data.pageSize;
-                    pageCount = data.pageCount;
+                    mainPageIndex = data.pageIndex;
+                    mainPageSize = data.pageSize;
+                    mainPageCount = data.pageCount;
                     var list = data.data;
+                    mainCount = list.length;
                     if (list == null) return;
                     for (var i = 0; i < list.length; ++i) {
                         var strSec = list[i].Deadline.match(/\d+/g);
@@ -323,25 +268,25 @@
                         $(".card__table-box .main-table").append(tr);
                     }
                     var pagination = new Pagination($(".main-table").parent().next(".page-box"));
-                    pagination.reload(pageIndex, pageCount, 2);
+                    pagination.reload(mainPageIndex, mainPageCount, 2);
                     $(".main-page .first_page").click(function () {
-                        pageIndex = 1;
+                        mainPageIndex = 1;
                         getProjects();
                     });
                     $(".main-page .last_page").click(function () {
-                        pageIndex = pageCount;
+                        mainPageIndex = mainPageCount;
                         getProjects();
                     });
                     $(".main-page .previou_page").click(function () {
-                        pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                        mainPageIndex = --mainPageIndex < 1 ? 1 : mainPageIndex;
                         getProjects();
                     });
                     $(".main-page .next_page").click(function () {
-                        pageIndex = ++pageIndex > pageCount ? pageCount : pageIndex;
+                        mainPageIndex = ++mainPageIndex > mainPageCount ? mainPageCount : mainPageIndex;
                         getProjects();
                     });
                     $(".main-page .page_num").click(function () {
-                        pageIndex = parseInt($(this).text());
+                        mainPageIndex = parseInt($(this).text());
                         getProjects();
                     });
                 }
@@ -351,7 +296,7 @@
             $.ajax({
                 type: "get",
                 url: "/Ashx/Project/ProjectAction.ashx",
-                data: { "action": "getExamine", "pageIndex": pageIndex, "pageSize": pageSize },
+                data: { "action": "getExamine", "pageIndex": subPageIndex, "pageSize": subPageSize },
                 success: function (data) {
                     var serverData = data.split(":");
                     var msg = new Message();
@@ -361,10 +306,11 @@
                     $(".examine-table .table-header").siblings().remove();
                     $(".examine-page").children().remove();
                     data = $.parseJSON(data);
-                    pageIndex = data.pageIndex;
-                    pageSize = data.pageSize;
-                    pageCount = data.pageCount;
+                    subPageIndex = data.pageIndex;
+                    subPageSize = data.pageSize;
+                    subPageCount = data.pageCount;
                     var list = data.data;
+                    subCount = list.length;
                     if (list == null) return;
                     for (var i = 0; i < list.length; ++i) {
                         var strSec = list[i].Deadline.match(/\d+/g);
@@ -394,25 +340,26 @@
                         $(".card__table-box .examine-table").append(tr);
                     }
                     var pagination = new Pagination($(".examine-table").parent().next(".page-box"));
-                    pagination.reload(pageIndex, pageCount, 2);
+                    pagination.reload(subPageIndex, subPageCount, 2);
                     $(".examine-page .first_page").click(function () {
-                        pageIndex = 1;
+                        subPageIndex = 1;
                         getExamineProjects();
                     });
                     $(".examine-page .last_page").click(function () {
-                        pageIndex = pageCount;
+                        subPageIndex = subPageCount;
                         getExamineProjects();
                     });
                     $(".examine-page .previou_page").click(function () {
-                        pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                        subPageIndex = --subPageIndex < 1 ? 1 : subPageIndex;
                         getExamineProjects();
                     });
                     $(".examine-page .next_page").click(function () {
-                        pageIndex = ++pageIndex > pageCount ? pageCount : pageIndex;
+                        subPageIndex = ++subPageIndex > subPageCount ? subPageCount : subPageIndex;
                         getExamineProjects();
                     });
                     $(".examine-page .page_num").click(function () {
-                        pageIndex = parseInt($(this).text());
+                        subPageIndex = parseInt($(this).text());
+                        console.log(subPageIndex);
                         getExamineProjects();
                     });
                 }

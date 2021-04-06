@@ -28,6 +28,6 @@ namespace Model
         public decimal Freight { get; set; }
         public string  Nickname { get; set; }
 
-
+        public decimal Money { get; set; }
     }
 }

@@ -15,15 +15,25 @@ namespace CollectFirewood.Member
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ProjectManager projectManager = new ProjectManager();
-            List<Project> list= projectManager.GetModelByIdTest(int.Parse(((Session["user"] as User).Id).ToString()));
-            this.RepeaterProject.DataSource = list;
-            this.RepeaterProject.DataBind();
-            
-            if (Response.Cookies["UserNickName"] != null)
+            int UserId = (Session["user"] as Model.User).Id;
+            if (!IsPostBack)
             {
-                this.Nickname.Enabled = false;
+                UserManager userManager = new UserManager();
+                User user = userManager.GetModel(UserId);
+                this.Nickname.Text = user.Nickname;
+                this.Info_Address.Text = user.Address;
+                this.Description.Text = user.Description;
+                this.RadioButtonListOfSex.SelectedValue = user.Sex.ToString();
+                
+
+
             }
+            ProjectManager projectManager = new ProjectManager();
+            List<Project> list = projectManager.GetModelByIdTest(int.Parse(((Session["user"] as User).Id).ToString()));
+            this.RepeaterReturnMoney.DataSource = projectManager.RetuenMoney(UserId);
+            this.RepeaterProject.DataSource = list;
+            DataBind();
+
         }
         protected void UpdateOfInfo_Click(object sender, EventArgs e)
         {
@@ -45,32 +55,19 @@ namespace CollectFirewood.Member
                 }
                 else
                 {
-                    if (Response.Cookies["UserNickName"] != null)
+
+                    if (userManager.UpdateInfo(user) > 0)
                     {
-                        if (userManager.UpdateInfoHaveCookies(user) > 0)
-                        {
-                            Response.Write("<script>alert('修改成功');</script>");
-                        }
-                        else
-                        {
-                            Response.Write("<script>alert('修改失败');</script>");
-                            return;
-                        }
+
+                        Response.Write("<script>alert('修改成功');</script>");
+                        Response.Write("<script> window.location.href = document.URL; </script>");
                     }
                     else
                     {
-                        if (userManager.UpdateInfo(user) > 0)
-                        {
-                            Response.Write("<script>alert('修改成功');</script>");
-                            Response.Cookies["UserNickName"].Value = user.Nickname;
-                            Response.Cookies["UserNickName"].Expires = DateTime.Now.AddDays(30);
-                        }
-                        else
-                        {
-                            Response.Write("<script>alert('修改失败');</script>");
-                            return;
-                        }
+                        Response.Write("<script>alert('修改失败');</script>");
+                        return;
                     }
+
                 }
             }
             else
@@ -102,7 +99,9 @@ namespace CollectFirewood.Member
                     {
                         if (userManager.UpdatePassWord(user) > 0)
                         {
+                            Session["user"] = null;
                             Response.Write("<script>alert('修改成功');</script>");
+                            Response.Redirect("index.aspx");
                         }
                         else
                         {
@@ -160,6 +159,7 @@ namespace CollectFirewood.Member
                             if (userManager.UpdateOther(user) > 0)
                             {
                                 Response.Write("<script>alert('修改成功');</script>");
+                                Response.Write("<script> window.location.href = document.URL; </script>");
                             }
                             else
                             {
@@ -189,6 +189,7 @@ namespace CollectFirewood.Member
                         if (userManager.UpdateOtherNoPic(user) > 0)
                         {
                             Response.Write("<script>alert('修改成功');</script>");
+                            Response.Write("<script> window.location.href = document.URL; </script>");
                         }
                         else
                         {
@@ -202,7 +203,7 @@ namespace CollectFirewood.Member
                         return;
                     }
                 }
-            }                      
+            }
         }
     }
 }

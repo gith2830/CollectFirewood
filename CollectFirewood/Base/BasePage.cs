@@ -20,16 +20,16 @@ namespace CollectFirewood.Base
         // 页面初始化
         protected virtual void Page_Init(object sender, EventArgs e)
         {
-            string path = Request.Url.LocalPath;
-            if (path.Contains(RedirectPath))
+            string path = Request.Url.LocalPath.ToLower();
+            if (path.Contains(RedirectPath.ToLower()))
             {
                 return;
             }
-            if (path.Contains(CheckPath))
+            if (path.Contains(CheckPath.ToLower()))
             {
-                if (Session[SessionName] == null)
+                if (Session[SessionName.ToLower()] == null)
                 {
-                    Response.Redirect("~"+RedirectPath);
+                    Response.Redirect("~"+ RedirectPath.ToLower());
                     return;
                 }
             }

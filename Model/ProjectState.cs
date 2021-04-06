@@ -12,6 +12,7 @@ namespace Model
         InProgress,
         //完成
         Finish,
-        Null
+        Null,
+        Expired
     }
 }

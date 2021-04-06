@@ -20,7 +20,6 @@
     <form runat="server">
     <div class="content">
             <div class="card">
-                <button class="button btn_huge btn_append" type="button" onclick="showAddDialog()">添加</button>
                 <div class="card__table-box">
                     <table cellspacing="0" cellpadding="0">
                         <tr class="table-header">
@@ -34,20 +33,6 @@
                 </div>
                 <ul class="page-box">
                 </ul>
-            </div>
-        </div>
-        <div class="addDialog dialog-box">
-            <div class="dialog-box__title">添加</div>
-            <div class="dialog-box__content">
-                <table>
-                    <tr class="input-item"><td><span class="label-item">所属用户Id:</span></td><td><input type="number" class="input-text add-userId"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">所属项目Id:</span></td><td><input type="number" class="input-text add-projectId"/></td></tr>
-                    <tr class="input-item"><td><span class="label-item">内容:</span></td><td><input type="text" class="input-text add-content"/></td></tr>
-                </table>
-                <div class="btnBox">
-                    <button class="button btn_huge btn_append" type="button" onclick="addComment()">添加</button>
-                    <button class="button btn_huge btn_default" type="button" onclick="addDialogClose()">取消</button>
-                </div>
             </div>
         </div>
         <div class="editDialog dialog-box">
@@ -73,6 +58,7 @@
         var pageIndex = 1;
         var pageSize = 9;
         var pageCount = 0;
+        var count = 0;
         var editDialog = new Dialog(".editDialog");
         function showEditDialog(id) {
             $.post("/Ashx/Comment/CommentAction.ashx", { "action": "getById", "id": id }, function (data) {
@@ -119,37 +105,6 @@
                 }
             });
         }
-        var addDialog = new Dialog(".addDialog");
-        function showAddDialog() {
-            addDialog.show();
-        }
-        function addComment() {
-            var userId = $(".add-userId").val();
-            var projectId = $(".add-projectId").val();
-            var content = $(".add-content").val();
-            $.post("/Ashx/Comment/CommentAction.ashx", {
-                "action": "add",
-                "userId": userId,
-                "projectId": projectId,
-                "content": content,
-            }, function (data) {
-                var serverData = data.split(":");
-                var msg = new Message();
-                if (serverData[0] == "ok") {
-                    getComments();
-                    msg.success(serverData[1]);
-                    addDialog.hide();
-                    $(".add-userId").val("");
-                    $(".add-projectId").val("");
-                    $(".add-content").val("");
-                } else {
-                    msg.danger(serverData[1]);
-                }
-            });
-        }
-        function addDialogClose() {
-            addDialog.hide();
-        }
         function deleteComment(obj, id) {
             $.ajax({
                 type: "post",
@@ -159,6 +114,9 @@
                     var serverData = data.split(":");
                     var message = new Message();
                     if (serverData[0] == "ok") {
+                        if (count <= 1) {
+                            --pageIndex;
+                        }
                         $(obj).parent().parent().remove();
                         message.success(serverData[1]);
                         getComments();
@@ -196,6 +154,7 @@
                     pageSize = data.pageSize;
                     pageCount = data.pageCount;
                     var list = data.data;
+                    count = list.length;
                     if (list == null) return;
                     var header_tr = $(".table-header").children();
                     var del_method = $(".table-header td:last").attr("onDelete");

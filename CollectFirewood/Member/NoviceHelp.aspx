@@ -13,7 +13,8 @@
 </head>
 
 <body>
-    <!-- 头部 -->
+<form runat="server">
+        <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -37,6 +38,8 @@
                     <%else
                         {%>
                     <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                     <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                     <%}%>
                 </ul>
             </div>
@@ -132,6 +135,7 @@
                 京ICP备14016844号</span>
         </div>
     </div>
+</form>
 </body>
 
 </html>

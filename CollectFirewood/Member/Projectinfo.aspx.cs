@@ -50,6 +50,7 @@ namespace CollectFirewood.Member
             Session["Small"] = calculationManager.CountSupportPeopleSmall(ProjectId);
             Session["Middle"] = calculationManager.CountSupportPeopleMiddle(ProjectId);
             Session["Max"] = calculationManager.CountSupportPeopleMax(ProjectId);
+            Session["CountOfSupport"] = calculationManager.CountSupportWhereProjectId(ProjectId);
         }
 
         protected void like_Click(object sender, EventArgs e)
@@ -65,8 +66,9 @@ namespace CollectFirewood.Member
                 {
 
 
-                    Response.Write("<script>alert('关注成功！！');</script>");
+                    Response.Write("<script>alert('关注成功！！');loaction.href='Projectinfo.aspx';</script>");
                     this.like.Text = "取消关注";
+                    Response.Write("<script> window.location.href = document.URL; </script>");
                 }
                 else
                 {
@@ -79,6 +81,7 @@ namespace CollectFirewood.Member
                 {
                     Response.Write("<script>alert('已取消关注！！');</script>");
                     this.like.Text = "关注";
+                    Response.Write("<script> window.location.href = document.URL; </script>");
                 }
                 else
                 {
@@ -164,6 +167,12 @@ namespace CollectFirewood.Member
                     return;
                 }
             }
+        }
+
+        protected void btnofExit_Click(object sender, EventArgs e)
+        {
+            Session["user"] = null;
+            Response.Write("<script>location.href='index.aspx';</script>");
         }
     }
 }

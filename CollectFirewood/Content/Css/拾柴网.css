@@ -182,8 +182,8 @@ body {
 .type {
     width: 83%;
     padding-left: 17%;
-    height: 70px;
-    line-height: 40px;
+    height: 40px;
+    line-height: 10px;
     border-bottom: 1px solid #CCC;
     background: white;
     overflow: hidden;
@@ -219,22 +219,7 @@ body {
     width: 100%;
     margin-bottom: 60px
 }
-/* 首页 */
-.home-picbox {
-    display: block;
-    width: 100%;
-    height: 500px;
-    overflow: hidden;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
 
-    .home-picbox img {
-        float: left;
-        width: 100%;
-        height: 100%;
-        opacity: 0.6;
-    }
 
 .home-manufacture {
     display: block;
@@ -270,7 +255,6 @@ body {
 
 .home-manufacture dl {
     float: left;
-    height: 405px;
     border: 1px solid #e5e5e5;
     text-align: center;
     border-radius: 20px;
@@ -296,7 +280,7 @@ body {
 
     .home-manufacture dl dd {
         height: 40px;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
 
         .home-manufacture dl dd:nth-child(2) {
@@ -329,7 +313,6 @@ progress {
 /* 底部 */
 .botton {
     width: 100%;
-    height: 300px;
     background-color: white;
     overflow: hidden;
 }
@@ -340,6 +323,7 @@ progress {
 
 .botton-collect_left {
     width: 70%;
+    height:150px;
     border-right: 1px dashed #CCC;
     float: left;
 }
@@ -362,7 +346,7 @@ progress {
             overflow: hidden;
         }
 
-            .botton-collect_left dl dt img {
+    .botton-collect_left dl dt img {
                 width: 100%;
                 height: 100%;
             }
@@ -372,17 +356,16 @@ progress {
 }
 
 .botton-collect_right {
-    width: 29%;
+    width: 100%;
     float: left;
     overflow: hidden;
 }
 
     .botton-collect_right dl {
         font-size: 24px;
-        margin-bottom: 5%;
         margin-left: 15%;
         overflow: hidden;
-        height: 66px;
+        float:left;
     }
 
         .botton-collect_right dl dt {
@@ -391,7 +374,11 @@ progress {
             height: 66px;
             border-radius: 5px;
         }
-
+        .botton-collect_right dl dd {
+            width: 220px;
+            height: 20px;
+            margin-bottom: 15px;
+        }
             .botton-collect_right dl dt img {
                 width: 100%;
                 height: 100%;
@@ -400,6 +387,7 @@ progress {
 .serves {
     width: 100%;
     height: 140px;
+    overflow:hidden;
     background-color: lightgray;
 }
 
@@ -445,6 +433,7 @@ progress {
     height: 130px;
     background-color: gray;
     padding-top: 20px;
+    overflow: hidden;
 }
 
     .copyright a {
@@ -572,6 +561,7 @@ progress {
             height: 40px;
             line-height: 40px;
             text-align: center;
+            overflow:hidden;
         }
 
             .browse-listbox ul li:nth-child(1) {
@@ -604,7 +594,6 @@ progress {
         margin-top: 40px;
         float: left;
         width: 20%;
-        height: 370px;
         border: 1px solid skyblue;
         text-align: center;
         border-radius: 20px;
@@ -629,9 +618,12 @@ progress {
             }
 
         .browse-main_all dl dd {
-            height: 50px;
+            height: 40px;
+            overflow:hidden;
         }
-
+        .browse-main_all dl dd span{
+            overflow: hidden;
+        }
             .browse-main_all dl dd:nth-child(2) {
                 line-height: 50px;
             }
@@ -1436,3 +1428,98 @@ progress {
     transition-delay:0.2s;
     transition-duration:0.5s;
 }
+.page-con a{
+    padding: 0 26px;
+    height: 66px;
+    line-height: 66px;
+    text-align: center;
+    font-size: 18px;
+    color: #414141;
+    border: 1px solid #d9d9d9;
+    display: inline-block;
+    background: #fff;
+    text-decoration:none;
+    margin-bottom:10px;
+}
+    .page-con a:hover {
+        background-color: skyblue;
+    }
+.page-conselect {
+    background-color: skyblue!important;
+    color: white;
+}
+.state{
+    text-decoration:none;
+    color:black;
+}
+.stateselect{
+    color:skyblue;
+}
+.browse-listbox ul li:nth-child(1) {
+    border-right: none;
+}
+.browse-listbox ul li:nth-child(2){
+    border-right:none;
+}
+.browse-listbox ul li:nth-child(1):hover{
+    background-color:skyblue;
+}
+    .browse-listbox ul li:nth-child(2):hover {
+        background-color: skyblue;
+    }
+
+    .browse-listbox ul li:nth-child(3):hover {
+        background-color: skyblue;
+    }
+.meaulist li a{
+    text-decoration:none;
+    color:white;
+}
+/* 首页 */
+.home-picbox {
+    display: block;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    position: relative;
+}
+.home-picbox ul li {
+    position: relative;
+    list-style: none;
+    width:100%;
+    height:500px;   
+}
+.home-picbox img {
+        width: 100%;
+        height: 100%;
+        opacity: 0.6;
+ }
+.userinfotextbox {
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 6px;
+    height: 18px;
+}
+.userinfotextbox:hover{
+    border: 1px solid skyblue;
+}
+.userinfotable {
+    margin: 0 auto;
+    border:1px solid #ccc;
+    margin-top:20px;
+    border-radius:5px;
+    border-top:none;
+}
+
+    .userinfotable tr td {
+        width: 180px;
+        height: 24px;
+        padding: 5px;
+        border-left: 1px solid #ccc;
+        border-top:1px solid #ccc;
+    }
+        .userinfotable tr td:nth-child(1) {
+            border-left: none;
+        }

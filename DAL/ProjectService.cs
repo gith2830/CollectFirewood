@@ -38,6 +38,18 @@ namespace DAL
             return DbHelper.ExecuteNotQuery(sql, p);
         }
 
+        public int Delete(Dictionary<string, object> dicWhere)
+        {
+            StringBuilder sql = new StringBuilder("delete from Projects where 1=1");
+            List<SqlParameter> pList = new List<SqlParameter>();
+            foreach (var item in dicWhere)
+            {
+                sql.Append(" and "+item.Key+"=@"+item.Key.ToString());
+                pList.Add(new SqlParameter("@"+item.Key,item.Value));
+            }
+            return DbHelper.ExecuteNotQuery(sql.ToString(), pList.ToArray());
+        }
+
         public Project GetModel(int id)
         {
             string sql = "select * from Projects where Id=@id";
@@ -59,9 +71,9 @@ namespace DAL
             model.Content = dt.Rows[0]["Content"].ToString();
             model.CoverImg = dt.Rows[0]["CoverImg"].ToString();
             model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"].ToString());
-            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]);
+            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"]==DBNull.Value?"0": dt.Rows[0]["OwnerId"].ToString());
             model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), dt.Rows[0]["PublishState"] == DBNull.Value ? "2" : dt.Rows[0]["PublishState"].ToString());
-            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"] == DBNull.Value ? "0" : dt.Rows[0]["OwnerId"]);
+            model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"] == DBNull.Value ? "0" : dt.Rows[0]["OwnerId"].ToString());
             model.Return = dt.Rows[0]["Return"].ToString();
             model.ReturnMiddle = dt.Rows[0]["ReturnMiddle"].ToString();
             model.ReturnMax = dt.Rows[0]["ReturnMax"].ToString();
@@ -72,8 +84,20 @@ namespace DAL
 
         public int GetModelCount()
         {
-            string sql = $"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}";
+            string sql = $"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)} and (State={Convert.ToInt32(ProjectState.InProgress)} or State={Convert.ToInt32(ProjectState.Finish)})";
             return (int)DbHelper.ExecuteScalar(sql);
+        }
+
+        public int GetModelCount(Dictionary<string,object> dicWhere)
+        {
+            StringBuilder sql = new StringBuilder("select count(*) from Projects where 1=1");
+            List<SqlParameter> pList = new List<SqlParameter>();
+            foreach (var item in dicWhere)
+            {
+                sql.Append(" and " + item.Key + "=@" + item.Key.ToString());
+                pList.Add(new SqlParameter("@" + item.Key, item.Value));
+            }
+            return (int)DbHelper.ExecuteScalar(sql.ToString(), pList.ToArray());
         }
 
         public List<Project> GetPageList(int start, int end)
@@ -85,7 +109,7 @@ namespace DAL
                 new SqlParameter("@end",end),
             };
             DataTable dt = DbHelper.GetDataTable(sql, ps);
-            if (dt != null && dt.Rows.Count < 1)
+            if (dt == null || dt.Rows.Count < 1)
             {
                 return null;
             }
@@ -114,6 +138,45 @@ namespace DAL
             return models;
         }
 
+        public List<Project> GetPageList(int start, int end, string keyword)
+        {
+            keyword = keyword == null ? "" : keyword;
+            string sql = $"select * from(select *,row_number()over(order by id) as num from Projects where PublishState={Convert.ToInt32(PublishState.Approved)} and State={Convert.ToInt32(ProjectState.InProgress)} or State={Convert.ToInt32(ProjectState.Finish)}) as t where t.num between @start and @end and ProjectName like '%'+@keyword+'%' order by id desc ";
+            SqlParameter[] ps = new SqlParameter[]
+            {
+                new SqlParameter("@start",start),
+                new SqlParameter("@end",end),
+                new SqlParameter("@keyword",keyword),
+            };
+            DataTable dt = DbHelper.GetDataTable(sql, ps);
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return null;
+            }
+            List<Model.Project> models = new List<Model.Project>();
+            for (int i = 0; i < dt.Rows.Count; ++i)
+            {
+                Model.Project model = new Model.Project();
+                model.Id = Convert.ToInt32(dt.Rows[i]["Id"].ToString());
+                model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
+                model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
+                model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
+                model.CurrentMoney = Convert.ToDecimal(string.IsNullOrWhiteSpace(dt.Rows[i]["CurrentMoney"].ToString()) ? "0" : dt.Rows[i]["CurrentMoney"].ToString());
+                model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
+                model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
+                model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
+                model.Content = dt.Rows[i]["Content"].ToString();
+                model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
+
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[i]["PublishState"].ToString()) ? "0" : dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[i]["OwnerId"].ToString()) ? "0" : dt.Rows[i]["OwnerId"].ToString());
+
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[i]["PublishState"].ToString()) ? "0" : dt.Rows[i]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(string.IsNullOrWhiteSpace(dt.Rows[i]["OwnerId"].ToString()) ? "0" : dt.Rows[i]["OwnerId"].ToString());
+                models.Add(model);
+            }
+            return models;
+        }
         /// <summary>
         /// 根据条件分页获取
         /// </summary>
@@ -122,9 +185,75 @@ namespace DAL
         /// <param name="wheres">筛选条件</param>
         /// <param name="orderBys">排序值</param>
         /// <returns></returns>
+        public List<Project> GetPageListWhereToAndOrderByCheckState(int start, int end, Dictionary<string, object> wheres, List<string> orderBys)
+        {
+            StringBuilder sql = new StringBuilder($"select * from(select *,row_number()over(");
+            if (orderBys != null && orderBys.Count() > 0)
+            {
+                sql.Append(" order by ");
+                foreach (var item in orderBys)
+                {
+                    if (string.IsNullOrWhiteSpace(item))
+                    {
+                        throw new Exception("查询条件不能为空");
+                    }
+                    if (orderBys.First() == item)
+                    {
+                        sql.Append($"{item}");
+                    }
+                    else
+                    {
+                        sql.Append($",{item}");
+                    }
+                }
+            }
+            sql.Append($") as num from Projects where  PublishState={Convert.ToInt32(PublishState.Approved)} ");
+            List<SqlParameter> paramList = new List<SqlParameter>()
+            {
+                new SqlParameter("@start",start),
+                new SqlParameter("@end",end),
+            };
+            if (wheres != null && wheres.Count() > 0)
+            {
+                foreach (var item in wheres)
+                {
+                    if (string.IsNullOrWhiteSpace(item.Key))
+                    {
+                        throw new Exception("查询条件不能为空");
+                    }
+                    sql.Append($" and {item.Key}=@{item.Key}");
+                    paramList.Add(new SqlParameter("@" + item.Key, item.Value));
+                }
+            }
+            sql.Append(") as t where t.num between @start and @end");
+            DataTable dt = DbHelper.GetDataTable(sql.ToString(), paramList.ToArray());
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return null;
+            }
+            List<Model.Project> models = new List<Model.Project>();
+            for (int i = 0; i < dt.Rows.Count; ++i)
+            {
+                Model.Project model = new Model.Project();
+                model.Id = Convert.ToInt32(dt.Rows[i]["Id"].ToString());
+                model.ClassifyId = Convert.ToInt32(dt.Rows[i]["ClassifyId"].ToString());
+                model.ProjectName = dt.Rows[i]["ProjectName"].ToString();
+                model.State = (ProjectState)Enum.Parse(typeof(ProjectState), dt.Rows[i]["State"].ToString());
+                model.CurrentMoney = Convert.ToDecimal(dt.Rows[i]["CurrentMoney"].ToString());
+                model.Goal = Convert.ToDecimal(dt.Rows[i]["Goal"].ToString());
+                model.Deadline = DateTime.Parse(dt.Rows[i]["Deadline"].ToString());
+                model.LikeCount = Convert.ToInt32(dt.Rows[i]["LikeCount"].ToString());
+                model.Content = dt.Rows[i]["Content"].ToString();
+                model.CoverImg = dt.Rows[i]["CoverImg"].ToString();
+                model.PublishState = (PublishState)Enum.Parse(typeof(ProjectState), string.IsNullOrWhiteSpace(dt.Rows[0]["PublishState"].ToString()) ? "0" : dt.Rows[0]["PublishState"].ToString());
+                model.OwnerId = Convert.ToInt32(dt.Rows[0]["OwnerId"] == DBNull.Value ? 0 : dt.Rows[0]["OwnerId"]);
+                models.Add(model);
+            }
+            return models;
+        }
         public List<Project> GetPageListWhereToAndOrderBy(int start, int end, Dictionary<string, object> wheres, List<string> orderBys)
         {
-            StringBuilder sql = new StringBuilder($"select * from(select *,row_number()over(order by id) as num from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
+            StringBuilder sql = new StringBuilder($"select * from(select *,row_number()over(order by id) as num from Projects where 1=1 ");
             List<SqlParameter> paramList = new List<SqlParameter>()
             {
                 new SqlParameter("@start",start),
@@ -239,9 +368,9 @@ namespace DAL
         /// <returns></returns>
         public int GetModelCount(int classifyId, ProjectState? state)
         {
-            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
+            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)} ");
             List<SqlParameter> psList = new List<SqlParameter>();
-            if (state != null)
+            if (state != ProjectState.Null&& state!=null)
             {
                 sql.Append(" and State=@state");
                 psList.Add(new SqlParameter("@state", state));
@@ -431,7 +560,7 @@ namespace DAL
         /// <returns></returns>
         public int GetModelCount(int classifyId, PublishState? state)
         {
-            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(PublishState.Approved)}");
+            StringBuilder sql = new StringBuilder($"select count(*) from Projects where PublishState={Convert.ToInt32(state==null?PublishState.Approved:state)}");
             List<SqlParameter> psList = new List<SqlParameter>();
             if (classifyId > 0)
             {
@@ -523,5 +652,119 @@ namespace DAL
             dr.Close();
             return list;
         }
+        /// <summary>
+        /// 获取用户的关注项目
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public List<Project> GetProjectUserLikes(int UserId)
+        {
+            string sql = $"select * from Likes l left join Projects p on l.ProjectId= p.Id where UserId='{UserId}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Project> list = new List<Project>();
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    ProjectName = dr["ProjectName"].ToString(),
+                    Deadline = Convert.ToDateTime(dr["Deadline"]),
+                    Goal = Convert.ToDecimal(dr["Goal"]),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"]),
+                    LikeCount=int.Parse(dr["LikeCount"].ToString())
+                };
+                list.Add(project);
+            };
+            dr.Close();
+            return list;
+        }
+
+        /// <summary>
+        /// 获取用户支持的项目
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public List<Project> GetProjectUserSupport(int UserId)
+        {
+            string sql = $"select * from SupportProjects s left join projects p on s.ProjectId=p.Id where UserId='{UserId}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Project> list = new List<Project>();
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    ProjectName = dr["ProjectName"].ToString(),
+                    Deadline = Convert.ToDateTime(dr["Deadline"]),
+                    Goal = Convert.ToDecimal(dr["Goal"]),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"]),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString())
+                };
+                list.Add(project);
+            };
+            dr.Close();
+            return list;
+        }
+        public List<Project> GetProjectUserLaunch(int UserId)
+        {
+            string sql = $"select * from LaunchInfo l left join Projects p on l.ProjectId=p.Id where UserId='{UserId}'";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            List<Project> list = new List<Project>();
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    ProjectName = dr["ProjectName"].ToString(),
+                    Deadline = Convert.ToDateTime(dr["Deadline"]),
+                    Goal = Convert.ToDecimal(dr["Goal"]),
+                    CurrentMoney = Convert.ToDecimal(dr["CurrentMoney"]),
+                    LikeCount = int.Parse(dr["LikeCount"].ToString())                 
+                };
+                list.Add(project);
+            };
+            dr.Close();
+            return list;
+        }
+
+        public void OverDate()
+        {
+            string sql = $"select * from Projects";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            Project project = null;
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    Id=int.Parse(dr["id"].ToString()),
+                    Deadline = Convert.ToDateTime(dr["Deadline"]),
+                };
+                if (project.Deadline < DateTime.Now)
+                {
+                    string sql1 = $"UPDATE [dbo].[Projects] set state = 3 where id='{project.Id}'";
+                    DbHelper.Update(sql1);
+                }
+            };
+        }
+
+        public List<Project> RetuenMoney(int Userid)
+        {
+            string sql = $"select ProjectName,SUM(Money)as Money from Projects p left join SupportProjects s on p.Id=s.ProjectId where state=3 and Userid='{Userid}' group by ProjectName";
+            SqlDataReader dr = DbHelper.GetReader(sql);
+            Project project = null;
+            List<Project> list = new List<Project>();
+            while (dr.Read())
+            {
+                project = new Project()
+                {
+                    ProjectName = dr["ProjectName"].ToString(),
+                    Money=Convert.ToDecimal(dr["Money"])
+                };
+                list.Add(project);
+            }
+            dr.Close();
+            return list;
+        }
+
     }
 }

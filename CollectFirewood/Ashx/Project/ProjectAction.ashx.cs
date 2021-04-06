@@ -65,7 +65,7 @@ namespace CollectFirewood.Ashx.Project
                 object obj = new
                 {
                     pageIndex,
-                    pageSize,
+                    list?.Count,
                     pageCount,
                     data = list,
                 };
@@ -119,6 +119,7 @@ namespace CollectFirewood.Ashx.Project
                     context.Response.Write("no:参数不能为空");
                     return;
                 }
+                project.CoverImg = "";
                 if (bll.Add(project))
                 {
                     context.Response.Write("ok:添加成功");

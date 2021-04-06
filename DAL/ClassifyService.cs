@@ -28,13 +28,24 @@ namespace DAL
             SqlParameter p = new SqlParameter("@id",id);
             return DbHelper.ExecuteNotQuery(sql, p);
         }
+        public int Delete(Dictionary<string,object> where)
+        {
+            StringBuilder sql = new StringBuilder("delete from classifys where 1=1");
+            List<SqlParameter> pList = new List<SqlParameter>();
+            foreach (var item in where)
+            {
+                sql.Append(" and " + item.Key + "=@" + item.Key.ToString());
+                pList.Add(new SqlParameter("@" + item.Key, item.Value));
+            }
+            return DbHelper.ExecuteNotQuery(sql.ToString(), pList.ToArray());
+        }
 
         public Classify GetModel(int id)
         {
             string sql = "select * from Classifys where Id=@id";
             SqlParameter p = new SqlParameter("@id", id);
             DataTable dt = DbHelper.GetDataTable(sql, p);
-            if (dt != null && dt.Rows.Count < 1)
+            if (dt == null || dt.Rows.Count < 1)
             {
                 return null;
             }

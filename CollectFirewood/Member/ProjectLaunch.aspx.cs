@@ -19,22 +19,22 @@ namespace CollectFirewood.Member
 
         protected void Button6_Click(object sender, EventArgs e)
         {
+            string fileName = Content__Detailed__Cover.FileName;
+            string fileFix = fileName.Substring(fileName.LastIndexOf('.') + 1).ToLower();
             LaunchInfoManager launchInfoManager = new LaunchInfoManager();
             ProjectManager projectManager = new ProjectManager();
             int UserId = int.Parse(((Session["user"] as User).Id).ToString());
             if (this.Content__Detailed__Cover.HasFile)
-            {
-                string fileName = Content__Detailed__Cover.FileName;
-                string fileFix = fileName.Substring(fileName.LastIndexOf('.') + 1).ToLower();
+            {              
                 if (fileFix != "png" && fileFix != "jpg")
                 {
-                    Response.Write("<script>alert('上传的类别不是图片类型！');<script>");
+                    Response.Write("<script>alert('上传的类别不是图片类型！');</script>");
+                    return;
                 }
                 else
                 {
-                    Content__Detailed__Cover.SaveAs(Server.MapPath("~/Material/") + fileName);
+                    
                     Session["CoverImg"] = "/Material/" + fileName;
-                  
                 }
             }
             //Session["ProjectName"] = this.Content__Detailed__inputName.Text;
@@ -71,7 +71,6 @@ namespace CollectFirewood.Member
 
             };
 
-
             if (projectManager.ProjectLaunch(project) > 0)
             {
                 Project NewProject = new Project();
@@ -89,11 +88,18 @@ namespace CollectFirewood.Member
                 };
                 if (launchInfoManager.Launch(launchInfo) > 0)
                 {
+                    Content__Detailed__Cover.SaveAs(Server.MapPath("~/Material/") + fileName);
                     Response.Write("<script>alert('项目已经发布成功，请等待审核！');</script>");
                     Response.Write("<script>window.location.href='Examine.aspx';</script>");
                    
                 }
             }              
+        }
+
+        protected void btnofExit_Click(object sender, EventArgs e)
+        {
+            Session["user"] = null;
+            Response.Redirect("index.aspx");
         }
     }
 }

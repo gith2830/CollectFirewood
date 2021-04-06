@@ -13,7 +13,8 @@
 </head>
 
 <body>
-    <!-- 头部 -->
+    <form runat="server" method="post">
+          <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -28,10 +29,6 @@
                     <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                 </ul>
             </div>
-            <div class="top-searchbox grid-cell-1">
-                <input type="text" name="" id="" placeholder="搜索">
-                <div class="top-searchbox_btn"></div>
-            </div>
             <div class="top-toolbox grid-cell-1">
                 <ul>
                     <%if (Session["user"] == null)
@@ -41,6 +38,8 @@
                     <%else
                         {%>
                     <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                      <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                     <%}%>
                 </ul>
             </div>
@@ -50,21 +49,19 @@
         <div id="content">
             <!-- 用户主页 -->
             <div class="homepage">
-                <form runat="server">
                     <dl>
-                        <dt>
+                        <dt style="margin-right:20px;">
                             <img style="width: 100%; height: 100%;" src="<%=(Session["user"] as Model.User).UserPic %>" /></dt>
                         <dd id="homepage-usernum">用户名:&nbsp;<%=(Session["user"] as Model.User).Nickname %></dd>
                         <dd>个性签名:&nbsp;<span><%=(Session["user"] as Model.User).Description %></span></dd>
                         <dd>所在地区:&nbsp;<span><%=(Session["user"] as Model.User).Address %></span></dd>
                         <dd>
-                            <asp:Button ID="btnUserInfo" runat="server" Text="个人设置" OnClick="btnUserInfo_Click" /></dd>
+                            <asp:Button ID="btnUserInfo" runat="server" Text="个人设置" OnClick="btnUserInfo_Click" Style="border:none;color:white;background-color:#ccc;width:60px;height:18px;" /></dd>
                     </dl>
-                </form>
                 <ul class="meaulist">
-                    <li>支持的项目 <span>0</span></li>
-                    <li>发起的项目 <span>0</span></li>
-                    <li>喜欢的项目 <span>0</span></li>
+                    <li><a href="UserHomePage.aspx?Support=0">支持的项目 </a></li>
+                    <li><a href="UserHomePage.aspx?Launch=0">发起的项目</a></li>
+                    <li><a href="UserHomePage.aspx?Like=0">喜欢的项目</a></li>
                 </ul>
                 <ul class="homepagetype">
                     <li><a href="UserHomePage.aspx?State=2">所有</a></li>
@@ -101,7 +98,7 @@
         <!-- 底部 -->
         <div class="botton">
             <span>我们已经收到~~~</span>
-            <div class="botton-collect">
+            <%--<div class="botton-collect">
                 <div class="botton-collect_left">
                      <dl>
                         <dt>
@@ -121,9 +118,9 @@
                         <dd class="red"><span><%=Session["SumOfSupportProjects"] %></span>次</dd>
                         <dd>累计支持人次</dd>
                     </dl>
-                </div>
+                </div>--%>
                 <div class="botton-collect_right">
-                    <<dl>
+                    <dl>
                         <dt style="background-color: pink;">
                             <img src="/Material/奖杯.png" alt=""></dt>
                         <dd>项目总数</dd>
@@ -194,6 +191,7 @@
                 京ICP备14016844号</span>
         </div>
     </div>
+    </form>
 </body>
 
 </html>

@@ -23,8 +23,13 @@ namespace BLL
         }
         public int InsertData(int UserId, int ProjectId, Decimal Money)
         {
-            SupportProjectService supportProjectService = new SupportProjectService();
-            return supportProjectService.InsertData(UserId, ProjectId, Money);
+            return dal.InsertData(UserId, ProjectId, Money);
+        }
+        public bool DeleteByProjectId(int projectId)
+        {
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add(nameof(Model.SupportProject.ProjectId),projectId);
+            return dal.Delete(dic) >0;
         }
     }
 }

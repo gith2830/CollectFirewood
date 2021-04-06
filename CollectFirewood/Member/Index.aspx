@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <form action="" runat="server" method="post">
+    <form action="" runat="server" method="get">
         <!-- 头部 -->
         <header class="top ">
             <div class="middle grid">
@@ -29,10 +29,12 @@
                         <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                     </ul>
                 </div>
-                 <div class="top-searchbox grid-cell-1">
-                 <asp:TextBox ID="TextBox1" runat="server" placeholder="搜索"></asp:TextBox>
-                 <a href="index.aspx?KeyWords=<%#this.TextBox1.Text %>"><div class="top-searchbox_btn"></div></a>
-            </div>
+                <div class="top-searchbox grid-cell-1">
+                    <input type="text" placeholder="搜索" name="KeyWords" />
+                    <button style="border: none; outline: none; background-color: transparent; float: left;">
+                        <div class="top-searchbox_btn"></div>
+                    </button>
+                </div>
                 <div class="top-toolbox grid-cell-1">
                     <ul>
                         <%if (Session["user"] == null)
@@ -42,6 +44,8 @@
                         <%else
                             {%>
                         <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                        <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                         <%}%>
                     </ul>
                 </div>
@@ -53,7 +57,7 @@
                 <ul id="type">
                     <asp:Repeater ID="TypeList" runat="server">
                         <ItemTemplate>
-                            <li><a href="index.aspx?ClassifyId=<%# Eval("Id") %>"><%# Eval("ClassifyName") %> </a></li>
+                            <li><a href="index.aspx?ClassifyId=<%# Eval("Id") %>&&state=<%=Convert.ToInt32(State) %>"><%# Eval("ClassifyName") %> </a></li>
                         </ItemTemplate>
                     </asp:Repeater>
                 </ul>
@@ -62,17 +66,29 @@
         <div class="middle">
             <div id="content">
                 <!-- 首页 -->
-                <div class="home contentbox">
+                <div class="home">
                     <span class="home-picbox">
-                        <a href="#">
-                            <img src="/Material/1.jpg" alt=""></a>
-                        <a href="#">
-                            <img src="/Material/2.jpg" alt=""></a>
-                        <a href="#">
-                            <img src="/Material/3.jpg" alt=""></a>
-                        <a href="#">
-                            <img src="/Material/4.jpg" alt=""></a>
+
+                        <ul style="width:100%;height:210px;">
+                            <li><a href="">
+                                <img src="/Material/1.jpg" alt=""></a></li>
+                            <li><a href="">
+                                <img src="/Material/2.jpg" alt=""></a></li>
+                            <li><a href="">
+                                <img src="/Material/3.jpg" alt=""></a></li>
+                            <li><a href="">
+                                <img src="/Material/4.jpg" alt=""></a></li>
+                        </ul>
+                        <%--<img src="/Material/1.jpg" alt="">
+                       
+                            <img src="/Material/2.jpg" alt="">
+                        
+                            <img src="/Material/3.jpg" alt="">
+                        
+                            <img src="/Material/4.jpg" alt="">--%>
                     </span>
+
+
                     <span class="home-manufacture">
                         <span class="home-manufacture_listbox ">
                             <span style="font-size: 24px; font-weight: bold; float: left;">众筹制造</span>
@@ -97,20 +113,18 @@
                             <asp:Repeater ID="ProjectList" runat="server">
                                 <ItemTemplate>
                                     <a href="Projectinfo.aspx?id=<%# Eval("Id") %>">
-                                        <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px; font-size: 20px; line-height: 40px;">
+                                        <dl style="display: block; width: 24%; margin-right: 10px; margin-top: 20px; font-size: 20px;">
                                             <dt>
                                                 <img src="<%# Eval("CoverImg") %>">
                                     </a></dt>
                                       <dd><%# Eval("ProjectName") %></dd>
                                     <dd>目标:<span><%# Math.Floor(Convert.ToDecimal(Eval("Goal"))) %></span>元&nbsp;&nbsp;&nbsp;&nbsp;关注人数:<span><%# Eval("LikeCount") %></span></dd>
                                     <dd><progress value="<%# (Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100%>" max="100"></progress></dd>
-                                    <dd class="grid"><span class="status grid-cell-1"><span><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %>%</span>
-                                        <h6 class="ccc">已完成</h6>
-                                    </span><span class="grid-cell-1 status"><span><%# Math.Floor(Convert.ToDecimal(Eval("CurrentMoney"))) %></span>元<h6 class="ccc">已筹资</h6>
-                                    </span><span class="grid-cell-1 status"><span><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%></span>天<h6 class="ccc">剩余时间</h6>
+                                    <dd class="grid"><span class="status grid-cell-1" style="color:red;"><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %>%</span>                                      
+                                    </span><span class="grid-cell-1 status"><%# Math.Floor(Convert.ToDecimal(Eval("CurrentMoney"))) %>元</span>
+                                    </span><span class="grid-cell-1 status"><%# (Convert.ToDateTime(Eval("Deadline")).Date).Subtract(DateTime.Now.Date).Days%>天</span>
                                     </span></dd>
-                                    <%--<progress value="<%# (Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100%>" max="100"></progress>--%>
-                                    <%--<span><%# Math.Round((Convert.ToDecimal(Eval("CurrentMoney").ToString())/Convert.ToDecimal(Eval("Goal").ToString()))*100,1) %>%</span>--%>
+                                   <dd class="grid" style="text-align:center;"><span class="grid-cell-1 status">进度</span><span class="grid-cell-1 status">筹资</span><span class="grid-cell-1 status">时间</span></dd>
                                 </dl>
                                 </a>
                                 </ItemTemplate>
@@ -120,15 +134,16 @@
                 </div>
             </div>
         </div>
-        <div class="middle">
-            <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount) %>
+        <div class="middle page-con">
+            <%var a = new Dictionary<string,int>();%>
+            <%=Common.PageHtmlHelper.GetPagaBar(PageIndex, PageCount,a) %>
         </div>
         <div class="middle">
             <!-- 底部 -->
             <div class="botton">
                 <span>我们已经收到~~~</span>
                 <div class="botton-collect">
-                    <div class="botton-collect_left">
+                    <%--<div class="botton-collect_left">
                         <dl>
                             <dt>
                                 <img src="/Material/钱包.png" alt=""></dt>
@@ -147,7 +162,7 @@
                             <dd class="red"><span><%=Session["SumOfSupportProjects"] %></span>次</dd>
                             <dd>累计支持人次</dd>
                         </dl>
-                    </div>
+                    </div>--%>
                     <div class="botton-collect_right">
                         <dl>
                             <dt style="background-color: pink;">
@@ -222,30 +237,45 @@
         </div>
     </form>
     <script>
-        // 首页盒子中的轮播图方法
-        function show(cur) {
-            $(".home-picbox a").eq(cur).fadeIn(1000).siblings("a").fadeOut(1000);
+        function search() {
+            console.log($("[input:name=KeyWords]"));
+            return false;
         }
+        //// 首页盒子中的轮播图方法
+        //function show(cur) {
+        //    $(".home-picbox img").eq(cur).fadeIn(1000).siblings("img").fadeOut(1000);
+        //}
+        //var cur = 0;
+        //var timer = null;
+        //// 首页盒子中的轮播图方法
+        //function showing() {
+        //    timer = setInterval(function () {
+        //        cur++;
+        //        if (cur > $(".home-picbox img").length - 1) {
+        //            cur = 0;
+        //        }
+        //        show(cur);
+        //    }, 2000)
+        //}
+        //showing();
         var cur = 0;
-        var timer = null;
-        // 首页盒子中的轮播图方法
-        function showing() {
-            timer = setInterval(function () {
-                cur++;
-                if (cur > $(".home-picbox a").length - 1) {
-                    cur = 0;
-                }
-                show(cur);
-            }, 2000)
-        }
-        showing();
+        setInterval(function () {
+            // 下标从0 开始最大是4
+            if (cur > $(".home-picbox li").length - 1) {
+                cur = 0;
+            }
+            $(".home-picbox li").animate({
+                top: -500 * cur
+            }, 4000)
+            cur++;
+        }, 1000)
         // 当鼠标移动到图片上时候清楚计数器
-        $(".home-picbox a").mouseover(function () {
+        $(".home-picbox img").mouseover(function () {
             stop();
             clearInterval(timer);
         })
         // 当鼠标移动出图片启动计数器
-        $(".home-picbox a").mouseout(function () {
+        $(".home-picbox img").mouseout(function () {
             showing();
         })
     </script>

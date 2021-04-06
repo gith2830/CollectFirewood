@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="/Content/Css/grid.css">
 </head>
 <body>
-    <!-- 头部 -->
+    <form runat="server" method="post">
+            <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -40,6 +41,8 @@
                     <%else
                         {%>
                     <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                      <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                     <%}%>
                 </ul>
             </div>
@@ -49,28 +52,23 @@
     <section>
         <div class="middle">
             <!-- 项目内容 -->
-            <form runat="server">
+
                 <div class="projectinfobox grid">
                     <!-- 左边 -->
                     <div class="projectinfobox-left">
                         <h2><%=this.project.ProjectName %></h2>
                         <span class="projectinfobox-people">发起人姓名：&nbsp;<%=this.User.Nickname %></span>
                         <span class="projectinfobox-address">截至时间：<%=this.project.Deadline %>&nbsp;</span>
-                        <div class="projectContent">
-                            <%=this.project.Content %>
+                        <div class="projectContent" style="padding-left:10px;padding-right:10px;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=this.project.Content %>
                         </div>  
                         <br />
                         <hr />
                         <asp:Repeater ID="RepeaterComment" runat="server">
                             <ItemTemplate>
-                                <dl class="Comment">
-                                    <dt style="border-radius:50%;margin-right:5px;">
-                                        <img src="<%# Eval("UserPic") %>" alt="Alternate Text" />
-                                    </dt>
                                     <dd>
-                                        <p>用户名:&nbsp;&nbsp;<%# Eval("Nickname") %></p>
-                                        <p>发布时间:&nbsp;&nbsp; <%# Eval("SendTime") %></p>
-                                        <p>评论内容&nbsp;&nbsp;<%# Eval("Content") %></p>                                        
+                                         <p><img src="<%# Eval("UserPic") %>" alt="Alternate Text" style="width:40px;height:40px;border-radius:50%;vertical-align:middle;" />&nbsp;&nbsp;<%# Eval("Nickname") %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%# Eval("SendTime") %></p>
+                                        <p>&nbsp;&nbsp;<%# Eval("Content") %></p>                                        
                                     </dd>
                                 </dl>
                             </ItemTemplate>
@@ -103,7 +101,7 @@
                                 </tr>
                                 <tr>
                                     <td><%=Math.Round((Convert.ToDecimal(this.project.CurrentMoney)/Convert.ToDecimal(this.project.Goal))*100,1) %>%</td>
-                                    <td>23</td>
+                                    <td><%=Session["CountOfSupport"] %></td>
                                     <td><%=this.project.LikeCount %></td>
                                     <td><%=(Convert.ToDateTime(this.project.Deadline).Date).Subtract(DateTime.Now.Date).Days %>天</td>
                                 </tr>
@@ -136,7 +134,7 @@
                             <span>支持￥>=5000￥</span><span style="float: right;">已有<span style="color: orange;"><%=Session["Max"] %></span>位支持者</span>
                             <br>
                             <div style="margin-top: 20px;">感谢您的支持！您将获得：</div>
-                             <div><%=Session["ReturnMaX"] %></div>
+                             <div><%=Session["ReturnMax"] %></div>
                             <div>配送运费：<span><%=Math.Floor(Convert.ToDecimal(Session["Freight"])) %></span></div>
                             <div>预计回报发送时间：<span>项目成功结束后<%=Session["ReturnTime"] %>天内</span></div>   
                         </div>
@@ -147,7 +145,6 @@
                             <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
                         </div>
                 </div>
-            </form>
         </div>
     </section>
     <div class="footer">
@@ -202,5 +199,6 @@
         </div>
     </div>
 
+    </form>
 </body>
 </html>

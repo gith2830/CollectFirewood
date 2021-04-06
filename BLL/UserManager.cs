@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
+using Common;
 
 namespace BLL
 {
@@ -19,7 +20,7 @@ namespace BLL
         }
 
         public override bool Add(User model)
-        {       
+        {
             if (dal.Add(model) > 0)
             {
                 return true;
@@ -30,20 +31,28 @@ namespace BLL
             }
         }
 
+        public override bool Update(User model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.Pwd))
+            {
+                model.Pwd = MD5Helper.GetMD5String(model.Pwd);
+            }
+            return dal.Update(model)>0;
+        }
+
         public override bool Delete(int id)
         {
             var commentmanager = new BLL.CommentManager();
             commentmanager.DeleteAllByUserId(id);
             var supportProjectManager = new BLL.SupportProjectManager();
             supportProjectManager.DeleteAllByUserId(id);
-            if (dal.Delete(id)>0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var projectManager = new BLL.ProjectManager();
+            projectManager.DeleteByUserId(id);
+            var launchInfoManager = new BLL.LaunchInfoManager();
+            launchInfoManager.DeleteByUserId(id);
+            var likesManager = new BLL.LikesManager();
+            likesManager.DeleteByUserId(id);
+            return dal.Delete(id) > 0;
         }
         /// <summary>
         /// 登录方法
@@ -60,6 +69,7 @@ namespace BLL
             {
                 return false;
             }
+            var a = Common.MD5Helper.GetMD5String(password);
             if (username == user.UserName && Common.MD5Helper.GetMD5String(password) == user.Pwd)
             {
                 return true;

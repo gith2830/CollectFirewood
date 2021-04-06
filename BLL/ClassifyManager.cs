@@ -23,5 +23,11 @@ namespace BLL
         {
             return dal.GetAllList();
         }
+        public override bool Delete(int id)
+        {
+            ProjectManager projectManager = new ProjectManager();
+            projectManager.DeleteByClassifyId(id);
+            return dal.Delete(id)>0;
+        }
     }
 }

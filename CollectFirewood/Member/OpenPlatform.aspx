@@ -13,7 +13,8 @@
 </head>
 
 <body>
-    <!-- 头部 -->
+    <form runat="server">
+          <!-- 头部 -->
     <header class="top ">
         <div class="middle grid">
             <div class="top-logobox grid-cell-1">
@@ -41,6 +42,8 @@
                     <%else
                         {%>
                     <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                      <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                     <%}%>
                 </ul>
             </div>
@@ -69,9 +72,7 @@
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
-            <form action="" method="post" runat="server">
                 <span class="openinfobox__more"><asp:Button ID="btnOfMore" runat="server" Text="点击查看更多" BorderStyle="None" BackColor="#E1E1E1" OnClick="btnOfMore_Click"></asp:Button></span>
-            </form>
         </div>
     </div>
 
@@ -125,6 +126,8 @@
         </div>
     </div>
 
+    </form>
+  
 </body>
 
 </html>

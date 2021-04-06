@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,14 @@ namespace BLL
             {
                 return false;
             }
+        }
+        public override bool Update(Admin model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.Pwd))
+            {
+                model.Pwd = MD5Helper.GetMD5String(model.Pwd);
+            }
+            return dal.Update(model)>0;
         }
 
         /// <summary>

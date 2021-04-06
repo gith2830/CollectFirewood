@@ -43,6 +43,8 @@
                         <%else
                             {%>
                         <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                          <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                         <%}%>
                     </ul>
                 </div>
@@ -105,19 +107,23 @@
                                 <div class="ProjectInformation_Content__Detailed">
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目名称：</span>
-                                        <asp:TextBox ID="Content__Detailed__inputName" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputName " placeholder="名称不可超过40个字" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="Content__Detailed__inputName" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputName " placeholder="请输入名称" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="Content__Detailed__inputName" runat="server" ErrorMessage="请输入项目名">*</asp:RequiredFieldValidator>
                                     </p>
-                                    <p>
+                                    <p>                  
                                         <span class="ProjectInformation_Content__Detailed__span">筹资金额：</span>
+                                        <asp:TextBox ID="Content__Detailed__inputMoney" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputMoney" runat="server" placeholder="请输入金额"></asp:TextBox>元
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="Content__Detailed__inputMoney" runat="server" ErrorMessage="请输入金额">*</asp:RequiredFieldValidator>
+                                         
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="请输入正确的金额" ControlToValidate="Content__Detailed__inputMoney" ValidationExpression="^[0-9]*[1-9][0-9]*$">*</asp:RegularExpressionValidator>
-                                        <asp:TextBox ID="Content__Detailed__inputMoney" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputMoney" runat="server" placeholder="不少于500元"></asp:TextBox>
-                                        天
+                                        
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">筹集天数：</span>    
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="请输入正确的天数" ControlToValidate="Content__Detailed__inputDay" ValidationExpression="^[0-9]*[1-9][0-9]*$">*</asp:RegularExpressionValidator>
-                                        <asp:TextBox ID="Content__Detailed__inputDay" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputDay" placeholder="10~90天" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="Content__Detailed__inputDay" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputDay" placeholder="天数" runat="server"></asp:TextBox>
                                         天
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="Content__Detailed__inputDay" runat="server" ErrorMessage="请输入天数">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">类别：</span>
@@ -149,28 +155,31 @@
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目地点：</span>
                                         <asp:TextBox ID="Content__Detailed__Address" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__inputName" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ControlToValidate="Content__Detailed__Address" ID="RequiredFieldValidator4" runat="server" ErrorMessage="请输入项目地点">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <span class="ProjectInformation_Content__Detailed__span">项目封面：</span>
                                         <asp:FileUpload ID="Content__Detailed__Cover" CssClass="Content__Detailed__Cover" runat="server" />
-                                        <span class="Cover_span">支持jpg、jpeg、png、gif格式</span>
+                                        <span class="Cover_span">支持jpg、png格式</span>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator16" ControlToValidate="Content__Detailed__Cover" runat="server" ErrorMessage="请选择图片">*</asp:RequiredFieldValidator>
                                     </p>  
-                                    <p>
-                                        <span class="ProjectInformation_Content__Detailed__span">项目详情：</span>
+                                    <p><span class="ProjectInformation_Content__Detailed__span">项目详情：</span> </p>
+                                    <p>                                                                            
                                         <asp:TextBox ID="Content__Detailed__Details" class="NoNullTestOfProjectInformation" CssClass="Content__Detailed__Details" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="Content__Detailed__Details" runat="server" ErrorMessage="请输入详情">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
-                                        <asp:Button ID="button" runat="server" CssClass="NextStep" Text="下一步" />
+                                        <input type="button" id="button" value="下一步"  class="NextStep"/>
                                     </p>
                                 </div>
                             </div>
                             <%-- 右边的草稿图 --%>
                             <div class="ProjectInformation_Content__Img">
-                                <div class="Img_thumbnail">
-                                    缩略图
+                                <div class="Img_thumbnail" >
+                                    <img style="width:100%;height:100%;" src="../Material/logo4.png" />
                                 </div>
                                 <div class="Img_target">
-                                    目标：
+                                    大胆写下你的想法
                                 </div>
                             </div>
                         </div>
@@ -217,14 +226,17 @@
                                         <p>
                                             <span>回报内容：</span>
                                             <asp:TextBox ID="TextBox3" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>300￥<1000￥" runat="server"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ControlToValidate="TextBox3" runat="server" ErrorMessage="请输入你的回报">*</asp:RequiredFieldValidator>
                                         </p>
                                         <p>
                                             <span>回报内容：</span>
                                             <asp:TextBox ID="TextBox1" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>1000￥<5000￥" runat="server"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="TextBox1" runat="server" ErrorMessage="请输入你的回报">*</asp:RequiredFieldValidator>
                                         </p>
                                         <p>
                                             <span>回报内容：</span>
                                             <asp:TextBox ID="TextBox4" TextMode="MultiLine" CssClass="ReturnOptions__tea" placeholder="支持￥>=5000￥" runat="server"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" ControlToValidate="TextBox4" runat="server" ErrorMessage="请输入你的回报">*</asp:RequiredFieldValidator>
                                         </p>
                            <%--             <p>
                                             <span>说明图片：</span>
@@ -244,14 +256,17 @@
                                         <p>
                                             <span>回报时间：</span><span>项目结束后</span>
                                             <asp:TextBox ID="TextBox6" CssClass="ReturnSetting_ProjectEnd" runat="server"></asp:TextBox>天
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ControlToValidate="TextBox6" runat="server" ErrorMessage="请输入回报时间">*</asp:RequiredFieldValidator>
                                         </p>
                                         <%--                                        <div class="ReturnSetting_BtnSave">
                                             <asp:Button ID="Button1" CssClass="Save" runat="server" Text="保存" />
                                             <asp:Button ID="Button2" CssClass="Save" runat="server" Text="取消保存" />
                                         </div>--%>
                                         <p>
-                                            <asp:Button ID="Button3" CssClass="NextStep" runat="server" Text="下一步" />
-                                            <asp:Button ID="Button4" CssClass="NextStep" runat="server" Text="上一步" />
+                                            <input type="button" id="Button3" value="下一步"  class="NextStep"/>
+                                            <input type="button" id="Button4" value="上一步"  class="NextStep"/>
+                                           <%-- <asp:Button ID="Button3" CssClass="NextStep" runat="server" Text="下一步" />
+                                            <asp:Button ID="Button4" CssClass="NextStep" runat="server" Text="上一步" />--%>
                                         </p>
                                     </div>
 
@@ -298,14 +313,17 @@
                                     <p>
                                         <span class="Sponsor_span">真实姓名：</span>
                                         <asp:TextBox ID="TextBox7" CssClass="Sponsor_information" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator10" ControlToValidate="TextBox7" runat="server" ErrorMessage="请输入姓名">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <span class="Sponsor_span">所在地：</span>
                                         <asp:TextBox ID="UserAddress" CssClass="Sponsor_information" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator11" ControlToValidate="UserAddress" runat="server" ErrorMessage="请输入您的所在地">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <span class="Sponsor_span">移动电话：</span>
                                         <asp:TextBox ID="TextBox8" CssClass="Sponsor_information" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator12" ControlToValidate="TextBox8" runat="server" ErrorMessage="请输入您的手机号码">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <b class="Sponsor_supplement">补充打款信息</b>
@@ -313,10 +331,12 @@
                                     <p>
                                         <span class="Sponsor_span">银行名称：</span>
                                         <asp:TextBox ID="TextBox9" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator13" ControlToValidate="TextBox9" runat="server" ErrorMessage="请输入您的银行名称">*</asp:RequiredFieldValidator>
                                     </p>
                                     <p>
                                         <span class="Sponsor_span">开户支行：</span>
                                         <asp:TextBox ID="TextBox10" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator14"  ControlToValidate="TextBox10" runat="server" ErrorMessage="请输入支行">*</asp:RequiredFieldValidator>
                                     </p>
                                    <%-- <p>
                                         <span class="Sponsor_span">开户名称：</span>
@@ -325,12 +345,14 @@
                                     <p>
                                         <span class="Sponsor_span">银行账号：</span>
                                         <asp:TextBox ID="TextBox12" CssClass="Sponsor_supplement__info" runat="server"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator15" ControlToValidate="TextBox12" runat="server" ErrorMessage="请输入银行账号">*</asp:RequiredFieldValidator>
                                     </p>
                                 </div>
                                 <div class="Content__Sponsor__btn">
-                                    <asp:Button ID="Button5" Text="上一步" class="Sponsor_btn" runat="server" />
-                                    <asp:Button ID="Button6" Text="提交审核" class="Sponsor_btn" runat="server" OnClick="Button6_Click" />
+                                    <input type="button" id="Button5" value="上一步"  class="Sponsor_btn"/>
+                                    <asp:Button ID="Button6" Text="提交审核" class="Sponsor_btn" runat="server" OnClick="Button6_Click"  UseSubmitBehavior="False" />
                                 </div>
+                               
                             </div>
 
                             <%-- 右边的温馨提示 --%>
@@ -339,7 +361,8 @@
                                 <p>
                                     <span class="Reminder_span__content">请仔细填写本页信息，确保项目成</span><br />
                                     <span class="Reminder_span__content">功后能快速并准确的为您打赏</span>
-                                </p>
+                                     <p>
+                                         <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
                             </div>
                         </div>
                     </div>
@@ -415,7 +438,6 @@
             });
             //项目信息下一步
             $("#button").click(function () {
-
                 $("#ProjectInformation").hide();
                 $("#ReturnSetting").show();
                 return false;
@@ -438,11 +460,6 @@
                 $("#ReturnSetting").show();
                 return false;
             });
-            //提交审核
-            //$("#Button6").click(function () {
-            //    $("#SponsorInformation").hide();
-            //    $("#complete").show();
-            //});
         });
 
     </script>

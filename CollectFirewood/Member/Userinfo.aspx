@@ -22,17 +22,17 @@
             <div class="menu_item"><span class="iconfont icon-image"></span>其他修改</div>
             <%--<div class="menu_item"><span class="iconfont icon-iconfontlinjuquan"></span>收件地址</div>--%>
             <div class="menu_item"><span class="iconfont icon-Icon_Filled_jiaoyan"></span>审批中项目</div>
+            <div class="menu_item"><span class="iconfont icon-Icon_Filled_jiaoyan"></span>退还</div>
         </div>
         <div class="menu_setting">
             <table class="modifiedBox_item">
                 <tr class="tab_item">
                     <td><span class="tab_item-label">用户名:</span></td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="Nickname" CssClass="Sponsor_information" runat="server"></asp:TextBox><br>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="Nickname" CssClass="userinfotextbox" runat="server"></asp:TextBox><br>
                     </td>
                 </tr>
                 <tr class="tab_item">
                     <td></td>
-                    <td><span class="tab_item-msg">用户名三十天内只可以修改一次</span></td>
                 </tr>
                 <tr class="tab_item">
                     <td><span>性别:</span></td>
@@ -44,12 +44,12 @@
                 </tr>
                 <tr class="tab_item">
                     <td><span>所在地:</span></td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="Info_Address" CssClass="Sponsor_information" runat="server"></asp:TextBox>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="Info_Address" CssClass="userinfotextbox" runat="server"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
-                    <td>请输入手机号码:</td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="Info_Phone" CssClass="Sponsor_information" runat="server"></asp:TextBox></td>
+                    <td>手机号码:</td>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="Info_Phone" CssClass="userinfotextbox" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr class="tab_item">
                     <td></td>
@@ -60,15 +60,15 @@
             <table class="modifiedBox_item">
                 <tr>
                     <td>请输入新密码:</td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="NewPassWord" CssClass="Sponsor_information" TextMode="Password" runat="server"></asp:TextBox></td>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="NewPassWord" CssClass="userinfotextbox" TextMode="Password" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>确认您的密码:</td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="ConfirmPassword" CssClass="Sponsor_information" TextMode="Password" runat="server"></asp:TextBox></td>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="ConfirmPassword" CssClass="userinfotextbox" TextMode="Password" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td>请输入手机号码:</td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="PassWord_PhoneNumber" CssClass="Sponsor_information" runat="server"></asp:TextBox></td>
+                    <td>手机号码:</td>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="PassWord_PhoneNumber" CssClass="userinfotextbox" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>
@@ -82,12 +82,12 @@
                 </tr>
                 <tr class="tab_item">
                     <td><span>个人说明:</span></td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="Description" TextMode="MultiLine" runat="server" Style="width: 300px; height: 80px;"></asp:TextBox>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="Description" TextMode="MultiLine" CssClass="userinfotextbox" runat="server" Style="width: 300px; height: 80px;resize:none;"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
                     <td>手机号码:</td>
-                    <td>&nbsp;&nbsp;<asp:TextBox ID="Other_Phone" CssClass="Sponsor_information" runat="server"></asp:TextBox></td>
+                    <td>&nbsp;&nbsp;<asp:TextBox ID="Other_Phone" CssClass="userinfotextbox" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>
@@ -113,13 +113,13 @@
             <ul>
                 <li></li>
             </ul>
-            <table class="modifiedBox_item" border="1">
+            <table class="modifiedBox_item userinfotable" cellspacing="0" style="padding:0">
                 <tr>
                     <td>您发表的项目</td>
                     <td>项目目标金额</td>
                     <td>项目截至日期</td>
                     <td>地址</td>
-                </tr>           
+                </tr>                  
                 <asp:Repeater ID="RepeaterProject" runat="server">
                     <ItemTemplate>
                         <tr>
@@ -131,6 +131,21 @@
                     </ItemTemplate>
                 </asp:Repeater>
             </table>
+
+            <table class="modifiedBox_item userinfotable" cellspacing="0" style="padding:0">
+                <tr>
+                    <td>支持项目</td>
+                    <td>退还金额</td>
+                </tr>                  
+                <asp:Repeater ID="RepeaterReturnMoney" runat="server">
+                <ItemTemplate>
+                    <tr>
+                        <td><%#  Eval("ProjectName") %></td>
+                        <td><%# Math.Floor(Convert.ToDecimal(Eval("Money")))%>元</td>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+            </table>         
         </div>
     </div>
 </asp:Content>

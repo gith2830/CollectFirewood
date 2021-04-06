@@ -18,11 +18,11 @@ namespace BLL
             base.Dal = dal;
         }
 
-        public override List<Project> GetPageList(int pageIndex, int pageSize)
+        public List<Project> GetPageList(int pageIndex, int pageSize,string keyword)
         {
             int start = (pageIndex - 1) * pageSize + 1;
             int end = start + pageSize - 1;
-            return dal.GetPageList(start, end);
+            return dal.GetPageList(start, end,keyword);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BLL
             {
                 orderBy.Add("classifyId");
             }
-            return dal.GetPageListWhereToAndOrderBy(start, end, wheres, orderBy);
+            return dal.GetPageListWhereToAndOrderByCheckState(start, end, wheres, orderBy);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace BLL
             wheres.Add(nameof(Model.Project.State), Model.ProjectState.Finish);
             Dictionary<string, object> orderBy = new Dictionary<string, object>();
             orderBy.Add("classifyId", classifyId);
-            return dal.GetPageListWhereToAndOrderBy(start, end, wheres,null);
+            return dal.GetPageListWhereToAndOrderByCheckState(start, end, wheres,null);
         }
 
         /// <summary>
@@ -153,7 +153,9 @@ namespace BLL
             {
                 wheres.Add(nameof(Model.Project.ClassifyId), classifyId);
             }
-            return dal.GetPageListWhereToAndOrderBy(start, end, wheres, null);
+            List<string> orderList = new List<string>();
+            orderList.Add("id desc");
+            return dal.GetPageListWhereToAndOrderByCheckState(start, end, wheres, orderList);
         }
 
 
@@ -184,34 +186,28 @@ namespace BLL
 
         public List<Project> GetModelByClassifyId(int classifyid)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelByClassifyId(classifyid);
+            return dal.GetModelByClassifyId(classifyid);
         }
 
         public List<Project> GetModelByState(int state)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelByState(state);
+            return dal.GetModelByState(state);
         }
         public List<Project> GetModelByAll()
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelByAll();
+            return dal.GetModelByAll();
         }
         public List<Project> GetModelById(int id)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelById(id);
+            return dal.GetModelById(id);
         }
         public List<Project> GetModelByIdTest(int id)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelByIdTest(id);
+            return dal.GetModelByIdTest(id);
         }
         public List<Project> GetModelByIdAndState(int id, int State)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetModelByIdAndState(id, State);
+            return dal.GetModelByIdAndState(id, State);
 
         }
         /// <summary>
@@ -229,18 +225,79 @@ namespace BLL
         }
         public int ProjectLaunch(Project project)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.ProjectLaunch(project);
+            return dal.ProjectLaunch(project);
         }
         public Project GetProjectLaunchId(int UserId)
         {
-            ProjectService projectService = new ProjectService();
-            return projectService.GetProjectLaunchId(UserId);
+            return dal.GetProjectLaunchId(UserId);
         }
         public Project GetModelByPublishState(int UserId)
         {
+            return dal.GetModelByPublishState(UserId);
+        }
+
+        /// <summary>
+        /// 删除分类id下所有的项目
+        /// </summary>
+        /// <param name="classifyId">分类id</param>
+        /// <returns></returns>
+        public bool DeleteByClassifyId(int classifyId)
+        {
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add(nameof(Model.Project.ClassifyId), classifyId);
+            return dal.Delete(dic)>0;
+        }
+        public List<Project> GetProjectUserLikes(int UserId)
+        {
             ProjectService projectService = new ProjectService();
-            return projectService.GetModelByPublishState(UserId);
+            return projectService.GetProjectUserLikes(UserId);
+        }
+        public List<Project> GetProjectUserSupport(int UserId)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetProjectUserSupport(UserId);
+        }
+        public List<Project> GetProjectUserLaunch(int UserId)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.GetProjectUserLaunch(UserId);
+        }
+        public void OverDate()
+        {
+            ProjectService projectService = new ProjectService();
+            projectService.OverDate();
+
+        }
+        public List<Project> RetuenMoney(int Userid)
+        {
+            ProjectService projectService = new ProjectService();
+            return projectService.RetuenMoney(Userid);
+        }
+
+
+        public bool DeleteByUserId(int userId)
+        {
+            var supportProjectManager = new SupportProjectManager();
+            var likesManager = new LikesManager();
+            Dictionary<string, object> spmDic = new Dictionary<string, object>();
+            spmDic.Add(nameof(Model.Project.OwnerId), userId);
+            int projectCount = dal.GetModelCount(spmDic);
+            int pageSize = 20;
+            int pageCount = Convert.ToInt32(Math.Ceiling((double)projectCount / pageSize));
+            for (int i = 1; i <= pageCount; i++)
+            {
+                int start = (i - 1) * pageSize + 1;
+                int end = start + pageSize - 1;
+                var list = dal.GetPageListWhereToAndOrderByCheckState(start, end, spmDic, null);
+                foreach (var item in list)
+                {
+                    supportProjectManager.DeleteByProjectId(item.Id);
+                    likesManager.DeleteByProjectId(item.Id);
+                }
+            }
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add(nameof(Model.Project.OwnerId), userId);
+            return dal.Delete(dic) > 0;
         }
     }
 }

@@ -45,10 +45,6 @@
                     <li><a href="ProjectLaunch.aspx">发起项目</a></li>
                 </ul>
             </div>
-            <div class="top-searchbox grid-cell-1">
-                <input type="text" name="" id="" placeholder="搜索">
-                <div class="top-searchbox_btn"></div>
-            </div>
             <div class="top-toolbox grid-cell-1">
                 <ul>
                     <%if (Session["user"] == null)
@@ -58,6 +54,8 @@
                     <%else
                         {%>
                     <li><a href="Userinfo.aspx"><%=(Session["user"] as Model.User).Nickname %></a></li>
+                      <li>
+                            <asp:Button ID="btnofExit" runat="server" Text="Exit" style="background-color:transparent;width:40px;border:none;color:red;" OnClick="btnofExit_Click" /></li>
                     <%}%>
                 </ul>
             </div>

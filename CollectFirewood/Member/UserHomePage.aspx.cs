@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Model;
 using CollectFirewood.Base;
 using System;
 using System.Collections.Generic;
@@ -14,37 +15,49 @@ namespace CollectFirewood.Member
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            ProjectManager projectManager = new ProjectManager();
+            int UserId = (Session["user"] as Model.User).Id;
             CalculationManager calculationManager = new CalculationManager();
             Session["SumOfProject"] = calculationManager.SumOfProject();
             Session["SumOfCurrentMoney"] = calculationManager.SumOfCurrentMoney();
             Session["SumOfSupportProjects"] = calculationManager.SumOfSupportProjects();
-            if (Request["State"] == null)
+            if (Request["State"]== null||int.Parse(Request["State"])==2)
             {
-                ProjectManager projectManager = new ProjectManager();
-                int UserId = (Session["user"] as Model.User).Id;
                 this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelById(UserId);
-                this.RepeaterOfProjectInfo.DataBind();
             }
             else if(int.Parse(Request["State"]) == 1)
             {
-                ProjectManager projectManager = new ProjectManager();
-                int UserId = (Session["user"] as Model.User).Id;
                 this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelByIdAndState(UserId,1);
-                this.RepeaterOfProjectInfo.DataBind();
             }
             else
             {
-                ProjectManager projectManager = new ProjectManager();
-                int UserId = (Session["user"] as Model.User).Id;
                 this.RepeaterOfProjectInfo.DataSource = projectManager.GetModelByIdAndState(UserId, 0);
-                this.RepeaterOfProjectInfo.DataBind();
             }
+            if (Request["Like"] != null)
+            {
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetProjectUserLikes(UserId);
+            }
+            if (Request["Support"] != null)
+            {
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetProjectUserSupport(UserId);
+            }
+            if (Request["Launch"] != null)
+            {
+                this.RepeaterOfProjectInfo.DataSource = projectManager.GetProjectUserLaunch(UserId);
+            }
+            DataBind();
            
         }
 
         protected void btnUserInfo_Click(object sender, EventArgs e)
         {
             Response.Redirect("Userinfo.aspx");
+        }
+
+        protected void btnofExit_Click(object sender, EventArgs e)
+        {
+            Session["user"] = null;
+            Response.Redirect("index.aspx");
         }
     }
 }

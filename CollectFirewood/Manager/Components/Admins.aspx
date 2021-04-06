@@ -65,6 +65,7 @@
         var pageIndex = 1;
         var pageSize = 9;
         var pageCount = 0;
+        var count = 0;
         var editDialog = new Dialog(".editDialog");
         function showEditDialog(id) {
             $.post("/Ashx/Admin/AdminAction.ashx", { "action": "getById", "id": id }, function (data) {
@@ -134,6 +135,9 @@
                     var serverData = data.split(":");
                     var message = new Message();
                     if (serverData[0] == "ok") {
+                        if (count <= 1) {
+                            --pageIndex;
+                        }
                         $(obj).parent().parent().remove();
                         message.success(serverData[1]);
                         getAdmins();
@@ -165,6 +169,7 @@
                     pageSize = data.pageSize;
                     pageCount = data.pageCount;
                     var list = data.data;
+                    count = list.length;
                     if (list == null) return;
                     var header_tr = $(".table-header").children();
                     var del_method = $(".table-header td:last").attr("onDelete");

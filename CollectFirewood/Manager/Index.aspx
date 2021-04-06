@@ -35,7 +35,7 @@
         var menus = [
             { icon:"icon-houtaicaidan", menu: '用户管理', subMenus: [{ icon:"icon-houtaiyonghuguanli", menu: '管理员列表', url: '/Manager/Components/Admins.aspx' }, { icon:"icon-shiyanshirenyuan", menu: '用户列表', url:'/Manager/Components/Users.aspx'}] },
             { icon:"icon-houtaicaidan", menu: '分类管理', subMenus: [{ icon:"icon-houtaiguanli1", menu: '分类列表', url: '/Manager/Components/Classifys.aspx' }] },
-            { icon:"icon-houtaicaidan", menu: '项目管理', subMenus: [{ icon:"icon-apphoutaiguanli", menu: '项目列表', url: '/Manager/Components/Projects.aspx' }, { icon:"icon-iconfontlinjuquan", menu: '支持项目列表', url: '/Manager/Components/SupportProjects.aspx' }] },
+            { icon:"icon-houtaicaidan", menu: '项目管理', subMenus: [{ icon:"icon-apphoutaiguanli", menu: '项目列表', url: '/Manager/Components/Projects.aspx' }, { icon:"icon-iconfontlinjuquan", menu: '支持项目列表', url: '/Manager/Components/SupportProjects.aspx' }, { icon:"icon-iconfontlinjuquan", menu: '项目信息列表', url: '/Manager/Components/LaunchInfos.aspx' }] },
             { icon:"icon-houtaicaidan", menu: '评论管理', subMenus: [{ icon:"icon-Icon_Filled_jiaoyan", menu: '评论列表', url: '/Manager/Components/Comments.aspx' }]},
         ];
         function initMenu() {
@@ -80,6 +80,16 @@
                 $(this).toggleClass("menu__item--acitve");
                 var index = $(this).index();
                 window.sessionStorage.setItem("select_subMenu", index);
+            });
+            $(".exit_btn").click(function () {
+                console.log("123");
+                $.post("/Ashx/Admin/AdminLogout.ashx", function (data) {
+                    console.log(data);
+                    var serverData = data.split(":");
+                    if (serverData[0] == "ok") {
+                        window.location = "/Manager/Index.aspx";
+                    }
+                });
             });
         });
     </script>

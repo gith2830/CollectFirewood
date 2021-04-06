@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,58 +13,66 @@ namespace CollectFirewood.Member
     {
         public int PageIndex { get; set; }
         public int PageCount { get; set; }
+        public int ClassifyId { get; set; }
+        public ProjectState State { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            ProjectManager projectManager = new ProjectManager();
             CalculationManager calculationManager = new CalculationManager();
+            projectManager.OverDate();
+
+            this.EnableViewState = false;
             Session["SumOfProject"] = calculationManager.SumOfProject();
             Session["SumOfCurrentMoney"] = calculationManager.SumOfCurrentMoney();
             Session["SumOfSupportProjects"] = calculationManager.SumOfSupportProjects();
-
-            if (!IsPostBack)
+            ClassifyManager classifyManager = new ClassifyManager();
+            this.TypeList.DataSource = classifyManager.GetAllList();
+            int pageIndex;
+            int pageSize = 16;
+            if (!int.TryParse(Request["pageIndex"], out pageIndex))
             {
-                ClassifyManager classifyManager = new ClassifyManager();
-                this.TypeList.DataSource = classifyManager.GetAllList();
-                ProjectManager projectManager = new ProjectManager();
-                int pageIndex;
-                int pageSize = 8;
-                if (!int.TryParse(Request["pageIndex"], out pageIndex))
-                {
-                    pageIndex = 1;
-                }
-                int pageCount = projectManager.GetPageCount(pageSize);
-                PageCount = pageCount;
-                pageIndex = pageIndex < 1 ? 1 : pageIndex;
-                pageIndex = pageIndex > pageCount ? pageCount : pageIndex;
-                PageIndex = pageIndex;
-                this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize);
-                DataBind();
+                pageIndex = 1;
             }
-
-            //{
-            //    ClassifyManager classifyManager = new ClassifyManager();
-            //    this.TypeList.DataSource = classifyManager.GetAllList();
-            //    this.TypeList.DataBind();
-            //    if (!IsPostBack)
-            //    {
-            //        if (Request["ClassifyId"] == null)
-            //        {
-            //            ProjectManager projectManager = new ProjectManager();
-            //            this.ProjectList.DataSource = projectManager.GetPageList(1, 15);
-            //            this.ProjectList.DataBind();
-            //        }
-            //        else
-            //        {
-            //            int classifyId = int.Parse(Request["ClassifyId"].ToString());
-            //            ProjectManager projectManager = new ProjectManager();
-            //            this.ProjectList.DataSource = projectManager.GetModelByClassifyId(classifyId);
-            //            this.ProjectList.DataBind();
-            //        }
-            //    }
-
-            //}
+            int pageCount = projectManager.GetPageCount(pageSize);
+            PageCount = pageCount;
+            pageIndex = pageIndex < 1 ? 1 : pageIndex;
+            pageIndex = pageIndex > pageCount ? pageCount : pageIndex;
+            PageIndex = pageIndex;
+            string keyword = Request.QueryString["KeyWords"];
+            this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize, keyword);
+            string id = Request["classifyId"];
+            int classifyId = Session["classifyId"] == null ? 0 : Convert.ToInt32(Session["classifyId"]);
+            ProjectState state = Session["state"] == null ? ProjectState.Null : (ProjectState)Enum.Parse(typeof(ProjectState), Session["state"].ToString());
+            if (ProjectState.TryParse(Request["state"], out state) | int.TryParse(Request["classifyId"], out classifyId))
+            {
+                State = state;
+                ClassifyId = classifyId;
+                Session["classifyId"] = classifyId;
+                Session["state"] = state;
+                PageCount = projectManager.GetPageCount(classifyId, state, pageSize);
+                pageIndex = pageIndex < 1 ? 1 : pageIndex;
+                pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
+                PageIndex = pageIndex;
+                this.ProjectList.DataSource = projectManager.GetPageListForState(PageIndex, pageSize, classifyId, state);
+            }
+            else
+            {
+                PageCount = projectManager.GetPageCount(pageSize);
+                pageIndex = pageIndex < 1 ? 1 : pageIndex;
+                pageIndex = pageIndex > PageCount ? PageCount : pageIndex;
+                PageIndex = pageIndex;                
+                this.ProjectList.DataSource = projectManager.GetPageList(PageIndex, pageSize, keyword);
+            }
+            DataBind();
         }
 
-
+        protected void btnofExit_Click(object sender, EventArgs e)
+        {
+            Session["user"] = null;
+            Response.Write("<script>location.href='index.aspx';</script>");
+        }
     }
-    
+
+
 }
+    

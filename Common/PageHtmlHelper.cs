@@ -8,7 +8,7 @@ namespace Common
 {
     public class PageHtmlHelper
     {
-        public static string GetPagaBar(int pageIndex, int pageCount)
+        public static string GetPagaBar(int pageIndex, int pageCount,Dictionary<string,int> dicParam)
         {
             //if (pageCount == 1)
             //{
@@ -31,22 +31,37 @@ namespace Common
             StringBuilder sb = new StringBuilder();
             if (pageIndex > 1)
             {
-                sb.AppendFormat("<a href='?pageIndex={0}' class='pageitem'>上一页</a>", pageIndex - 1);
+                sb.AppendFormat($"<a href='?pageIndex={pageIndex - 1}");
+                foreach (var item in dicParam)
+                {
+                    sb.Append($"&{item.Key + "=" + item.Value}");
+                }
+                sb.Append("'>上一页</a>");
             }
             for (int i = start; i <= end; i++)
             {
                 if (i == pageIndex)
                 {
-                    sb.Append(i);
+                    sb.AppendFormat($"<a class='page-conselect'>{i}</a>");
                 }
                 else
                 {
-                    sb.AppendFormat("<a href='?pageIndex={0}' class='pageitem'>{0}</a>", i);
+                    sb.AppendFormat($"<a href='?pageIndex={i}");
+                    foreach (var item in dicParam)
+                    {
+                        sb.Append($"&{item.Key + "=" + item.Value}");
+                    }
+                    sb.Append($"'>{i}</a>");
                 }
             }
             if (pageIndex < pageCount)
             {
-                sb.AppendFormat("<a href='?pageIndex={0}' class='pageitem'>下一页</a>", pageIndex + 1);
+                sb.AppendFormat($"<a href='?pageIndex={pageIndex + 1}");
+                foreach (var item in dicParam)
+                {
+                    sb.Append($"&{item.Key + "=" + item.Value}");
+                }
+                sb.Append("'>下一页</a>");
             }
 
             return sb.ToString();

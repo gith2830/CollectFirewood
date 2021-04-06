@@ -14,7 +14,7 @@ namespace DAL
         #region 接口方法
         public int Add(Comment model)
         {
-            string sql = "insert into Comments([UserId],[ProjectId],[Content],[SendTime]) values(@UserId,@ProjectId,@Content,@Content)";
+            string sql = "insert into Comments([UserId],[ProjectId],[Content],[SendTime]) values(@UserId,@ProjectId,@Content,@SendTime)";
             SqlParameter[] ps = new SqlParameter[]
             {
                 new SqlParameter("@UserId",model.UserId),

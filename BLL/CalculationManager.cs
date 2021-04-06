@@ -55,5 +55,10 @@ namespace BLL
             CalculationService calculationService = new CalculationService();
             return calculationService.CountSupportPeopleMiddle(ProjectId);
         }
+        public int CountSupportWhereProjectId(int PeojectId)
+        {
+            CalculationService calculationService = new CalculationService();
+            return calculationService.CountSupportWhereProjectId(PeojectId);
+        }
     }
 }
